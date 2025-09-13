@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Mouse eDPI Calculator | Professional Measurement Tool</title>
+    <meta name="description" content="Advanced online tool to accurately calculate your effective DPI (eDPI) for optimal gaming performance.">
+    <meta name="keywords" content="edpi calculator, mouse sensitivity, gaming sensitivity, dpi calculator, effective dpi">
+    <meta name="author" content="Precision DPI Analyzer">
+    <link rel="stylesheet" href="{% static 'css/edpi.css' %}">
+    <script src="{% static 'js/edpi.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}"></head>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1>Precision Mouse eDPI Calculator</h1>
+            <p>Professional-grade tool to accurately calculate your effective DPI (eDPI) for optimal gaming performance</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2>eDPI Calculation</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div style="font-size: 15px;">
+                            <strong>What is eDPI?</strong>
+                            <p>eDPI (effective Dots Per Inch) is the product of your mouse DPI and in-game sensitivity. It's the true measure of sensitivity that allows for comparison across different games and setups.</p>
+                            <p class="formula">eDPI = DPI × In-game Sensitivity</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dpi"><i class="fas fa-tachometer-alt"></i> Mouse DPI</label>
+                        <input type="number" id="dpi" class="form-control" placeholder="Enter your mouse DPI (e.g., 800)" min="100" max="30000" step="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sensitivity"><i class="fas fa-bullseye"></i> In-game Sensitivity</label>
+                        <input type="number" id="sensitivity" class="form-control" placeholder="Enter your in-game sensitivity (e.g., 2.5)" min="0.1" max="100" step="0.1">
+                    </div>
+
+                    <div class="button-group">
+                        <button id="calculate-btn" class="btn"><i class="fas fa-calculator"></i>Calculate</button>
+                        <button id="reset-btn" class="btn btn-danger"><i class="fas fa-redo"></i>Reset</button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3><i class="fas fa-tachometer-alt"></i> Your eDPI</h3>
+                            <div class="stat-value" id="edpi-result">--</div>
+                            <div class="stat-label">Effective Dots Per Inch</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3><i class="fas fa-info-circle"></i> Sensitivity Level</h3>
+                            <div class="stat-value" id="sensitivity-level">--</div>
+                            <div class="stat-label">Based on your eDPI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body content-card-body">
+                    <div class="content-section">
+                        <h2> Understanding eDPI</h2>
+                        <p>Your effective DPI (eDPI) is the true sensitivity measurement that matters for muscle memory development. It's calculated by multiplying your mouse DPI by your in-game sensitivity setting.</p>
+                        
+                        <p>Why eDPI is important:</p>
+                        <ul>
+                            <li><strong>Consistency Across Games:</strong> Maintain the same feel regardless of the game you're playing</li>
+                            <li><strong>Precision Aiming:</strong> Find the perfect balance between speed and accuracy</li>
+                            <li><strong>Professional Comparison:</strong> Compare your settings with pro players to benchmark your setup</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Professional eDPI Ranges</h2>
+                        <p>While personal preference plays a big role, most professional gamers use these eDPI ranges:</p>
+                        <ul>
+                            <li><strong>CS:GO/Valorant:</strong> 200-1200 eDPI (lower for precision)</li>
+                            <li><strong>Overwatch:</strong> 3000-8000 eDPI (higher for tracking)</li>
+                            <li><strong>Fortnite:</strong> 100-200 eDPI (varies based on playstyle)</li>
+                            <li><strong>Apex Legends:</strong> 800-1600 eDPI (balance of precision and movement)</li>
+                        </ul>
+                        <p>Remember that these are just guidelines. The best eDPI is what feels most comfortable and effective for you.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2025 Precision DPI Analyzer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{% endblock  %}

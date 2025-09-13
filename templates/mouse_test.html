@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO Title -->
+    <title>Online Mouse Tester | Test Mouse Buttons, Scroll & DPI</title>
+
+    <!-- Meta Description -->
+    <meta name="description" content="Free Online Mouse Tester tool to test left, right, middle, side buttons, scroll wheel. Check your mouse instantly without installing software.">
+
+    <!-- Keywords (less important for Google, but okay for completeness) -->
+    <meta name="keywords" content="online mouse tester, mouse test online, test mouse buttons, mouse click test, DPI button test, gaming mouse tester">
+
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" content="Online Mouse Tester - Free Mouse Button Test Tool">
+    <meta property="og:description" content="Check if your mouse buttons, scroll wheel, and DPI button work properly with this free online mouse tester.">
+    <meta property="og:type" content="website">
+    <!-- 
+    <meta property="og:url" content="https://yourdomain.com/mouse-tester/">
+    <meta property="og:image" content="{% static 'pics/mouse-preview.jpg' %}">
+
+    <link rel="canonical" href="https://yourdomain.com/mouse-tester/">
+    Canonical URL -->
+
+    <!-- CSS + JS -->
+    <link rel="stylesheet" href="{% static 'css/mouse_test.css' %}">
+    <script src="{% static 'js/mouse_test.js' %}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Mouse Tester Online</h1>
+            <p>Comprehensive diagnostic tool to test your mouse buttons, scroll wheel, DPI performance, and tracking accuracy</p>
+        </header>
+        
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Mouse Testing Suite</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong>How to Test Your Mouse:</strong>
+                            <ol class="instruction-list">
+                                <li>Click each button on your mouse to test its functionality</li>
+                                <li>Working buttons will highlight in yellow when pressed</li>
+                                <li>Use your mouse wheel to scroll up and down</li>
+                                <li>Test all buttons including side buttons (in gaming mode)</li>
+                                <li>Use the "Reset All" button to clear all counters</li>
+                                <li><strong>Note:</strong> Right-click menu is disabled during testing</li>
+                                <li><strong>Note:</strong> Mouse DPI button or extra buttons like sniper/fire buttons cannot be detected in a browser</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="test-area">
+                        <div class="mouse-mode-selector">
+                            <h3>Select Mouse Type:</h3>
+                            <div class="mode-buttons">
+                                <button class="mode-btn active" data-mode="office">Office Mouse</button>
+                                <button class="mode-btn" data-mode="gaming">Gaming Mouse</button>
+                            </div>
+                        </div>
+                        
+                        <h3>Button & Scroll Test</h3>
+                        
+                        <div class="mouse-visualization">
+                            <div class="mouse-container">
+                                <div class="mouse-body">
+                                    <div class="mouse-buttons">
+                                        <div class="mouse-button-vis" id="vis-left-button"></div>
+                                        <div class="mouse-button-vis" id="vis-right-button"></div>
+                                        <div class="mouse-button-vis" id="vis-middle-button"></div>
+                                        <div class="mouse-button-vis gaming-hidden" id="vis-dpi-button"></div>
+                                        <div class="side-buttons gaming-hidden">
+                                            <div class="mouse-button-vis" id="vis-side-button-1"></div>
+                                            <div class="mouse-button-vis" id="vis-side-button-2"></div>
+                                        </div>
+                                        <div class="right-side-buttons gaming-hidden">
+                                            <div class="mouse-button-vis" id="vis-side-button-3"></div>
+                                            <div class="mouse-button-vis" id="vis-side-button-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mouse-wheel-container">
+                                    <div class="scroll-arrow" id="scroll-up-arrow">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </div>
+                                    <div class="mouse-wheel-area">
+                                        <div class="mouse-wheel-indicator"></div>
+                                    </div>
+                                    <div class="scroll-arrow" id="scroll-down-arrow">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="mouse-led"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="current-action" id="current-action">
+                            Press any mouse button or scroll to begin testing!
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3>Left Clicks</h3>
+                                <div class="stat-value" id="left-count">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Right Clicks</h3>
+                                <div class="stat-value" id="right-count">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Middle Clicks</h3>
+                                <div class="stat-value" id="middle-count">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Scrolls Up</h3>
+                                <div class="stat-value" id="scroll-up-count">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Scrolls Down</h3>
+                                <div class="stat-value" id="scroll-down-count">0</div>
+                            </div>
+                            <div class="stat-card gaming-hidden">
+                                <h3>Side Button 1 (Back)</h3>
+                                <div class="stat-value" id="side1-count">0</div>
+                            </div>
+                            <div class="stat-card gaming-hidden">
+                                <h3>Side Button 2 (Forward)</h3>
+                                <div class="stat-value" id="side2-count">0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="test-controls">
+                            <button class="btn" id="reset-all-tests"><i class="fas fa-sync-alt"></i> Reset All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                        <h2>Why Test Your Mouse?</h2>
+                </div>
+                <div class="card-body">
+                    <div class="content-section">
+                        <p>Regular mouse testing is crucial for maintaining optimal performance in both work and gaming environments. Over time, mouse components can wear down, leading to issues like double-clicking, unresponsive buttons, or erratic scroll behavior. Our comprehensive mouse tester helps you diagnose these issues early, ensuring your peripheral is always ready for peak performance.</p>
+                    
+                        <h3>Common Mouse Problems</h3>
+                        <ul>
+                            <li><strong>Double-clicking issues</strong> - When a single click registers as two rapid clicks</li>
+                            <li><strong>Unresponsive buttons</strong> - Buttons that don't register clicks consistently</li>
+                            <li><strong>Scroll wheel problems</strong> - Jumpy or inconsistent scrolling behavior</li>
+                            <li><strong>Sensor tracking issues</strong> - Erratic cursor movement or skipping</li>
+                            <li><strong>Connection problems</strong> - Intermittent disconnects or lag</li>
+                        </ul>
+                        
+                        <h3>Benefits of Regular Testing</h3>
+                        <p>Regular mouse testing can help you identify problems before they impact your productivity or gaming performance. By catching issues early, you can often extend the life of your mouse or determine when it's time for a replacement. This is especially important for professionals who rely on precision and gamers who need split-second response times.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>Mouse Testing FAQs</h2>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">How often should I test my mouse?</div>
+                            <p>For regular users, testing your mouse once a month is sufficient. Gamers and professionals who rely heavily on mouse precision should test their equipment every two weeks. If you notice any performance issues, test immediately to diagnose the problem.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">What do the different button numbers mean?</div>
+                            <p>Mouse buttons are assigned numbers: 0 (left), 1 (middle), 2 (right), 3 (side button 1/back), 4 (side button 2/forward), 5-7 (additional side buttons), and higher numbers for other specialized buttons. Our tester helps identify which physical button corresponds to which number.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question>Can this test detect double-clicking issues?</div>
+                            <p>Yes, by watching the counters as you click, you can identify if single clicks are registering as multiple clicks. If you click once but the counter increases by more than one, you may have a double-clicking issue.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Why test the scroll wheel?</div>
+                            <p>Scroll wheels can develop issues like reverse scrolling (scrolling up moves content down), jumpy scrolling, or complete failure. Testing helps identify these problems before they frustrate your workflow.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">What is DPI and why test it?</div>
+                            <p>DPI (Dots Per Inch) refers to mouse sensitivity. Higher DPI means the cursor moves further with less physical movement. Testing DPI button functionality ensures you can switch between sensitivity settings when needed for different tasks.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>Mouse Maintenance Tips</h2>
+                        <p>Proper maintenance can extend your mouse's lifespan and ensure consistent performance:</p>
+                        
+                        <h3>Cleaning Your Mouse</h3>
+                        <ul>
+                            <li>Regularly clean the exterior with a slightly damp cloth</li>
+                            <li>Use compressed air to remove debris from crevices</li>
+                            <li>Gently clean the sensor lens with a soft, dry cloth</li>
+                            <li>For scroll wheels, use a cotton swab with isopropyl alcohol</li>
+                        </ul>
+                        
+                        <h3>Optimizing Performance</h3>
+                        <ul>
+                            <li>Use a quality mouse pad for consistent tracking</li>
+                            <li>Keep your mouse drivers and firmware updated</li>
+                            <li>Adjust DPI settings to match your usage scenario</li>
+                            <li>Check for software conflicts if experiencing issues</li>
+                        </ul>
+                        
+                        <h3>When to Replace Your Mouse</h3>
+                        <p>Consider replacing your mouse if you experience persistent issues like consistent double-clicking, unresponsive buttons, erratic cursor movement, or frequent disconnects that can't be resolved through cleaning or driver updates. Most quality mice last 2-3 years with heavy use.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+{% endblock %}

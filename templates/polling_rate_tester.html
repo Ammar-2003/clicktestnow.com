@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Mouse Polling Rate Tester | Professional Measurement Tool</title>
+    <meta name="description" content="Advanced online tool to accurately measure your mouse polling rate with precision.">
+    <meta name="keywords" content="mouse polling rate checker, polling rate analyzer, mouse performance tester, gaming mouse polling rate">
+    <meta name="author" content="Precision Polling Rate Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/polling_rate.css' %}">
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1>Precision Mouse Polling Rate Tester</h1>
+            <p>Professional-grade tool to accurately measure your mouse polling rate with precision</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2> Polling Rate Measurement Interface</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong>How to Use This Tool:</strong>
+                            <ol class="instruction-list">
+                                <li>Move your mouse quickly inside the test area below</li>
+                                <li>Keep moving for a few seconds to get accurate readings</li>
+                                <li>Observe the real-time polling rate measurement</li>
+                                <li>View detailed statistics in the results panel</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="test-area-container">
+                        <div class="test-area" id="test-area">
+                            <span class="polling-rate-display" id="polling-rate">-- Hz</span>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3><i class="fas fa-chart-line"></i> Current Rate</h3>
+                            <div class="stat-value" id="current-rate">-- Hz</div>
+                            <div class="stat-label">Instant measurement</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3><i class="fas fa-calculator"></i> Average Rate</h3>
+                            <div class="stat-value" id="avg-rate">-- Hz</div>
+                            <div class="stat-label">Mean polling rate</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3><i class="fas fa-arrow-down"></i> Min Rate</h3>
+                            <div class="stat-value" id="min-rate">-- Hz</div>
+                            <div class="stat-label">Lowest recorded</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3><i class="fas fa-arrow-up"></i> Max Rate</h3>
+                            <div class="stat-value" id="max-rate">-- Hz</div>
+                            <div class="stat-label">Highest recorded</div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="reset-btn" class="btn btn-danger"><i class="fas fa-redo"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body content-card-body">
+                    <div class="content-section">
+                        <h2><i class="fas fa-info-circle"></i> Understanding Mouse Polling Rate</h2>
+                        <p>Polling rate (measured in Hz) determines how often your mouse reports its position to your computer. A higher polling rate means more frequent updates, resulting in smoother cursor movement and lower input lag.</p>
+                        
+                        <p>Professional-grade polling rate measurement is essential for:</p>
+                        <ul>
+                            <li><strong>Competitive Gaming:</strong> Higher polling rates reduce input lag for faster reactions</li>
+                            <li><strong>Precision Work:</strong> Smoother cursor movement for detailed tasks</li>
+                            <li><strong>Performance Optimization:</strong> Ensuring your hardware performs at its best</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Common Polling Rates</h2>
+                        <ul>
+                            <li><strong>125Hz:</strong> 8ms delay - Standard for most office mice</li>
+                            <li><strong>250Hz:</strong> 4ms delay - Better for casual gaming</li>
+                            <li><strong>500Hz:</strong> 2ms delay - Good for most gamers</li>
+                            <li><strong>1000Hz:</strong> 1ms delay - Ideal for competitive gaming</li>
+                            <li><strong>2000Hz+ :</strong> Below 1ms - High-performance gaming mice</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> How to Achieve Accurate Results</h2>
+                        <ol>
+                            <li>Move your mouse quickly in circular or zig-zag patterns</li>
+                            <li>Test for at least 5-10 seconds to get stable readings</li>
+                            <li>Close other applications that might use mouse input</li>
+                            <li>Repeat the test multiple times to confirm consistency</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    // DOM elements
+const testArea = document.getElementById('test-area');
+const pollingRateEl = document.getElementById('polling-rate');
+const currentRateEl = document.getElementById('current-rate');
+const avgRateEl = document.getElementById('avg-rate');
+const minRateEl = document.getElementById('min-rate');
+const maxRateEl = document.getElementById('max-rate');
+const resetBtn = document.getElementById('reset-btn');
+const themeToggle = document.getElementById('theme-toggle');
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.querySelector('.nav-menu');
+
+// Polling rate variables
+let lastEventTime = null;
+let eventIntervals = [];
+const intervalHistory = 50;
+let highestRecordedRate = 0;
+let isTesting = false;
+let maxRatesHistory = []; // store all max rates to calculate average
+
+// Initialize
+function init() {
+    // Event listeners
+    testArea.addEventListener('mousemove', handleMouseMove);
+    testArea.addEventListener('mouseleave', handleMouseLeave);
+    resetBtn.addEventListener('click', resetMeasurement);
+    themeToggle.addEventListener('click', toggleTheme);
+    hamburger.addEventListener('click', toggleMobileMenu);
+
+    // Initialize stats display
+    updateDisplay();
+
+    // Highlight Polling Rate Tester nav
+    highlightPollingNav();
+}
+
+// Handle mouse movement
+function handleMouseMove(event) {
+    if (!isTesting) {
+        isTesting = true;
+        testArea.style.borderStyle = 'solid';
+        testArea.style.borderColor = 'var(--success)';
+    }
+
+    const now = performance.now();
+    if (lastEventTime !== null) {
+        const interval = now - lastEventTime;
+
+        eventIntervals.push(interval);
+        if (eventIntervals.length > intervalHistory) {
+            eventIntervals.shift();
+        }
+
+        calculateStatistics();
+    }
+    lastEventTime = now;
+}
+
+// Handle mouse leaving test area
+function handleMouseLeave() {
+    isTesting = false;
+    testArea.style.borderStyle = 'dashed';
+    testArea.style.borderColor = 'var(--primary)';
+    lastEventTime = null;
+    eventIntervals = [];
+    pollingRateEl.textContent = '-- Hz';
+    currentRateEl.textContent = '-- Hz';
+    avgRateEl.textContent = '-- Hz';
+    minRateEl.textContent = '-- Hz';
+    // Highest recorded rate persists
+}
+
+// Calculate statistics
+function calculateStatistics() {
+    if (eventIntervals.length < 2) return;
+
+    const intervalsMs = eventIntervals.map(interval => interval);
+    const rates = intervalsMs.map(ms => Math.round(1000 / ms));
+
+    const minRate = Math.min(...rates);
+    const maxRate = Math.max(...rates);
+    const currentRate = maxRate;
+
+    // Save max rates for average
+    maxRatesHistory.push(maxRate);
+
+    // Calculate average of max rates
+    const sumMaxRates = maxRatesHistory.reduce((a, b) => a + b, 0);
+    const avgMaxRate = Math.round(sumMaxRates / maxRatesHistory.length);
+
+    // Update highest recorded rate
+    if (maxRate > highestRecordedRate) {
+        highestRecordedRate = maxRate;
+    }
+
+    // Update display
+    pollingRateEl.textContent = `${currentRate} Hz`;
+    currentRateEl.textContent = `${currentRate} Hz`;
+    avgRateEl.textContent = `${avgMaxRate} Hz`; // average of max rates
+    minRateEl.textContent = `${minRate} Hz`;
+    maxRateEl.textContent = `${highestRecordedRate} Hz`;
+}
+
+// Reset measurement
+function resetMeasurement() {
+    lastEventTime = null;
+    eventIntervals = [];
+    highestRecordedRate = 0;
+    maxRatesHistory = [];
+    updateDisplay();
+    testArea.style.borderStyle = 'dashed';
+    testArea.style.borderColor = 'var(--primary)';
+}
+
+// Update display
+function updateDisplay() {
+    pollingRateEl.textContent = '-- Hz';
+    currentRateEl.textContent = '-- Hz';
+    avgRateEl.textContent = '-- Hz';
+    minRateEl.textContent = '-- Hz';
+    maxRateEl.textContent = '-- Hz';
+}
+
+// Toggle theme
+function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+}
+
+// Toggle mobile menu
+function toggleMobileMenu() {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+}
+
+// Highlight Polling Rate Tester nav
+function highlightPollingNav() {
+    // Remove 'active' from all nav links
+    document.querySelectorAll('.nav-item .nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+
+    // Find the nav link that contains "Polling Rate Tester"
+    const pollingNav = Array.from(document.querySelectorAll('.nav-item .nav-link'))
+        .find(link => link.textContent.includes('Polling Rate Tester'));
+
+    if (pollingNav) {
+        pollingNav.classList.add('active');
+    }
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+{% endblock %}

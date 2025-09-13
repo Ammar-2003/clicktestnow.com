@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 Second Spacebar Counter | Professional Spacebar Speed Test</title>
+    <meta name="description" content="Test your spacebar pressing speed with our precise 2-second spacebar counter. Measure your spacebar speed accurately and compare with rankings.">
+    <meta name="keywords" content="2 second spacebar counter, spacebar speed test, spacebar counter, spacebar presses per second, keyboard spacebar test, spacebar CPS test">
+    <meta name="author" content="Precision Spacebar Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/spacebar/2second.css' %}">
+    <script src="{% static 'js/spacebar/2second.js' %}" defer></script>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1 style="color: var(--primary)">2 Second Spacebar Counter</h1>
+            <p>Professional-grade tool to accurately measure your spacebar pressing speed in 2 seconds</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2></i>Spacebar Speed Measurement</h2>
+                </div>
+                <div class="card-body">
+                                                            <div class="time-links">
+                        <a href="{% url '1_second_spacebar_counter' %}" class="time-link">1s</a>
+                        <a href="{% url '2_seconds_spacebar_counter' %}" class="time-link active">2s</a>
+                        <a href="{% url '5_seconds_spacebar_counter' %}" class="time-link ">5s</a>
+                        <a href="{% url '10_seconds_spacebar_counter' %}" class="time-link ">10s</a>
+                        <a href="{% url '15_seconds_spacebar_counter' %}" class="time-link ">15s</a>
+                        <a href="{% url '20_seconds_spacebar_counter' %}" class="time-link ">20s</a>
+                        <a href="{% url '30_seconds_spacebar_counter' %}" class="time-link ">30s</a>
+                        <a href="{% url '60_seconds_spacebar_counter' %}" class="time-link ">60s</a>
+                        <a href="{% url '100_seconds_spacebar_counter' %}" class="time-link">100s</a>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong style="color: white;">How to Use This Spacebar Counter:</strong>
+                            <ol class="instruction-list">
+                                <li>Click the test area or press spacebar to begin immediately</li>
+                                <li>Press the spacebar as fast as possible for 2 seconds</li>
+                                <li>Maintain your speed for the full duration</li>
+                                <li>View your results and compare with spacebar speed benchmarks</li>
+                                <li>Click the test area again to restart</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="measurement-area-container">
+                        <div class="spacebar-test-area idle" id="spacebar-test-area">
+                            <div class="spacebar-status" id="spacebar-status">
+                                <div class="spacebar-timer" id="spacebar-timer">2.0</div>
+                                <div class="spacebar-press-counter" id="spacebar-presses">Presses: 0</div>
+                                <div>Click or press spacebar to start test</div>
+                            </div>
+                            <div style="display: none;" class="spacebar-key" id="spacebar-key">
+                                <div class="spacebar-key-text">SPACEBAR</div>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- Global Top Player Stats -->
+<div class="stats-grid" id="global-top-player-stats">
+    <div class="stat-card">
+        <h3><i class="fas fa-crown"></i> Top Player</h3>
+        <div class="stat-value" id="top-player-name">
+            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Global #1 Spacebar Presser</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Top Score</h3>
+        <div class="stat-value" id="top-player-score">
+            {% if top_player_stats %}{{ top_player_stats.score }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Best Spacebar Performance</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-keyboard"></i> Top Player Presses</h3>
+        <div class="stat-value" id="top-player-presses">
+            {% if top_player_stats %}{{ top_player_stats.presses }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Total Presses in 2 Seconds</div>
+    </div>
+</div>
+
+<div class="clean-divider" style="display: none;"></div>
+<div class="stats-grid" id="user-test-results" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-user"></i> Your Position</h3>
+        <div class="stat-value" id="user-position">--</div>
+        <div class="stat-label">Global Ranking</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Your Score</h3>
+        <div class="stat-value" id="user-score">--</div>
+        <div class="stat-label">Spacebar Presses</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-keyboard"></i> Your Total Presses</h3>
+        <div class="stat-value" id="user-total-presses">--</div>
+        <div class="stat-label">All registered spacebar presses</div>
+    </div>
+</div>
+
+<div class="stats-grid" id="advanced-stats" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-bolt"></i> Press Frequency</h3>
+        <div class="stat-value" id="press-frequency">-- Hz</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Avg: 8-12 Hz</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-running"></i> Press Stamina</h3>
+        <div class="stat-value" id="stamina-score">--</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Top 25%: 85+</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-hands"></i> Press Technique</h3>
+        <div class="stat-value" id="press-technique">--</div>
+        <div class="stat-label" id="technique-tags"></div>
+    </div>
+</div>
+
+                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                        <h4><i class="fas fa-lightbulb"></i> Spacebar Improvement Tip</h4>
+                        <p id="improvement-tip">Based on your spacebar pressing pattern, we recommend focusing on maintaining consistent finger rhythm to increase your presses.</p>
+                    </div>
+
+                    <div class="button-group">
+<button id="spacebar-reset-btn"
+    style="background: linear-gradient(135deg, #e63946, #d90429);
+           color: #fff;
+           border: none;
+           padding: 10px 18px;
+           border-radius: 8px;
+           cursor: pointer;
+           font-size: 15px;
+           font-weight: 600;
+           display: inline-flex;
+           align-items: center;
+           gap: 6px;
+           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
+           transition: all 0.25s ease;"
+    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
+    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
+    onmousedown="this.style.transform='scale(0.96)';"
+    onmouseup="this.style.transform='scale(1)';"
+>
+    <i class="fas fa-redo"></i> Reset Test
+</button>
+                        <button id="save-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i> Save Results</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trophy"></i> Spacebar Leaderboard</h2>
+                </div>
+                <div class="card-body">
+                    <div class="leaderboard-container">
+                        <table class="leaderboard">
+                            <thead class="leaderboard-header">
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Presses</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-content">
+                                {% for score in top_scores %}
+                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                    <td class="leaderboard-player">{{ score.user.username }}</td>
+                                    <td class="leaderboard-score">{{ score.score }} presses</td>
+                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        {% if user.is_authenticated and user_best_score %}
+                        <div class="user-best-score">
+                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                            <div class="user-score">
+                                <span class="score-value">{{ user_best_score.score }} presses</span>
+                                <span class="score-rank">
+                                    {% if user_rank %}
+                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                    {% else %}
+                                        Not ranked
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="content-section">
+                        <h2> Understanding Spacebar Counter</h2>
+                        <p>The 2-second spacebar counter measures how many times you can press the spacebar in a short, intense burst. This test is perfect for gamers, typists, and anyone looking to improve their keyboard agility.</p>
+                        
+                        <p>The 2-second duration is ideal for spacebar testing because:</p>
+                        <ul>
+                            <li><strong>Intensity Focus:</strong> Tests your maximum pressing speed without fatigue</li>
+                            <li><strong>Consistency Measurement:</strong> Evaluates your ability to maintain rhythm</li>
+                            <li><strong>Gaming Relevance:</strong> Matches many in-game actions requiring rapid spacebar use</li>
+                            <li><strong>Quick Assessment:</strong> Provides instant feedback on your spacebar speed</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Spacebar Pressing Technique</h2>
+                        <p>Maximizing your spacebar pressing speed requires proper technique. Here's how to improve:</p>
+                        
+                        <ul>
+                            <li><strong>Finger Positioning:</strong> Use your dominant thumb for maximum control and speed</li>
+                            <li><strong>Wrist Support:</strong> Keep your wrist elevated slightly for better mobility</li>
+                            <li><strong>Rhythm Development:</strong> Focus on developing a consistent pressing rhythm</li>
+                            <li><strong>Practice:</strong> Regular practice helps develop muscle memory</li>
+                            <li><strong>Relaxation:</strong> Avoid tension in your hand for smoother, faster pressing</li>
+                        </ul>
+                        
+                        <p>Remember to take breaks between tests to avoid strain or fatigue in your thumb and wrist.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    // Check if user is authenticated
+    const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    </script>
+</body>
+</html>
+{% endblock %}

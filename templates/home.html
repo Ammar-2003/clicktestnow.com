@@ -1,0 +1,365 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrecisionTools</title>
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/home.js' %}" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="{% url 'home' %}" class="logo">
+                    <div class="logo-icon"><i class="fas fa-mouse"></i></div>
+                    PrecisionTools
+                </a>
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Search for tools...">
+                    <div class="search-icon"><i class="fas fa-search"></i></div>
+                    <div class="search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Master Your Mouse Performance</h1>
+                <p>PrecisionTools offers a comprehensive suite of testing utilities to analyze, optimize, and enhance your mouse and keyboard performance for gaming and productivity.</p>
+                <div class="hero-buttons">
+                    <a href="#tools" class="cta-button">Explore Tools <i class="fas fa-arrow-right"></i></a>
+                    <a href="#features" class="cta-button secondary-button">Learn More <i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tools" class="tools-section">
+        <div class="container">
+            <h2 class="section-title">Our Tools</h2>
+            
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="all">All Tools</div>
+                <div class="category-tab" data-category="click">Click Tests</div>
+                <div class="category-tab" data-category="spacebar">Spacebar Tests</div>
+                <div class="category-tab" data-category="analysis">Analysis Tools</div>
+                <div class="category-tab" data-category="game">Games</div>
+            </div>
+            
+            <!-- Mouse Analysis Tools Section -->
+            <div class="tool-section">
+                <div class="tool-section-header">
+                    <div class="tool-section-icon">
+                        <i class="fas fa-crosshairs"></i>
+                    </div>
+                    <h2 class="tool-section-title">Mouse Analysis Tools</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-categories="analysis">
+                        <div class="tool-icon"><i class="fas fa-crosshairs"></i></div>
+                        <h3>DPI Analyzer</h3>
+                        <p>Measure your mouse's true DPI and find the perfect sensitivity settings for your needs.</p>
+                        <a href="{% url 'mouse_dpi_analyzer' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="analysis">
+                        <div class="tool-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <h3>Sensitivity Converter</h3>
+                        <p>Convert your mouse sensitivity between different games and applications.</p>
+                        <a href="{% url 'sensitivity_converter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="analysis">
+                        <div class="tool-icon"><i class="fas fa-calculator"></i></div>
+                        <h3>eDPI Calculator</h3>
+                        <p>Calculate your effective DPI for consistent gaming performance across different settings.</p>
+                        <a href="{% url 'edpi_calculator' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="tool-card" data-categories="analysis">
+                        <div class="tool-icon"><i class="fas fa-mouse"></i></div>
+                        <h3>Mouse Test</h3>
+                        <p>Comprehensive testing tool to check all aspects of your mouse performance.</p>
+                        <a href="{% url 'mouse_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="analysis">
+                        <div class="tool-icon"><i class="fas fa-sync-alt"></i></div>
+                        <h3>Polling Rate Tester</h3>
+                        <p>Check your mouse's polling rate and responsiveness.</p>
+                        <a href="{% url 'polling_rate_tester' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="analysis">
+                        <div class="tool-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Reaction Time Test</h3>
+                        <p>Measure your reaction time and compare it with others.</p>
+                        <a href="{% url 'reaction_time_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Click Test Tools Section -->
+            <div class="tool-section">
+                <div class="tool-section-header">
+                    <div class="tool-section-icon">
+                        <i class="fas fa-hand-pointer"></i>
+                    </div>
+                    <h2 class="tool-section-title">Click Test Tools</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h3>CPS Test</h3>
+                        <p>Test your clicks per second and improve your clicking speed for gaming.</p>
+                        <a href="{% url 'cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-hand-rock"></i></div>
+                        <h3>Jitter Click Test</h3>
+                        <p>Measure your jitter clicking speed and compare with players worldwide.</p>
+                        <a href="{% url 'jitter_click_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-hand-point-up"></i></div>
+                        <h3>Butterfly Click Test</h3>
+                        <p>Test your butterfly clicking technique and maximize your CPS rate.</p>
+                        <a href="{% url 'butterfly_click_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Timed Click Tests -->
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>1 Second Test</h3>
+                        <p>How many clicks can you perform in just one second? Challenge yourself!</p>
+                        <a href="{% url '1_second_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>2 Second Test</h3>
+                        <p>Test your clicking speed over 2 seconds with our specialized tool.</p>
+                        <a href="{% url '2_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>5 Second Test</h3>
+                        <p>Test your clicking endurance with our 5-second clicking challenge.</p>
+                        <a href="{% url '5_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>10 Second Test</h3>
+                        <p>A longer test to measure your sustained clicking speed over 10 seconds.</p>
+                        <a href="{% url '10_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>15 Second Test</h3>
+                        <p>Push your limits with our 15-second CPS challenge.</p>
+                        <a href="{% url '15_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>20 Second Test</h3>
+                        <p>Test your clicking stamina with our 20-second challenge.</p>
+                        <a href="{% url '20_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>30 Second Test</h3>
+                        <p>Half-minute clicking marathon to test your endurance and speed.</p>
+                        <a href="{% url '30_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>60 Second Test</h3>
+                        <p>The ultimate test of clicking stamina - how many clicks in a full minute?</p>
+                        <a href="{% url '60_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="click">
+                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                        <h3>100 Second Test</h3>
+                        <p>The ultimate endurance test - how many clicks can you make in 100 seconds?</p>
+                        <a href="{% url '100_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spacebar Test Tools Section -->
+            <div class="tool-section">
+                <div class="tool-section-header">
+                    <div class="tool-section-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <h2 class="tool-section-title">Spacebar Test Tools</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>Spacebar Counter</h3>
+                        <p>Test your spacebar pressing speed for games that require rapid spacebar usage.</p>
+                        <a href="{% url 'spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>1s Spacebar Test</h3>
+                        <p>How many times can you press the spacebar in one second?</p>
+                        <a href="{% url '1_second_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>2s Spacebar Test</h3>
+                        <p>Test your spacebar speed over 2 seconds with our specialized tool.</p>
+                        <a href="{% url '2_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>5s Spacebar Test</h3>
+                        <p>Test your spacebar pressing speed over 5 seconds.</p>
+                        <a href="{% url '5_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>10s Spacebar Test</h3>
+                        <p>Test your spacebar speed over 10 seconds with our specialized tool.</p>
+                        <a href="{% url '10_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>15s Spacebar Test</h3>
+                        <p>Test your spacebar speed over 15 seconds with our specialized tool.</p>
+                        <a href="{% url '15_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>20s Spacebar Test</h3>
+                        <p>Test your spacebar speed over 20 seconds with our specialized tool.</p>
+                        <a href="{% url '20_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>30s Spacebar Test</h3>
+                        <p>Test your spacebar speed over 30 seconds with our specialized tool.</p>
+                        <a href="{% url '30_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>60s Spacebar Test</h3>
+                        <p>Test your spacebar speed over 60 seconds with our specialized tool.</p>
+                        <a href="{% url '60_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="spacebar">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>100s Spacebar Test</h3>
+                        <p>Test your spacebar speed over 100 seconds with our specialized tool.</p>
+                        <a href="{% url '100_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Tools Section -->
+            <div class="tool-section">
+                <div class="tool-section-header">
+                    <div class="tool-section-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h2 class="tool-section-title">Other Tools</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-categories="analysis">
+                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>Keyboard Test</h3>
+                        <p>Check your keyboard's responsiveness and functionality.</p>
+                        <a href="{% url 'keyboard_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="tool-card" data-categories="game">
+                        <div class="tool-icon"><i class="fas fa-gamepad"></i></div>
+                        <h3>Dinosaur Game</h3>
+                        <p>Enjoy the classic dinosaur game while testing your reflexes.</p>
+                        <a href="{% url 'dinosaur_game' %}" class="tool-link">Play Game <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose PrecisionTools?</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>High Precision</h3>
+                    <p>Our tools provide accurate measurements to help you optimize your setup.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Performance Analytics</h3>
+                    <p>Track your progress with detailed statistics and leaderboards.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                    <h3>Global Comparison</h3>
+                    <p>Compare your scores with players from around the world.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>PrecisionTools</h3>
+                    <p>Your ultimate destination for mouse performance testing and optimization tools.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="#tools">All Tools</a></li>
+                        <li><a href="#features">Features</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Popular Tools</h3>
+                    <ul>
+                        <li><a href="{% url 'cps_test' %}">CPS Test</a></li>
+                        <li><a href="{% url 'jitter_click_test' %}">Jitter Click Test</a></li>
+                        <li><a href="{% url 'reaction_time_test' %}">Reaction Time Test</a></li>
+                        <li><a href="{% url 'mouse_dpi_analyzer' %}">DPI Analyzer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 PrecisionTools. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

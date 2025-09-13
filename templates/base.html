@@ -1,0 +1,75 @@
+{% load static %} {% include 'includes/messages.html' %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script src="{% static 'js/base.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+            <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-menu-container">
+                    <ul class="nav-menu">
+<li class="nav-item">
+  <a href="{% url 'home' %}" class="nav-link">
+    <i class="fas fa-home"></i> Home
+  </a>
+</li>
+<li class="nav-item">
+  <a href="{% url 'mouse_dpi_analyzer' %}" class="nav-link">
+    <i class="fas fa-crosshairs"></i> DPI Analyzer
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="{% url 'sensitivity_converter' %}" class="nav-link">
+    <i class="fas fa-exchange-alt"></i> Sensitivity Converter
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="{% url 'edpi_calculator' %}" class="nav-link">
+    <i class="fas fa-calculator"></i> eDPI Calculator
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="{% url 'polling_rate_tester' %}" class="nav-link">
+    <i class="fas fa-tachometer-alt"></i> Polling Rate Tester
+  </a>
+</li>
+
+                        <li class="nav-item">
+                            <a href="{% url 'jitter_click_test' %}" class="nav-link">
+                                <i class="fas fa-bolt"></i> Jitter Click Test
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a href="{% url 'cps_test' %}" class="nav-link dropdown-toggle">
+                                <i class="fas fa-mouse"></i> CPS Test <i class="fas fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url '1_second_mouse_cps_test' %}">1 Second</a></li>
+                                <li><a href="{% url '2_seconds_mouse_cps_test' %}">2 Seconds</a></li>
+                                <li><a href="{% url '5_seconds_mouse_cps_test' %}">5 Seconds</a></li>
+                                <li><a href="{% url '10_seconds_mouse_cps_test' %}">10 Seconds</a></li>
+                                <li><a href="{% url '15_seconds_mouse_cps_test' %}">15 Seconds</a></li>
+                                <li><a href="{% url '20_seconds_mouse_cps_test' %}">20 Seconds</a></li>
+                                <li><a href="{% url '30_seconds_mouse_cps_test' %}">30 Seconds</a></li>
+                                <li><a href="{% url '60_seconds_mouse_cps_test' %}">60 Seconds</a></li>
+                                <li><a href="{% url '100_seconds_mouse_cps_test' %}">100 Seconds</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+
+
+
+        {% block content %}
+        {% endblock %}
+
+

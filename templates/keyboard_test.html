@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Keyboard Tester | Test Your Keyboard Online</title>
+    <meta name="description" content="Advanced online keyboard tester to check all keys, functionality, and performance of your mechanical, membrane, or gaming keyboard.">
+    <meta name="keywords" content="keyboard tester, test keyboard online, keyboard key tester, mechanical keyboard tester, keyboard functionality test">
+    <meta name="author" content="Precision Sensitivity Converter">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/keyboard.css' %}">
+    <script src="{% static 'js/keyboard.js' %}" defer></script>
+
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1>Professional Keyboard Tester</h1>
+            <p>Test all keys and functionality of your mechanical, membrane, or gaming keyboard</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2> Test Keyboard Online</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong>How to Test Your Keyboard:</strong>
+                            <ol class="instruction-list">
+                                <li>Click anywhere in the test area below to focus</li>
+                                <li>Press each key on your keyboard to test its functionality</li>
+                                <li>Working keys will highlight in yellow when pressed and stay highlighted</li>
+                                <li>Check all keys including modifiers (Shift, Ctrl, Alt) and special keys</li>
+                                <li>Use the controls below to clear history or run specific tests</li>
+                                <li><strong>Note:</strong> All browser shortcuts are disabled during testing</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="keyboard-tester">
+                        <div class="test-stats">
+                            <div class="stat-card">
+                                <h3><i class="fas fa-keyboard"></i> Keys Pressed</h3>
+                                <div class="stat-value" id="keys-pressed">0</div>
+                                <div class="stat-label">Total key presses detected</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3><i class="fas fa-bug"></i> Last Key Pressed</h3>
+                                <div class="stat-value" id="last-key">None</div>
+                                <div class="stat-label">Most recent key detected</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3><i class="fas fa-code"></i> Key Code</h3>
+                                <div class="stat-value" id="key-code">-</div>
+                                <div class="stat-label">JavaScript key code value</div>
+                            </div>
+                        </div>
+
+                        <div class="keyboard-container" tabindex="0" id="keyboard-test-area">
+                            <div class="keyboard-inner">
+                                <div class="keyboard-row">
+                                    <div class="key" data-key="Escape"><span class="key-label">Esc</span></div>
+                                    <div class="key" data-key="F1"><span class="key-label">F1</span></div>
+                                    <div class="key" data-key="F2"><span class="key-label">F2</span></div>
+                                    <div class="key" data-key="F3"><span class="key-label">F3</span></div>
+                                    <div class="key" data-key="F4"><span class="key-label">F4</span></div>
+                                    <div class="key" data-key="F5"><span class="key-label">F5</span></div>
+                                    <div class="key" data-key="F6"><span class="key-label">F6</span></div>
+                                    <div class="key" data-key="F7"><span class="key-label">F7</span></div>
+                                    <div class="key" data-key="F8"><span class="key-label">F8</span></div>
+                                    <div class="key" data-key="F9"><span class="key-label">F9</span></div>
+                                    <div class="key" data-key="F10"><span class="key-label">F10</span></div>
+                                    <div class="key" data-key="F11"><span class="key-label">F11</span></div>
+                                    <div class="key" data-key="F12"><span class="key-label">F12</span></div>
+                                </div>
+
+                                <div class="keyboard-row">
+                                    <div class="key" data-key="Backquote"><span class="key-label">` ~</span></div>
+                                    <div class="key" data-key="Digit1"><span class="key-label">1 !</span></div>
+                                    <div class="key" data-key="Digit2"><span class="key-label">2 @</span></div>
+                                    <div class="key" data-key="Digit3"><span class="key-label">3 #</span></div>
+                                    <div class="key" data-key="Digit4"><span class="key-label">4 $</span></div>
+                                    <div class="key" data-key="Digit5"><span class="key-label">5 %</span></div>
+                                    <div class="key" data-key="Digit6"><span class="key-label">6 ^</span></div>
+                                    <div class="key" data-key="Digit7"><span class="key-label">7 &</span></div>
+                                    <div class="key" data-key="Digit8"><span class="key-label">8 *</span></div>
+                                    <div class="key" data-key="Digit9"><span class="key-label">9 (</span></div>
+                                    <div class="key" data-key="Digit0"><span class="key-label">0 )</span></div>
+                                    <div class="key" data-key="Minus"><span class="key-label">- _</span></div>
+                                    <div class="key" data-key="Equal"><span class="key-label">= +</span></div>
+                                    <div class="key wide" data-key="Backspace"><span class="key-label">Backspace</span></div>
+                                    <div class="key" data-key="Insert"><span class="key-label">Insert</span></div>
+                                    <div class="key" data-key="Home"><span class="key-label">Home</span></div>
+                                    <div class="key" data-key="PageUp"><span class="key-label">PgUp</span></div>
+                                </div>
+
+                                <div class="keyboard-row">
+                                    <div class="key wide" data-key="Tab"><span class="key-label">Tab</span></div>
+                                    <div class="key" data-key="KeyQ"><span class="key-label">Q</span></div>
+                                    <div class="key" data-key="KeyW"><span class="key-label">W</span></div>
+                                    <div class="key" data-key="KeyE"><span class="key-label">E</span></div>
+                                    <div class="key" data-key="KeyR"><span class="key-label">R</span></div>
+                                    <div class="key" data-key="KeyT"><span class="key-label">T</span></div>
+                                    <div class="key" data-key="KeyY"><span class="key-label">Y</span></div>
+                                    <div class="key" data-key="KeyU"><span class="key-label">U</span></div>
+                                    <div class="key" data-key="KeyI"><span class="key-label">I</span></div>
+                                    <div class="key" data-key="KeyO"><span class="key-label">O</span></div>
+                                    <div class="key" data-key="KeyP"><span class="key-label">P</span></div>
+                                    <div class="key" data-key="BracketLeft"><span class="key-label">[ {</span></div>
+                                    <div class="key" data-key="BracketRight"><span class="key-label">] }</span></div>
+                                    <div class="key" data-key="Backslash"><span class="key-label">\ |</span></div>
+                                    <div class="key" data-key="Delete"><span class="key-label">Delete</span></div>
+                                    <div class="key" data-key="End"><span class="key-label">End</span></div>
+                                    <div class="key" data-key="PageDown"><span class="key-label">PgDn</span></div>
+                                </div>
+
+                                <div class="keyboard-row">
+                                    <div class="key extra-wide" data-key="CapsLock"><span class="key-label">Caps Lock</span></div>
+                                    <div class="key" data-key="KeyA"><span class="key-label">A</span></div>
+                                    <div class="key" data-key="KeyS"><span class="key-label">S</span></div>
+                                    <div class="key" data-key="KeyD"><span class="key-label">D</span></div>
+                                    <div class="key" data-key="KeyF"><span class="key-label">F</span></div>
+                                    <div class="key" data-key="KeyG"><span class="key-label">G</span></div>
+                                    <div class="key" data-key="KeyH"><span class="key-label">H</span></div>
+                                    <div class="key" data-key="KeyJ"><span class="key-label">J</span></div>
+                                    <div class="key" data-key="KeyK"><span class="key-label">K</span></div>
+                                    <div class="key" data-key="KeyL"><span class="key-label">L</span></div>
+                                    <div class="key" data-key="Semicolon"><span class="key-label">; :</span></div>
+                                    <div class="key" data-key="Quote"><span class="key-label">' "</span></div>
+                                    <div class="key wide" data-key="Enter"><span class="key-label">Enter</span></div>
+                                </div>
+
+                                <div class="keyboard-row">
+                                    <div class="key extra-wide" data-key="ShiftLeft"><span class="key-label">Shift</span></div>
+                                    <div class="key" data-key="KeyZ"><span class="key-label">Z</span></div>
+                                    <div class="key" data-key="KeyX"><span class="key-label">X</span></div>
+                                    <div class="key" data-key="KeyC"><span class="key-label">C</span></div>
+                                    <div class="key" data-key="KeyV"><span class="key-label">V</span></div>
+                                    <div class="key" data-key="KeyB"><span class="key-label">B</span></div>
+                                    <div class="key" data-key="KeyN"><span class="key-label">N</span></div>
+                                    <div class="key" data-key="KeyM"><span class="key-label">M</span></div>
+                                    <div class="key" data-key="Comma"><span class="key-label">, &lt;</span></div>
+                                    <div class="key" data-key="Period"><span class="key-label">. &gt;</span></div>
+                                    <div class="key" data-key="Slash"><span class="key-label">/ ?</span></div>
+                                    <div class="key extra-wide" data-key="ShiftRight"><span class="key-label">Shift</span></div>
+                                    <div class="key" data-key="ArrowUp"><span class="key-label">↑</span></div>
+                                </div>
+
+                                <div class="keyboard-row">
+                                    <div class="key wide" data-key="ControlLeft"><span class="key-label">Ctrl</span></div>
+                                    <div class="key wide" data-key="MetaLeft"><span class="key-label">Win</span></div>
+                                    <div class="key wide" data-key="AltLeft"><span class="key-label">Alt</span></div>
+                                    <div class="key space" data-key="Space"><span class="key-label">Space</span></div>
+                                    <div class="key wide" data-key="AltRight"><span class="key-label">Alt</span></div>
+                                    <div class="key wide" data-key="ContextMenu"><span class="key-label">Menu</span></div>
+                                    <div class="key wide" data-key="ControlRight"><span class="key-label">Ctrl</span></div>
+                                    <div class="key" data-key="ArrowLeft"><span class="key-label">←</span></div>
+                                    <div class="key" data-key="ArrowDown"><span class="key-label">↓</span></div>
+                                    <div class="key" data-key="ArrowRight"><span class="key-label">→</span></div>
+                                </div>
+
+                                <div class="keyboard-row">
+                                    <div class="key" data-key="NumLock"><span class="key-label">Num</span></div>
+                                    <div class="key" data-key="NumpadDivide"><span class="key-label">/</span></div>
+                                    <div class="key" data-key="NumpadMultiply"><span class="key-label">*</span></div>
+                                    <div class="key" data-key="NumpadSubtract"><span class="key-label">-</span></div>
+                                    <div class="key" data-key="Numpad7"><span class="key-label">7</span></div>
+                                    <div class="key" data-key="Numpad8"><span class="key-label">8</span></div>
+                                    <div class="key" data-key="Numpad9"><span class="key-label">9</span></div>
+                                    <div class="key" data-key="NumpadAdd"><span class="key-label">+</span></div>
+                                    <div class="key" data-key="Numpad4"><span class="key-label">4</span></div>
+                                    <div class="key" data-key="Numpad5"><span class="key-label">5</span></div>
+                                    <div class="key" data-key="Numpad6"><span class="key-label">6</span></div>
+                                    <div class="key" data-key="Numpad1"><span class="key-label">1</span></div>
+                                    <div class="key" data-key="Numpad2"><span class="key-label">2</span></div>
+                                    <div class="key" data-key="Numpad3"><span class="key-label">3</span></div>
+                                    <div class="key super-wide" data-key="NumpadEnter"><span class="key-label">Enter</span></div>
+                                    <div class="key super-wide" data-key="Numpad0"><span class="key-label">0</span></div>
+                                    <div class="key" data-key="NumpadDecimal"><span class="key-label">.</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="key-history">
+                            <h3>Key Press History</h3>
+                            <div id="key-history-list">
+                                <div class="key-history-item">
+                                    <span>Press any key to begin testing...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="test-controls">
+                            <button id="clear-history" class="btn btn-danger"><i class="fas fa-trash"></i> Clear History</button>
+                            <button id="reset-keys" class="btn"><i class="fas fa-undo"></i> Reset Keys</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="content-section">
+                        <h2><i class="fas fa-info-circle"></i> About Keyboard Testing</h2>
+                        <p>Keyboard testers help identify malfunctioning keys, stuck buttons, or connectivity issues with your keyboard. Regular testing is especially important for gamers, programmers, and anyone who relies on their keyboard for work or play.</p>
+                        <p>Our keyboard tester detects all standard keys including function keys, modifiers (Shift, Ctrl, Alt), and special keys. The visual feedback makes it easy to identify which keys are working properly.</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h2><i class="fas fa-graduation-cap"></i> Common Keyboard Issues</h2>
+                        <p>Keyboards can develop several types of problems over time:</p>
+                        <ul>
+                            <li><strong>Non-responsive keys:</strong> Keys that don't register when pressed</li>
+                            <li><strong>Stuck keys:</strong> Keys that remain "pressed" even after release</li>
+                            <li><strong>Intermittent response:</strong> Keys that work only sometimes</li>
+                            <li><strong>Ghosting:</strong> Multiple key presses registering when pressing specific combinations</li>
+                            <li><strong>Key chatter:</strong> Single key press registering multiple times</li>
+                        </ul>
+                        <p>Using a keyboard tester regularly can help you identify these issues early before they impact your productivity or gaming performance.</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h2><i class="fas fa-tools"></i> Troubleshooting Tips</h2>
+                        <p>If you discover issues with your keyboard:</p>
+                        <ol>
+                            <li>Try connecting the keyboard to a different USB port</li>
+                            <li>Test the keyboard on another computer to isolate the issue</li>
+                            <li>Clean the keyboard with compressed air to remove debris</li>
+                            <li>Check for driver updates or firmware updates for your keyboard</li>
+                            <li>For mechanical keyboards, consider replacing problematic switches</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2025 Precision Sensitivity Converter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{% endblock %}

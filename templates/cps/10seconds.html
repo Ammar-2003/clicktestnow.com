@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Second CPS Test | Professional Click Speed Measurement Tool</title>
+    <meta name="description" content="Test your clicking speed with our precise 10 second CPS test. Measure your clicks per second accurately and compare with global rankings.">
+    <meta name="keywords" content="10 second cps test, clicks per second test, click speed test, mouse click tester, gaming mouse CPS, cps test 10 seconds">
+    <meta name="author" content="Precision CPS Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cps/10second.css' %}">
+    <script src="{% static 'js/cps/10second.js' %}" defer></script>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1 style="color: var(--primary)">10 Second CPS Test</h1>
+            <p>Professional-grade tool to accurately measure your clicking speed in 10 seconds</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2></i>CPS Measurement</h2>
+                </div>
+                <div class="card-body">
+                                                            <div class="time-links">
+    <a href="{% url '1_second_mouse_cps_test' %}" class="time-link">1s</a>
+    <a href="{% url '2_seconds_mouse_cps_test' %}" class="time-link">2s</a>
+    <a href="{% url '5_seconds_mouse_cps_test' %}" class="time-link">5s</a>
+    <a href="{% url '10_seconds_mouse_cps_test' %}" class="time-link active">10s</a>
+    <a href="{% url '15_seconds_mouse_cps_test' %}" class="time-link">15s</a>
+    <a href="{% url '20_seconds_mouse_cps_test' %}" class="time-link">20s</a>
+    <a href="{% url '30_seconds_mouse_cps_test' %}" class="time-link">30s</a>
+    <a href="{% url '60_seconds_mouse_cps_test' %}" class="time-link">60s</a>
+    <a href="{% url '100_seconds_mouse_cps_test' %}" class="time-link">100s</a>
+</div>
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong style="color: white;">How to Use This CPS Test:</strong>
+                            <ol class="instruction-list">
+                                <li>Click the test area to begin immediately</li>
+                                <li>Click as fast as possible for the full 10-second duration</li>
+                                <li>Maintain your speed and consistency throughout the test</li>
+                                <li>View your results and compare with global benchmarks</li>
+                                <li>Click the test area again to restart</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="measurement-area-container">
+                        <div class="cps-test-area idle" id="cps-test-area">
+                            <div class="cps-status" id="cps-status">
+                                <div class="cps-timer" id="cps-timer">10.0</div>
+                                <div class="cps-click-counter" id="cps-clicks">Clicks: 0</div>
+                                <div>Click to start test</div>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- Global Top Player Stats -->
+<div class="stats-grid" id="global-top-player-stats">
+    <div class="stat-card">
+        <h3><i class="fas fa-crown"></i> Top Player</h3>
+        <div class="stat-value" id="top-player-name">
+            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Global #1 Clicker</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Top CPS Score</h3>
+        <div class="stat-value" id="top-player-cps">
+            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} CPS{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Best CPS Performance</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Top Player Clicks</h3>
+        <div class="stat-value" id="top-player-clicks">
+            {% if top_player_stats %}{{ top_player_stats.clicks }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Total Clicks in 10 Seconds</div>
+    </div>
+</div>
+
+<div class="clean-divider" style="display: none;"></div>
+<div class="stats-grid" id="user-test-results" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-user"></i> Your Position</h3>
+        <div class="stat-value" id="user-position">--</div>
+        <div class="stat-label">Global Ranking</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Your CPS Score</h3>
+        <div class="stat-value" id="user-cps-score">--</div>
+        <div class="stat-label">Clicks Per Second</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
+        <div class="stat-value" id="user-total-clicks">--</div>
+        <div class="stat-label">All registered clicks</div>
+    </div>
+</div>
+
+<div class="stats-grid" id="advanced-stats" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-bolt"></i> Click Frequency</h3>
+        <div class="stat-value" id="reaction-time">-- Hz</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Avg: 6-9 Hz</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-running"></i> Click Stamina</h3>
+        <div class="stat-value" id="stamina-score">--</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Top 25%: 85+</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse"></i> Click Technique</h3>
+        <div class="stat-value" id="click-technique">--</div>
+        <div class="stat-label" id="technique-tags"></div>
+    </div>
+</div>
+
+                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                        <h4><i class="fas fa-lightbulb"></i> Improvement Tip</h4>
+                        <p id="improvement-tip">Based on your clicking pattern, we recommend focusing on maintaining consistent rhythm to increase your CPS.</p>
+                    </div>
+
+                    <div class="button-group">
+<button id="cps-reset-btn"
+    style="background: linear-gradient(135deg, #e63946, #d90429);
+           color: #fff;
+           border: none;
+           padding: 10px 18px;
+           border-radius: 8px;
+           cursor: pointer;
+           font-size: 15px;
+           font-weight: 600;
+           display: inline-flex;
+           align-items: center;
+           gap: 6px;
+           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
+           transition: all 0.25s ease;"
+    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
+    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
+    onmousedown="this.style.transform='scale(0.96)';"
+    onmouseup="this.style.transform='scale(1)';"
+>
+    <i class="fas fa-redo"></i> Reset Test
+</button>
+                        <button id="save-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i> Save Results</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trophy"></i> CPS Leaderboard</h2>
+                </div>
+                <div class="card-body">
+                    <div class="leaderboard-container">
+                        <table class="leaderboard">
+                            <thead class="leaderboard-header">
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>CPS Score</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-content">
+                                {% for score in top_scores %}
+                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                    <td class="leaderboard-player">{{ score.user.username }}</td>
+                                    <td class="leaderboard-score">{{ score.score|floatformat:1 }} CPS</td>
+                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        {% if user.is_authenticated and user_best_score %}
+                        <div class="user-best-score">
+                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                            <div class="user-score">
+                                <span class="score-value">{{ user_best_score.score|floatformat:1 }} CPS</span>
+                                <span class="score-rank">
+                                    {% if user_rank %}
+                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                    {% else %}
+                                        Not ranked
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="content-section">
+                        <h2> Understanding the 10 Second CPS Test</h2>
+                        <p>The 10-second CPS (Clicks Per Second) test measures how many times you can click your mouse in a 10-second timeframe. This duration is ideal for assessing both speed and endurance in clicking.</p>
+                        
+                        <p>The 10-second duration is optimal for CPS testing because:</p>
+                        <ul>
+                            <li><strong>Endurance Assessment:</strong> Long enough to test your ability to maintain speed</li>
+                            <li><strong>Accuracy:</strong> Provides a reliable average CPS measurement</li>
+                            <li><strong>Realistic Scenario:</strong> Matches many real-world clicking challenges</li>
+                            <li><strong>Skill Differentiation:</strong> Effectively distinguishes between different skill levels</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Clicking Techniques</h2>
+                        <p>Different clicking techniques can significantly impact your CPS score. Here are the most common techniques:</p>
+                        
+                        <ul>
+                            <li><strong>Regular Clicking:</strong> Using one finger to click at a natural pace</li>
+                            <li><strong>Jitter Clicking:</strong> Vibrating your arm muscles for extremely rapid clicks</li>
+                            <li><strong>Butterfly Clicking:</strong> Using two fingers alternately on the mouse button</li>
+                            <li><strong>Drag Clicking:</strong> Dragging your finger across the mouse button to register multiple clicks</li>
+                        </ul>
+                        
+                        <p>Each technique has its advantages and disadvantages. Experiment to find which works best for you, and remember to take breaks to avoid strain or fatigue.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+
+    <script>
+    // Check if user is authenticated
+    const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    </script>
+</body>
+</html>
+{% endblock %}

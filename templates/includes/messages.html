@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div id="notification-container" class="notification-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification-message {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}info{% endif %}"
+                data-duration="5000" role="alert" aria-live="assertive">
+
+                <div class="notification-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        {% if message.tags == 'error' %}
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        {% elif message.tags == 'success' %}
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        {% elif message.tags == 'warning' %}
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        {% else %}
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        {% endif %}
+                    </svg>
+                </div>
+
+                <span class="notification-content">{{ message|escape }}</span>
+
+                <button class="notification-close" aria-label="Close notification" onclick="closeNotification(this.parentElement)">
+                    &times;
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<style>
+    .notification-container {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 9999;
+        max-width: min(24rem, calc(100vw - 2rem));
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        pointer-events: none;
+    }
+    
+    .notification-message {
+        display: flex;
+        align-items: flex-start;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        position: relative;
+        border-left: 4px solid;
+        pointer-events: auto;
+        transform: translateX(120%);
+        opacity: 0;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        max-height: 120px;
+        overflow: hidden;
+    }
+    
+    .notification-message.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    
+    .notification-message.hide {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    
+    .notification-icon {
+        margin-right: 0.75rem;
+        margin-top: 0.125rem;
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    
+    .notification-content {
+        flex-grow: 1;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        font-size: 0.875rem;
+        line-height: 1.25;
+    }
+    
+    .notification-close {
+        margin-left: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0;
+        flex-shrink: 0;
+        align-self: flex-start;
+    }
+    
+    /* Error notification */
+    .notification-message.error {
+        background-color: #FEF2F2;
+        color: #B91C1C;
+        border-color: #EF4444;
+    }
+    
+    .notification-message.error .notification-close {
+        color: #B91C1C;
+    }
+    
+    /* Success notification */
+    .notification-message.success {
+        background-color: #ECFDF5;
+        color: #047857;
+        border-color: #10B981;
+    }
+    
+    .notification-message.success .notification-close {
+        color: #047857;
+    }
+    
+    /* Warning notification */
+    .notification-message.warning {
+        background-color: #FFFBEB;
+        color: #B45309;
+        border-color: #F59E0B;
+    }
+    
+    .notification-message.warning .notification-close {
+        color: #B45309;
+    }
+    
+    /* Info notification */
+    .notification-message.info {
+        background-color: #EFF6FF;
+        color: #1E40AF;
+        border-color: #3B82F6;
+    }
+    
+    .notification-message.info .notification-close {
+        color: #1E40AF;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .notification-container {
+            top: 0.5rem;
+            right: 0.5rem;
+            left: 0.5rem;
+            max-width: none;
+        }
+        
+        .notification-message {
+            max-height: none;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+        
+        const notifications = container.querySelectorAll('.notification-message');
+        
+        // Function to show notifications with a staggered delay
+        notifications.forEach((notification, index) => {
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100 * index);
+            
+            const duration = parseInt(notification.getAttribute('data-duration')) || 5000;
+            
+            // Auto-dismiss after duration
+            setTimeout(() => {
+                closeNotification(notification);
+            }, duration + (100 * index));
+        });
+        
+        // Add container to body to prevent layout shifts
+        if (document.body) {
+            document.body.appendChild(container);
+        }
+    });
+    
+    function closeNotification(notification) {
+        if (!notification) return;
+        
+        notification.classList.remove('show');
+        notification.classList.add('hide');
+        
+        setTimeout(() => {
+            notification.remove();
+            
+            // Remove container if no notifications left
+            const container = document.getElementById('notification-container');
+            if (container && container.querySelectorAll('.notification-message').length === 0) {
+                container.remove();
+            }
+        }, 300);
+    }
+    
+    // Prevent body scrolling when notifications are present
+    function updateBodyScroll() {
+        const container = document.getElementById('notification-container');
+        if (container && container.querySelectorAll('.notification-message').length > 0) {
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
+    }
+    
+    // Observe DOM changes to update scroll behavior
+    const observer = new MutationObserver(updateBodyScroll);
+    observer.observe(document.body, { childList: true, subtree: true });
+</script>

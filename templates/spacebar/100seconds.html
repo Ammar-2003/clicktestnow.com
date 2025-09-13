@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Second Spacebar Counter | Endurance Spacebar Speed Test</title>
+    <meta name="description" content="Test your spacebar pressing endurance with our 100 second spacebar counter. Measure your long-term spacebar speed and compare with rankings.">
+    <meta name="keywords" content="100 second spacebar counter, spacebar endurance test, long spacebar test, spacebar stamina test, keyboard endurance test, spacebar pressing marathon">
+    <meta name="author" content="Precision Spacebar Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/spacebar/100second.css' %}">
+    <script src="{% static 'js/spacebar/100second.js' %}" defer></script>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1 style="color: var(--primary)">100 Second Spacebar Counter</h1>
+            <p>Professional endurance tool to measure your spacebar pressing stamina over 100 seconds</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2></i>Spacebar Endurance Measurement</h2>
+                </div>
+                <div class="card-body">
+                                                                                <div class="time-links">
+                        <a href="{% url '1_second_spacebar_counter' %}" class="time-link">1s</a>
+                        <a href="{% url '2_seconds_spacebar_counter' %}" class="time-link ">2s</a>
+                        <a href="{% url '5_seconds_spacebar_counter' %}" class="time-link ">5s</a>
+                        <a href="{% url '10_seconds_spacebar_counter' %}" class="time-link ">10s</a>
+                        <a href="{% url '15_seconds_spacebar_counter' %}" class="time-link ">15s</a>
+                        <a href="{% url '20_seconds_spacebar_counter' %}" class="time-link ">20s</a>
+                        <a href="{% url '30_seconds_spacebar_counter' %}" class="time-link ">30s</a>
+                        <a href="{% url '60_seconds_spacebar_counter' %}" class="time-link ">60s</a>
+                        <a href="{% url '100_seconds_spacebar_counter' %}" class="time-link active">100s</a>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong style="color: white;">How to Use This 100-Second Spacebar Test:</strong>
+                            <ol class="instruction-list">
+                                <li>Press the spacebar or click the test area to begin immediately</li>
+                                <li>Press the spacebar as consistently as possible for 100 seconds</li>
+                                <li>Focus on maintaining your rhythm for the full duration</li>
+                                <li>View your endurance results and compare with rankings</li>
+                                <li>Press spacebar or click the test area again to restart</li>
+                            </ol>
+                        </div>
+                    </div>
+
+<div class="measurement-area-container">
+    <div class="spacebar-test-area idle" id="spacebar-test-area">
+        <div class="spacebar-status" id="spacebar-status">
+            <div class="spacebar-timer" id="spacebar-timer">100.0</div>
+            <div class="spacebar-press-counter" id="spacebar-presses">Presses: 0</div>
+            <div>Press spacebar or click to start endurance test</div>
+        </div>
+        <div class="spacebar-key" id="spacebar-key">
+            <div class="spacebar-key-text">SPACEBAR</div>
+        </div>
+    </div>
+</div>
+
+<!-- Global Top Player Stats -->
+<div class="stats-grid" id="global-top-player-stats">
+    <div class="stat-card">
+        <h3><i class="fas fa-crown"></i> Top Player</h3>
+        <div class="stat-value" id="top-player-name">
+            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Global #1 Endurance Presser</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Top PPS Score</h3>
+        <div class="stat-value" id="top-player-pps">
+            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} PPS{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Best Endurance Performance</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-keyboard"></i> Top Player Presses</h3>
+        <div class="stat-value" id="top-player-presses">
+            {% if top_player_stats %}{{ top_player_stats.presses }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Total Presses in 100 Seconds</div>
+    </div>
+</div>
+
+<div class="clean-divider" style="display: none;"></div>
+<div class="stats-grid" id="user-test-results" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-user"></i> Your Position</h3>
+        <div class="stat-value" id="user-position">--</div>
+        <div class="stat-label">Global Ranking</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Your PPS Score</h3>
+        <div class="stat-value" id="user-pps-score">--</div>
+        <div class="stat-label">Presses Per Second</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-keyboard"></i> Your Total Presses</h3>
+        <div class="stat-value" id="user-total-presses">--</div>
+        <div class="stat-label">All registered spacebar presses</div>
+    </div>
+</div>
+
+<div class="stats-grid" id="advanced-stats" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-bolt"></i> Average Frequency</h3>
+        <div class="stat-value" id="reaction-time">-- Hz</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Avg: 6-10 Hz</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-running"></i> Endurance Score</h3>
+        <div class="stat-value" id="stamina-score">--</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Top 25%: 85+</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-hands"></i> Press Consistency</h3>
+        <div class="stat-value" id="press-technique">--</div>
+        <div class="stat-label" id="technique-tags"></div>
+    </div>
+</div>
+
+                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                        <h4><i class="fas fa-lightbulb"></i> Endurance Improvement Tip</h4>
+                        <p id="improvement-tip">Based on your spacebar pressing pattern, we recommend focusing on maintaining consistent finger rhythm to improve your endurance.</p>
+                    </div>
+
+                    <div class="button-group">
+<button id="spacebar-reset-btn"
+    style="background: linear-gradient(135deg, #e63946, #d90429);
+           color: #fff;
+           border: none;
+           padding: 10px 18px;
+           border-radius: 8px;
+           cursor: pointer;
+           font-size: 15px;
+           font-weight: 600;
+           display: inline-flex;
+           align-items: center;
+           gap: 6px;
+           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
+           transition: all 0.25s ease;"
+    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
+    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
+    onmousedown="this.style.transform='scale(0.96)';"
+    onmouseup="this.style.transform='scale(1)';"
+>
+    <i class="fas fa-redo"></i> Reset Test
+</button>
+                        <button id="save-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i> Save Results</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trophy"></i> 100-Second Spacebar Leaderboard</h2>
+                </div>
+                <div class="card-body">
+                    <div class="leaderboard-container">
+                        <table class="leaderboard">
+                            <thead class="leaderboard-header">
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Spacebar PPS</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-content">
+                                {% for score in top_scores %}
+                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                    <td class="leaderboard-player">{{ score.user.username }}</td>
+                                    <td class="leaderboard-score">{{ score.score|floatformat:1 }} PPS</td>
+                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        {% if user.is_authenticated and user_best_score %}
+                        <div class="user-best-score">
+                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                            <div class="user-score">
+                                <span class="score-value">{{ user_best_score.score|floatformat:1 }} PPS</span>
+                                <span class="score-rank">
+                                    {% if user_rank %}
+                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                    {% else %}
+                                        Not ranked
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="content-section">
+                        <h2> Understanding 100-Second Spacebar Test</h2>
+                        <p>The 100-second spacebar counter measures your endurance and consistency in pressing the spacebar over an extended period. This test evaluates your finger stamina, rhythm maintenance, and long-term performance.</p>
+                        
+                        <p>The 100-second duration is ideal for endurance testing because:</p>
+                        <ul>
+                            <li><strong>Stamina Assessment:</strong> Long enough to truly test your pressing endurance</li>
+                            <li><strong>Consistency Measurement:</strong> Reveals how well you maintain speed over time</li>
+                            <li><strong>Realistic Scenario:</strong> Simulates extended gaming or typing sessions</li>
+                            <li><strong>Comprehensive Evaluation:</strong> Provides a complete picture of your spacebar pressing capabilities</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Spacebar Endurance Techniques</h2>
+                        <p>Different techniques can help you maximize your spacebar pressing endurance over 100 seconds:</p>
+                        
+                        <ul>
+                            <li><strong>Rhythmic Pressing:</strong> Establish and maintain a consistent rhythm rather than pressing randomly</li>
+                            <li><strong>Finger Alternation:</strong> Switch between thumbs to reduce fatigue</li>
+                            <li><strong>Relaxed Grip:</strong> Keep your hand and wrist relaxed to prevent strain</li>
+                            <li><strong>Pacing Strategy:</strong> Start at a sustainable pace rather than maximum speed</li>
+                            <li><strong>Breathing Technique:</strong> Maintain regular breathing to support endurance</li>
+                            <li><strong>Posture Maintenance:</strong> Sit upright with proper arm positioning</li>
+                        </ul>
+                        
+                        <p>Remember that endurance is built over time. Regular practice with proper technique will help you improve your 100-second spacebar performance.</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h2><i class="fas fa-medal"></i> Endurance Benchmark Levels</h2>
+                        <p>Here's how to interpret your 100-second spacebar test results:</p>
+                        
+                        <ul>
+                            <li><strong>Novice (0-5 PPS):</strong> Just starting with endurance training</li>
+                            <li><strong>Intermediate (5-7 PPS):</strong> Developing consistent pressing rhythm</li>
+                            <li><strong>Advanced (7-9 PPS):</strong> Good endurance with maintained speed</li>
+                            <li><strong>Expert (9-11 PPS):</strong> Excellent stamina and consistency</li>
+                            <li><strong>Elite (11+ PPS):</strong> Exceptional endurance and technique</li>
+                        </ul>
+                        
+                        <p>Most people see significant improvement in their endurance scores after just a few weeks of regular practice.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    // Check if user is authenticated
+    const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    </script>
+</body>
+</html>
+{% endblock %}

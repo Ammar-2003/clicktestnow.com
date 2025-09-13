@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Sensitivity Converter | Professional Gaming Sensitivity Tool</title>
+    <meta name="description" content="Advanced tool to accurately convert mouse sensitivity between popular games with professional precision.">
+    <meta name="keywords" content="sensitivity converter, mouse sensitivity, gaming sensitivity, DPI converter, game sens, FPS sensitivity">
+    <meta name="author" content="Precision Sensitivity Converter">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/sensi.css' %}">
+    <script src="{% static 'js/sensi.js' %}" defer></script>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1>Precision Sensitivity Converter</h1>
+            <p>Convert your mouse sensitivity between popular games with professional accuracy</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Sensitivity Conversion</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div class="alert-text">
+                            <strong class="alert-heading">How to Use This Converter:</strong>
+                            <ol class="instruction-list">
+                                <li>Select the game you're converting FROM</li>
+                                <li>Enter your current sensitivity value from that game</li>
+                                <li>**Enter your mouse's DPI for an accurate conversion**</li>
+                                <li>Select the target games you want to convert TO</li>
+                                <li>Click "Convert Sensitivity" to see your results</li>
+                                <li>Save your settings as a preset for future use</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="converter-form">
+                        <div class="source-game">
+                            <div class="form-group">
+                                <label class="form-label" for="source-game">Convert From:</label>
+                                <select class="form-select" id="source-game">
+                                    <option value="" disabled selected>Select a game</option>
+                                    <option value="cs2">Counter-Strike 2</option>
+                                    <option value="csgo">CS:GO</option>
+                                    <option value="cs16">Counter-Strike 1.6</option>
+                                    <option value="valorant">Valorant</option>
+                                    <option value="apex">Apex Legends</option>
+                                    <option value="overwatch2">Overwatch 2</option>
+                                    <option value="marvelrivals">Marvel Rivals</option>
+                                    <option value="thefinals">THE FINALS</option>
+                                    <option value="fortnite">Fortnite</option>
+                                    <option value="pubg">PUBG (PC)</option>
+                                    <option value="cod_mw2019">Call of Duty: Modern Warfare (2019)</option>
+                                    <option value="cod_mw2_2022">Call of Duty: MWII (2022)</option>
+                                    <option value="cod_mw3_2023">Call of Duty: MWIII (2023)</option>
+                                    <option value="warzone">Call of Duty: Warzone</option>
+                                    <option value="warzone2">Call of Duty: Warzone 2</option>
+                                    <option value="cod_cw">Call of Duty: Black Ops Cold War</option>
+                                    <option value="cod_vanguard">Call of Duty: Vanguard</option>
+                                    <option value="battlefield_1">Battlefield 1</option>
+                                    <option value="battlefield_v">Battlefield V</option>
+                                    <option value="battlefield_2042">Battlefield 2042</option>
+                                    <option value="halo_infinite">Halo Infinite</option>
+                                    <option value="destiny2">Destiny 2</option>
+                                    <option value="tarkov">Escape from Tarkov</option>
+                                    <option value="r6siege">Rainbow Six Siege</option>
+                                    <option value="splitgate">Splitgate</option>
+                                    <option value="xdefiant">XDefiant</option>
+                                    <option value="helldivers2">Helldivers 2 (2024)</option>
+                                    <option value="marvelrivals">Marvel Rivals (2024)</option>
+                                    <option value="stalker2">STALKER 2</option>
+                                    <option value="quake_champions">Quake Champions</option>
+                                    <option value="quake_live">Quake Live</option>
+                                    <option value="tf2">Team Fortress 2</option>
+                                    <option value="paladins">Paladins</option>
+                                    <option value="hyperscape">Hyper Scape</option>
+                                    <option value="roguecompany">Rogue Company</option>
+                                    <option value="splitgate">Splitgate</option>
+                                    <option value="ins_sandstorm">Insurgency: Sandstorm</option>
+                                    <option value="dayz">DayZ</option>
+                                    <option value="warface">Warface</option>
+                                    <option value="krunker">Krunker</option>
+                                    <option value="crossfire">CrossFire</option>
+                                    <option value="kovaaks">KovaaK's</option>
+                                    <option value="aimlab">Aim Lab</option>
+                                    <option value="osu">Osu!</option>
+                                    <option value="rust">Rust</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="source-sens">Sensitivity Value:</label>
+                                <input type="number" class="form-input" id="source-sens" step="0.01" placeholder="Enter sensitivity">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="dpi-value">DPI:</label>
+                                <input type="number" class="form-input" id="dpi-value" placeholder="Enter DPI">
+                            </div>
+                        </div>
+
+                        <div class="conversion-arrow">
+                            <i class="fas fa-long-arrow-alt-right"></i>
+                        </div>
+
+                        <div class="target-games">
+                            <div class="form-group">
+                                <label class="form-label" for="target-games">Convert To:</label>
+                                <select class="form-select" id="target-games">
+                                    <option value="" disabled selected>Select a game</option>
+                                    <option value="cs2">Counter-Strike 2</option>
+                                    <option value="csgo">CS:GO</option>
+                                    <option value="cs16">Counter-Strike 1.6</option>
+                                    <option value="valorant">Valorant</option>
+                                    <option value="apex">Apex Legends</option>
+                                    <option value="overwatch2">Overwatch 2</option>
+                                    <option value="marvelrivals">Marvel Rivals</option>
+                                    <option value="thefinals">THE FINALS</option>
+                                    <option value="fortnite">Fortnite</option>
+                                    <option value="pubg">PUBG (PC)</option>
+                                    <option value="cod_mw2019">Call of Duty: Modern Warfare (2019)</option>
+                                    <option value="cod_mw2_2022">Call of Duty: MWII (2022)</option>
+                                    <option value="cod_mw3_2023">Call of Duty: MWIII (2023)</option>
+                                    <option value="warzone">Call of Duty: Warzone</option>
+                                    <option value="warzone2">Call of Duty: Warzone 2</option>
+                                    <option value="cod_cw">Call of Duty: Black Ops Cold War</option>
+                                    <option value="cod_vanguard">Call of Duty: Vanguard</option>
+                                    <option value="battlefield_1">Battlefield 1</option>
+                                    <option value="battlefield_v">Battlefield V</option>
+                                    <option value="battlefield_2042">Battlefield 2042</option>
+                                    <option value="halo_infinite">Halo Infinite</option>
+                                    <option value="destiny2">Destiny 2</option>
+                                    <option value="tarkov">Escape from Tarkov</option>
+                                    <option value="r6siege">Rainbow Six Siege</option>
+                                    <option value="splitgate">Splitgate</option>
+                                    <option value="xdefiant">XDefiant</option>
+                                    <option value="helldivers2">Helldivers 2 (2024)</option>
+                                    <option value="marvelrivals">Marvel Rivals (2024)</option>
+                                    <option value="stalker2">STALKER 2</option>
+                                    <option value="quake_champions">Quake Champions</option>
+                                    <option value="quake_live">Quake Live</option>
+                                    <option value="tf2">Team Fortress 2</option>
+                                    <option value="paladins">Paladins</option>
+                                    <option value="hyperscape">Hyper Scape</option>
+                                    <option value="roguecompany">Rogue Company</option>
+                                    <option value="splitgate">Splitgate</option>
+                                    <option value="ins_sandstorm">Insurgency: Sandstorm</option>
+                                    <option value="dayz">DayZ</option>
+                                    <option value="warface">Warface</option>
+                                    <option value="krunker">Krunker</option>
+                                    <option value="crossfire">CrossFire</option>
+                                    <option value="kovaaks">KovaaK's</option>
+                                    <option value="aimlab">Aim Lab</option>
+                                    <option value="osu">Osu!</option>
+                                    <option value="rust">Rust</option>
+                                </select>
+                                <div class="form-label form-label-small">
+                                    Hold Ctrl/Cmd to select multiple games
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="convert-btn" class="btn"><i class="fas fa-sync-alt"></i> Convert</button>
+                        <button id="reset-btn" class="btn btn-danger"><i class="fas fa-redo"></i> Reset</button>
+                    </div>
+
+                    <div class="results-container hidden" id="results-container">
+                        <div class="results-title">Converted Sensitivity Values</div>
+                        <div class="game-results" id="game-results">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body content-card-body">
+                    <div class="content-section">
+                        <h2> About Sensitivity Conversion</h2>
+                        <p>Mouse sensitivity conversion allows you to maintain the same muscle memory when switching between different games. Each game engine handles sensitivity differently, making accurate conversion essential for competitive play.</p>
+                        <p>Our converter uses proven mathematical formulas and community-tested conversion ratios to ensure the most accurate results possible.</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Understanding Sensitivity Metrics</h2>
+                        <p>Different games use different measurement systems for sensitivity:</p>
+                        <ul>
+                            <li><strong>Counter-Strike 2/Valorant:</strong> Simple sensitivity multiplier (typically 0.5-3.0)</li>
+                            <li><strong>Fortnite:</strong> Separate X and Y sensitivity settings with different scaling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+{% endblock %}

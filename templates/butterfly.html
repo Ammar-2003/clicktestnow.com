@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butterfly Click Test (Kohi Clicking) | Professional Click Speed Measurement Tool</title>
+    <meta name="description" content="Test your butterfly clicking (Kohi clicking) skills with our precise butterfly click test. Measure your click speed accurately and compare with rankings.">
+    <meta name="keywords" content="butterfly click test, kohi click test, butterfly clicking, kohi clicking, clicks per second test, click speed test, mouse click tester, gaming mouse CPS, butterfly cps test">
+    <meta name="author" content="Precision CPS Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/butterfly.css' %}">
+    <script src="{% static 'js/butterfly.js' %}" defer></script>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1 style="color: var(--primary)">Butterfly Click Test (Kohi Clicking)</h1>
+            <p>Professional-grade tool to accurately measure your butterfly clicking (Kohi clicking) speed in 5 seconds</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2></i>Butterfly Click Measurement</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong style="color: white;">How to Use This Butterfly Click Test:</strong>
+                            <ol class="instruction-list">
+                                <li>Click the test area to begin immediately</li>
+                                <li>Use the butterfly clicking technique (alternate between two fingers) to click as fast as possible</li>
+                                <li>Maintain your speed for the full 5-second duration</li>
+                                <li>View your results and compare with butterfly clicking benchmarks</li>
+                                <li>Click the test area again to restart</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="measurement-area-container">
+                        <div class="cps-test-area idle" id="cps-test-area">
+                            <div class="cps-status" id="cps-status">
+                                <div class="cps-timer" id="cps-timer">5.0</div>
+                                <div class="cps-click-counter" id="cps-clicks">Clicks: 0</div>
+                                <div>Click to start test</div>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- Global Top Player Stats -->
+<div class="stats-grid" id="global-top-player-stats">
+    <div class="stat-card">
+        <h3><i class="fas fa-crown"></i> Top Player</h3>
+        <div class="stat-value" id="top-player-name">
+            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Global #1 Butterfly Clicker</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Top CPS Score</h3>
+        <div class="stat-value" id="top-player-cps">
+            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} CPS{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Best Butterfly Performance</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Top Player Clicks</h3>
+        <div class="stat-value" id="top-player-clicks">
+            {% if top_player_stats %}{{ top_player_stats.clicks }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Total Clicks in 5 Seconds</div>
+    </div>
+</div>
+
+<div class="clean-divider" style="display: none;"></div>
+<div class="stats-grid" id="user-test-results" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-user"></i> Your Position</h3>
+        <div class="stat-value" id="user-position">--</div>
+        <div class="stat-label">Global Ranking</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Your CPS Score</h3>
+        <div class="stat-value" id="user-cps-score">--</div>
+        <div class="stat-label">Butterfly Clicks Per Second</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
+        <div class="stat-value" id="user-total-clicks">--</div>
+        <div class="stat-label">All registered butterfly clicks</div>
+    </div>
+</div>
+
+<div class="stats-grid" id="advanced-stats" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-bolt"></i> Butterfly Frequency</h3>
+        <div class="stat-value" id="reaction-time">-- Hz</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Avg: 12-18 Hz</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-running"></i> Butterfly Stamina</h3>
+        <div class="stat-value" id="stamina-score">--</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Top 25%: 85+</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse"></i> Butterfly Technique</h3>
+        <div class="stat-value" id="click-technique">--</div>
+        <div class="stat-label" id="technique-tags"></div>
+    </div>
+</div>
+
+                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                        <h4><i class="fas fa-lightbulb"></i> Butterfly Improvement Tip</h4>
+                        <p id="improvement-tip">Based on your butterfly clicking pattern, we recommend focusing on maintaining consistent finger alternation to increase your CPS.</p>
+                    </div>
+
+                    <div class="button-group">
+<button id="cps-reset-btn"
+    style="background: linear-gradient(135deg, #e63946, #d90429);
+           color: #fff;
+           border: none;
+           padding: 10px 18px;
+           border-radius: 8px;
+           cursor: pointer;
+           font-size: 15px;
+           font-weight: 600;
+           display: inline-flex;
+           align-items: center;
+           gap: 6px;
+           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
+           transition: all 0.25s ease;"
+    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
+    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
+    onmousedown="this.style.transform='scale(0.96)';"
+    onmouseup="this.style.transform='scale(1)';"
+>
+    <i class="fas fa-redo"></i> Reset Test
+</button>
+                        <button id="save-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i> Save Results</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trophy"></i> Butterfly Click Leaderboard</h2>
+                </div>
+                <div class="card-body">
+                    <div class="leaderboard-container">
+                        <table class="leaderboard">
+                            <thead class="leaderboard-header">
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Butterfly CPS</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-content">
+                                {% for score in top_scores %}
+                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                    <td class="leaderboard-player">{{ score.user.username }}</td>
+                                    <td class="leaderboard-score">{{ score.score|floatformat:1 }} CPS</td>
+                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        {% if user.is_authenticated and user_best_score %}
+                        <div class="user-best-score">
+                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                            <div class="user-score">
+                                <span class="score-value">{{ user_best_score.score|floatformat:1 }} CPS</span>
+                                <span class="score-rank">
+                                    {% if user_rank %}
+                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                    {% else %}
+                                        Not ranked
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="content-section">
+                        <h2> Understanding Butterfly Click Test (Kohi Clicking)</h2>
+                        <p>Butterfly clicking (also known as Kohi clicking) is an advanced clicking technique where you alternate between two fingers (usually index and middle finger) to achieve extremely high CPS rates. This 5-second test is specifically designed to measure your butterfly clicking performance.</p>
+                        
+                        <p>The 5-second duration is ideal for butterfly clicking because:</p>
+                        <ul>
+                            <li><strong>Technique Assessment:</strong> Long enough to evaluate your butterfly technique consistency</li>
+                            <li><strong>Stamina Measurement:</strong> Tests your ability to maintain high-speed butterfly clicking</li>
+                            <li><strong>Realistic Scenario:</strong> Matches the duration of many gaming situations requiring rapid fire</li>
+                            <li><strong>Reduced Fatigue:</strong> Shorter than endurance tests but long enough to be meaningful</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Butterfly Clicking Technique (Kohi Clicking)</h2>
+                        <p>Butterfly clicking involves alternating between two fingers to click at extremely high speeds. Here's how to master it:</p>
+                        
+                        <ul>
+                            <li><strong>Finger Positioning:</strong> Place your index and middle fingers on the mouse button</li>
+                            <li><strong>Alternation Technique:</strong> Quickly alternate between your two fingers to register clicks</li>
+                            <li><strong>Wrist Stability:</strong> Keep your wrist stable while moving only your fingers</li>
+                            <li><strong>Practice:</strong> Regular practice helps develop muscle memory and coordination</li>
+                            <li><strong>Consistency:</strong> Focus on maintaining a steady rhythm throughout the test</li>
+                        </ul>
+                        
+                        <p>Butterfly clicking is less physically demanding than jitter clicking but requires good finger coordination.</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Kohi Clicking: The Origin</h2>
+                        <p>The term "Kohi clicking" comes from the popular Minecraft PvP server "Kohi" where this technique was widely used and perfected by competitive players. The server's name became synonymous with the butterfly clicking technique.</p>
+                        
+                        <p>Key aspects of Kohi clicking:</p>
+                        <ul>
+                            <li><strong>Competitive Edge:</strong> Originally developed to gain an advantage in Minecraft PvP combat</li>
+                            <li><strong>High CPS:</strong> Can achieve 15-25+ CPS with proper technique</li>
+                            <li><strong>Mouse Considerations:</strong> Works best with gaming mice that have light switches and low debounce time</li>
+                            <li><strong>Community Standard:</strong> Became the standard technique in competitive Minecraft communities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    // Check if user is authenticated
+    const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    </script>
+</body>
+</html>
+{% endblock %}

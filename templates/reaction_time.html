@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Time Test | Professional Reaction Speed Measurement</title>
+    <meta name="description" content="Test your reaction time with our precise reaction speed test. Measure your response time accurately and compare with rankings.">
+    <meta name="keywords" content="reaction time test, reaction speed test, response time test, reflex test, cognitive speed test">
+    <meta name="author" content="Precision CPS Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reaction_time.css' %}">
+    <script src="{% static 'js/reaction_time.js' %}" defer></script>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1 style="color: var(--primary)">Reaction Time Test</h1>
+            <p>Professional-grade tool to accurately measure your reaction speed in milliseconds</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2> Reaction Time Measurement</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong style="color: white; font-size: 17px;">How to Use This Reaction Time Test:</strong>
+                            <ol class="instruction-list">
+                                <li>Click the test area to begin</li>
+                                <li>Wait for the screen to turn GREEN</li>
+                                <li>Click as quickly as possible when it changes color</li>
+                                <li>Your reaction time will be measured in milliseconds</li>
+                                <li>Complete five attempts. Your best time will be saved as your score.</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="measurement-area-container">
+                        <div class="reaction-test-area waiting" id="reaction-test-area">
+                            <div class="reaction-status" id="reaction-status">
+                                <div class="reaction-time-display" id="reaction-time">--</div>
+                                <div class="reaction-time-unit">ms</div>
+                                <div class="reaction-attempts" id="reaction-attempts">Attempts: 0/5</div>
+                                <div class="waiting-indicator" id="waiting-indicator">Click to start test</div>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- Global Top Player Stats -->
+<div class="stats-grid" id="global-top-player-stats">
+    <div class="stat-card">
+        <h3><i class="fas fa-crown"></i> Top Player</h3>
+        <div class="stat-value" id="top-player-name">
+            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Global #1 Fastest Reactions</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Top Reaction Time</h3>
+        <div class="stat-value" id="top-player-time">
+            {% if top_player_stats %}{{ top_player_stats.score|floatformat:0 }} ms{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Fastest Reaction Speed</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Top Player Attempts</h3>
+        <div class="stat-value" id="top-player-attempts">
+            {% if top_player_stats %}{{ top_player_stats.attempts }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Total Attempts in Test</div>
+    </div>
+</div>
+
+<div class="clean-divider" style="display: none;"></div>
+<div class="stats-grid" id="user-test-results" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-user"></i> Your Position</h3>
+        <div class="stat-value" id="user-position">--</div>
+        <div class="stat-label">Global Ranking</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Your Reaction Time</h3>
+        <div class="stat-value" id="user-reaction-time">--</div>
+        <div class="stat-label">Average Response Time</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Your Best Time</h3>
+        <div class="stat-value" id="user-best-time">--</div>
+        <div class="stat-label">Fastest Single Reaction</div>
+    </div>
+</div>
+
+<div class="stats-grid" id="advanced-stats" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-brain"></i> Cognitive Speed</h3>
+        <div class="stat-value" id="cognitive-speed">--</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Avg: 200-250ms</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-consistency"></i> Consistency</h3>
+        <div class="stat-value" id="consistency-score">--%</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Top 25%: 85%+</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-trend-up"></i> Improvement</h3>
+        <div class="stat-value" id="improvement-score">--%</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>From first to last attempt</span>
+        </div>
+    </div>
+</div>
+
+                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                        <h4><i class="fas fa-lightbulb"></i> Reaction Time Improvement Tip</h4>
+                        <p id="improvement-tip">Based on your reaction pattern, we recommend focusing on anticipation and focus to improve your response time.</p>
+                    </div>
+
+                    <div class="button-group">
+<button id="reaction-reset-btn"
+    style="background: linear-gradient(135deg, #e63946, #d90429);
+           color: #fff;
+           border: none;
+           padding: 10px 18px;
+           border-radius: 8px;
+           cursor: pointer;
+           font-size: 15px;
+           font-weight: 600;
+           display: inline-flex;
+           align-items: center;
+           gap: 6px;
+           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
+           transition: all 0.25s ease;"
+    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
+    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
+    onmousedown="this.style.transform='scale(0.96)';"
+    onmouseup="this.style.transform='scale(1)';"
+>
+    <i class="fas fa-redo"></i> Reset Test
+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trophy"></i> Reaction Time Leaderboard</h2>
+                </div>
+                <div class="card-body">
+                    <div class="leaderboard-container">
+                        <table class="leaderboard">
+                            <thead class="leaderboard-header">
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Reaction Time</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-content">
+                                {% for score in top_scores %}
+                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                    <td class="leaderboard-player">{{ score.user.username }}</td>
+                                    <td class="leaderboard-score">{{ score.score|floatformat:0 }} ms</td>
+                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        {% if user.is_authenticated and user_best_time %}
+                        <div class="user-best-score">
+                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                            <div class="user-score">
+                                <span class="score-value">{{ user_best_time.score|floatformat:0 }} ms</span>
+                                <span class="score-rank">
+                                    {% if user_rank %}
+                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                    {% else %}
+                                        Not ranked
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="content-section">
+                        <h2>What is Reaction Time</h2>
+                        <p>Reaction time is the interval between the presentation of a stimulus and the initiation of a response. This test measures your simple reaction time - how quickly you can respond to a visual stimulus.</p>
+                        
+                        <p>Average reaction times vary by age and other factors:</p>
+                        <ul>
+                            <li><strong>Excellent:</strong> 150-200ms (top 1%)</li>
+                            <li><strong>Good:</strong> 200-250ms (above average)</li>
+                            <li><strong>Average:</strong> 250-300ms (typical adult)</li>
+                            <li><strong>Below Average:</strong> 300-350ms (room for improvement)</li>
+                            <li><strong>Slow:</strong> 350ms+ (may need practice)</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2><i class="fas fa-lightbulb"></i> How to Improve Reaction Time</h2>
+                        <p>Reaction time can be improved with practice and proper techniques:</p>
+                        
+                        <ul>
+                            <li><strong>Focus:</strong> Maintain concentration on the test area</li>
+                            <li><strong>Anticipation:</strong> Learn to anticipate the stimulus without clicking too early</li>
+                            <li><strong>Relaxation:</strong> Stay relaxed but ready to respond</li>
+                            <li><strong>Practice:</strong> Regular practice can improve neural pathways</li>
+                            <li><strong>Sleep:</strong> Proper rest significantly improves reaction times</li>
+                        </ul>
+                        
+                        <p>Professional gamers and athletes often have reaction times in the 150-200ms range through extensive training and practice.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    </script>
+
+</body>
+</html>
+{% endblock %}

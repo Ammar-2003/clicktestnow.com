@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Mouse DPI Analyzer | Professional Measurement Tool</title>
+    <meta name="description" content="Advanced online tool to accurately measure your mouse DPI with pixel-level precision.">
+    <meta name="keywords" content="mouse DPI checker, DPI analyzer, mouse sensitivity tester, gaming mouse DPI">
+    <meta name="author" content="Precision DPI Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <script src="{% static 'js/dpi_analyzer.js' %}" defer></script>
+</head>
+<style>
+    .container {
+    width: 100%;
+    max-width: 1500px !important;
+}
+</style>
+<body class="dark-mode">
+    <div class="container">
+
+        <header class="header">
+            <h1>Precision Mouse DPI Analyzer</h1>
+            <p>Professional-grade tool to accurately measure your mouse DPI with pixel-level precision</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2> DPI Measurement Interface</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div class="alert-text">
+                            <strong class="alert-heading">How to Use DPI Analyzer:</strong>
+                            <ol class="instruction-list">
+                                <li>Place your mouse at the starting position on your physical mousepad</li>
+                                <li>Click and hold in the measurement area below</li>
+                                <li>Hold click and Move your mouse <strong>exactly 1 inch</strong> on your physical mousepad</li>
+                                <li>Release the mouse button to complete the measurement</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="measurement-area-container">
+                        <div class="measurement-area" id="movement-container">
+                            <div class="visual-guide" id="visual-guide">
+                                <div class="reference-line-container">
+                                    <div class="reference-line">
+                                        <div class="scale-tick major" data-position="0"></div>
+                                        <div class="scale-tick" data-position="0.25"></div>
+                                        <div class="scale-tick" data-position="0.5"></div>
+                                        <div class="scale-tick" data-position="0.75"></div>
+                                        <div class="scale-tick major" data-position="1"></div>
+                                        <div class="scale-tick" data-position="1.25"></div>
+                                        <div class="scale-tick" data-position="1.5"></div>
+                                        <div class="scale-tick" data-position="1.75"></div>
+                                        <div class="scale-tick major" data-position="2"></div>
+                                        <div class="scale-tick" data-position="2.25"></div>
+                                        <div class="scale-tick" data-position="2.5"></div>
+                                        <div class="scale-tick" data-position="2.75"></div>
+                                        <div class="scale-tick major" data-position="3"></div>
+                                    </div>
+                                </div>
+                                <div class="start-point"></div>
+                                <div class="end-point hidden"></div>
+                            </div>
+                            <div class="movement-tracker hidden" id="movement-tracker"></div>
+                            <div class="measurement-instructions" id="instructions">
+                                Hold Click and move your mouse exactly 1 inch on your physical mousepad
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3><i class="fas fa-arrows-alt-h"></i> Pixels Moved</h3>
+                            <div class="stat-value" id="pixels">0</div>
+                            <div class="stat-label">Total pixels traveled</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3><i class="fas fa-tachometer-alt"></i> Your DPI ( Estimated )</h3>
+                            <div class="stat-value" id="result">--</div>
+                            <div class="stat-label">Dots Per Inch</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3><i class="fas fa-bullseye"></i> Accuracy</h3>
+                            <div class="stat-value" id="accuracy">--</div>
+                            <div class="stat-label">Measurement precision</div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="reset-btn" class="btn btn-danger"><i class="fas fa-redo"></i> Reset </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body content-card-body">
+                    <div class="content-section">
+                        <h2> Understanding Mouse DPI</h2>
+                        <p>DPI (Dots Per Inch) measures how many pixels your cursor moves on screen per inch of physical mouse movement. A higher DPI means your cursor moves further with less physical movement.</p>
+                        
+                        <p>Professional-grade DPI measurement is essential for:</p>
+                        <ul>
+                            <li><strong>Competitive Gaming:</strong> Precise DPI settings can significantly improve aiming accuracy</li>
+                            <li><strong>Graphic Design:</strong> Pixel-perfect cursor control for detailed work</li>
+                            <li><strong>Productivity:</strong> Optimizing workflow efficiency with the perfect sensitivity</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> How to Achieve Accurate Results</h2>
+                        <ol>
+                            <li>Set your mouse to its native DPI setting (often the default)</li>
+                            <li>Disable any acceleration or enhancement features in your OS mouse settings</li>
+                            <li>Move your mouse exactly 1 inch on your mouse pad</li>
+                            <li>Repeat the process 3-5 times and average the results for maximum accuracy</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2025 Precision DPI Analyzer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{% endblock %}

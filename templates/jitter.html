@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Second Jitter Click Test | Professional Click Speed Measurement Tool</title>
+    <meta name="description" content="Test your jitter clicking skills with our precise jitter click test. Measure your click speed accurately and compare with rankings.">
+    <meta name="keywords" content="second jitter click test, jitter clicking, clicks per second test, click speed test, mouse click tester, gaming mouse CPS, jitter cps test">
+    <meta name="author" content="Precision CPS Analyzer">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+        <link rel="stylesheet" href="{% static 'css/jitter.css' %}">
+    <script src="{% static 'js/jitter.js' %}" defer></script>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="header">
+            <h1 style="color: var(--primary)">Jitter Click Test</h1>
+            <p>Professional-grade tool to accurately measure your jitter clicking speed in 5 seconds</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2></i>Jitter Click Measurement</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <div class="alert-icon">💡</div>
+                        <div>
+                            <strong style="color: white;">How to Use This Jitter Click Test:</strong>
+                            <ol class="instruction-list">
+                                <li>Click the test area to begin immediately</li>
+                                <li>Use the jitter clicking technique (vibrate your arm/hand muscles) to click as fast as possible</li>
+                                <li>Maintain your speed for the full 5-second duration</li>
+                                <li>View your results and compare with jitter clicking benchmarks</li>
+                                <li>Click the test area again to restart</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="measurement-area-container">
+                        <div class="cps-test-area idle" id="cps-test-area">
+                            <div class="cps-status" id="cps-status">
+                                <div class="cps-timer" id="cps-timer">5.0</div>
+                                <div class="cps-click-counter" id="cps-clicks">Clicks: 0</div>
+                                <div>Click to start test</div>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- Global Top Player Stats -->
+<div class="stats-grid" id="global-top-player-stats">
+    <div class="stat-card">
+        <h3><i class="fas fa-crown"></i> Top Player</h3>
+        <div class="stat-value" id="top-player-name">
+            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Global #1 Jitter Clicker</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Top CPS Score</h3>
+        <div class="stat-value" id="top-player-cps">
+            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} CPS{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Best Jitter Performance</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Top Player Clicks</h3>
+        <div class="stat-value" id="top-player-clicks">
+            {% if top_player_stats %}{{ top_player_stats.clicks }}{% else %}--{% endif %}
+        </div>
+        <div class="stat-label">Total Clicks in 5 Seconds</div>
+    </div>
+</div>
+
+<div class="clean-divider" style="display: none;"></div>
+<div class="stats-grid" id="user-test-results" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-user"></i> Your Position</h3>
+        <div class="stat-value" id="user-position">--</div>
+        <div class="stat-label">Global Ranking</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-tachometer-alt"></i> Your CPS Score</h3>
+        <div class="stat-value" id="user-cps-score">--</div>
+        <div class="stat-label">Jitter Clicks Per Second</div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
+        <div class="stat-value" id="user-total-clicks">--</div>
+        <div class="stat-label">All registered jitter clicks</div>
+    </div>
+</div>
+
+<div class="stats-grid" id="advanced-stats" style="display: none;">
+    <div class="stat-card">
+        <h3><i class="fas fa-bolt"></i> Jitter Frequency</h3>
+        <div class="stat-value" id="reaction-time">-- Hz</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Avg: 8-12 Hz</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-running"></i> Jitter Stamina</h3>
+        <div class="stat-value" id="stamina-score">--</div>
+        <div class="stat-label">
+            <i class="fas fa-globe-americas"></i>
+            <span>Top 25%: 85+</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <h3><i class="fas fa-mouse"></i> Jitter Technique</h3>
+        <div class="stat-value" id="click-technique">--</div>
+        <div class="stat-label" id="technique-tags"></div>
+    </div>
+</div>
+
+                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                        <h4><i class="fas fa-lightbulb"></i> Jitter Improvement Tip</h4>
+                        <p id="improvement-tip">Based on your jitter clicking pattern, we recommend focusing on maintaining consistent arm vibration to increase your CPS.</p>
+                    </div>
+
+                    <div class="button-group">
+<button id="cps-reset-btn"
+    style="background: linear-gradient(135deg, #e63946, #d90429);
+           color: #fff;
+           border: none;
+           padding: 10px 18px;
+           border-radius: 8px;
+           cursor: pointer;
+           font-size: 15px;
+           font-weight: 600;
+           display: inline-flex;
+           align-items: center;
+           gap: 6px;
+           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
+           transition: all 0.25s ease;"
+    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
+    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
+    onmousedown="this.style.transform='scale(0.96)';"
+    onmouseup="this.style.transform='scale(1)';"
+>
+    <i class="fas fa-redo"></i> Reset Test
+</button>
+                        <button id="save-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i> Save Results</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trophy"></i> Jitter Click Leaderboard</h2>
+                </div>
+                <div class="card-body">
+                    <div class="leaderboard-container">
+                        <table class="leaderboard">
+                            <thead class="leaderboard-header">
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Jitter CPS</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-content">
+                                {% for score in top_scores %}
+                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                    <td class="leaderboard-player">{{ score.user.username }}</td>
+                                    <td class="leaderboard-score">{{ score.score|floatformat:1 }} CPS</td>
+                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        {% if user.is_authenticated and user_best_score %}
+                        <div class="user-best-score">
+                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                            <div class="user-score">
+                                <span class="score-value">{{ user_best_score.score|floatformat:1 }} CPS</span>
+                                <span class="score-rank">
+                                    {% if user_rank %}
+                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                    {% else %}
+                                        Not ranked
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="content-section">
+                        <h2> Understanding Jitter Click Test</h2>
+                        <p>Jitter clicking is an advanced clicking technique where you vibrate your arm or hand muscles to achieve extremely high CPS rates. This 5-second test is specifically designed to measure your jitter clicking performance.</p>
+                        
+                        <p>The 5-second duration is ideal for jitter clicking because:</p>
+                        <ul>
+                            <li><strong>Technique Assessment:</strong> Long enough to evaluate your jitter technique consistency</li>
+                            <li><strong>Stamina Measurement:</strong> Tests your ability to maintain high-speed jitter clicking</li>
+                            <li><strong>Realistic Scenario:</strong> Matches the duration of many gaming situations requiring rapid fire</li>
+                            <li><strong>Reduced Fatigue:</strong> Shorter than endurance tests but long enough to be meaningful</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section">
+                        <h2> Jitter Clicking Technique</h2>
+                        <p>Jitter clicking involves vibrating your arm or hand muscles to click at extremely high speeds. Here's how to master it:</p>
+                        
+                        <ul>
+                            <li><strong>Arm Positioning:</strong> Keep your arm relaxed but firm on the desk surface</li>
+                            <li><strong>Finger Placement:</strong> Use your index and middle fingers for stability</li>
+                            <li><strong>Vibration Technique:</strong> Create a rapid vibration motion from your arm or wrist</li>
+                            <li><strong>Practice:</strong> Regular practice helps develop muscle memory and endurance</li>
+                            <li><strong>Consistency:</strong> Focus on maintaining a steady rhythm throughout the test</li>
+                        </ul>
+                        
+                        <p>Remember that jitter clicking can be physically demanding. Take breaks between tests to avoid strain or fatigue.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    </script>
+</body>
+</html>
+{% endblock %}

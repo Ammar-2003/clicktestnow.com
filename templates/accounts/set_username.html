@@ -1,0 +1,107 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Set Username</title>
+    <link rel="stylesheet" href="{% static 'css/accounts/set_username.css' %}">
+</head>
+
+<div class="floating-elements">
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+</div>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="card-header">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+            <h1 class="card-title">Set Your Username</h1>
+            <p class="card-subtitle">Choose how others will identify you</p>
+        </div>
+
+        <div class="form-container">
+            <!-- Information Box -->
+            <div class="info-box">
+                <div class="info-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>Username Information</span>
+                </div>
+                <p class="info-text">
+                    Your username will be visible to other users and must be unique. 
+                    Choose something that represents you but doesn't reveal personal information.
+                </p>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="error-message" style="margin-bottom: 20px;">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{{ form.non_field_errors.0 }}</span>
+                </div>
+                {% endif %}
+
+                <!-- Username Field -->
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            required
+                            value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                            class="form-input {% if form.username.errors %}error{% endif %}"
+                            placeholder="Enter your username"
+                        />
+                    </div>
+                    {% if form.username.errors %}
+                    <div class="error-message">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>{{ form.username.errors.0 }}</span>
+                    </div>
+                    {% endif %}
+                    <p class="helper-text">3-20 characters. Letters, numbers, and underscores only.</p>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-button">
+                    SAVE USERNAME
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Real-time validation for username
+    document.getElementById('username').addEventListener('input', function(e) {
+        const username = e.target.value;
+        const regex = /^[a-zA-Z0-9_]{3,20}$/;
+        
+        if (username && !regex.test(username)) {
+            e.target.classList.add('error');
+        } else {
+            e.target.classList.remove('error');
+        }
+    });
+</script>
+
+{% endblock %}
