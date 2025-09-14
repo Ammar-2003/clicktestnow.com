@@ -25,19 +25,27 @@
             </div>
         </div>
     </header>
-
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Master Your Mouse Performance</h1>
-                <p>PrecisionTools offers a comprehensive suite of testing utilities to analyze, optimize, and enhance your mouse and keyboard performance for gaming and productivity.</p>
-                <div class="hero-buttons">
-                    <a href="#tools" class="cta-button">Explore Tools <i class="fas fa-arrow-right"></i></a>
-                    <a href="#features" class="cta-button secondary-button">Learn More <i class="fas fa-info-circle"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Master Your Mouse Performance</h1>
+      <p>
+        PrecisionTools offers a comprehensive suite of testing utilities to analyze, optimize,
+        and enhance your mouse and keyboard performance for gaming and productivity.
+      </p>
+      <div class="hero-buttons">
+        <a href="#tools" class="cta-button">
+          <span>Explore Tools</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="#features" class="cta-button secondary-button">
+          <span>Learn More</span>
+          <i class="fas fa-info-circle"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="tools" class="tools-section">
         <div class="container">
@@ -361,5 +369,17 @@
             </div>
         </div>
     </footer>
+    <!-- JS for wheel interaction -->
+<script>
+const wheel = document.getElementById("wheel");
+window.addEventListener("wheel", e => {
+  if (e.deltaY < 0) {
+    wheel.style.transform = "translateY(-10px)";
+  } else {
+    wheel.style.transform = "translateY(10px)";
+  }
+  setTimeout(() => wheel.style.transform = "translateY(0)", 200);
+});
+</script>
 </body>
 </html>

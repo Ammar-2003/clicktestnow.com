@@ -145,87 +145,96 @@
             border-bottom: none;
         }
 
-        /* Hero Section */
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            background: radial-gradient(circle at center, rgba(30, 30, 30, 0.8) 0%, rgba(18, 18, 18, 1) 70%);
-        }
+/* Hero Section with Background Image */
+.hero {
+  padding: 150px 0;
+  position: relative;
+  overflow: hidden;
+}
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
+/* Dark Overlay for Readability */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.7); /* dark overlay */
+  backdrop-filter: blur(3px); /* makes text pop */
+  z-index: 0;
+}
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+.hero .container {
+  position: relative;
+  z-index: 1; /* keep content above overlay */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #FFFFFF, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
 
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-secondary-dark);
-            margin-bottom: 40px;
-        }
+.hero p {
+  font-size: 1.2rem;
+  color: var(--text-secondary-dark);
+  margin-bottom: 40px;
+}
 
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 35px;
-            background-color: var(--primary);
-            color: var(--dark-bg);
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: all 0.3s;
-            box-shadow: var(--glow-primary);
-            border: 2px solid transparent;
-        }
+/* Black button */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 35px;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  border: 2px solid #fff;
+}
 
-        .cta-button:hover {
-            background-color: transparent;
-            color: var(--primary);
-            border-color: var(--primary);
-            box-shadow: 0 0 25px var(--primary);
-            transform: translateY(-3px);
-        }
+.cta-button:hover {
+  background-color: transparent;
+  transform: translateY(-3px);
 
-        .secondary-button {
-            background-color: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
+}
 
-        .secondary-button:hover {
-            background-color: var(--primary);
-            color: var(--dark-bg);
-        }
+/* White button */
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 35px;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  border: 2px solid #fff;
+}
 
+.secondary-button:hover {
+   background-color: transparent;
+    transform: translateY(-3px);
+
+
+}
         /* Tools Section */
         .tools-section {
             padding: 80px 0;

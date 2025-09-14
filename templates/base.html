@@ -67,9 +67,66 @@
             </div>
         </nav>
 
+            <!-- Main content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
 
-        {% block content %}
-        {% endblock %}
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{% url 'spacebar_counter' %}"><i class="fas fa-keyboard"></i> Spacebar Counter</a></li>
+                    <li><a href="{% url 'reaction_time_test' %}"><i class="fas fa-stopwatch"></i> Reaction Time Test</a></li>
+                    <li><a href="{% url 'butterfly_click_test' %}"><i class="fas fa-mouse"></i> Butterfly Click Test</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Click Tests</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'cps_test' %}"><i class="fas fa-hand-pointer"></i> CPS Test</a></li>
+                    <li><a href="{% url 'jitter_click_test' %}"><i class="fas fa-hand-sparkles"></i> Jitter Click Test</a></li>
+                    <li><a href="{% url '1_second_mouse_cps_test' %}"><i class="fas fa-running"></i> 1 Second CPS Test</a></li>
+                    <li><a href="{% url '10_seconds_mouse_cps_test' %}"><i class="fas fa-clock"></i> 10 Second CPS Test</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Mouse Tests</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'mouse_dpi_analyzer' %}"><i class="fas fa-bullseye"></i> DPI Analyzer</a></li>
+                    <li><a href="{% url 'polling_rate_tester' %}"><i class="fas fa-tachometer-alt"></i> Polling Rate Tester</a></li>
+                    <li><a href="{% url 'mouse_test' %}"><i class="fas fa-mouse-pointer"></i> Mouse Test</a></li>
+                    <li><a href="{% url 'edpi_calculator' %}"><i class="fas fa-calculator"></i> eDPI Calculator</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>More </h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'keyboard_test' %}"><i class="fas fa-keyboard"></i> Keyboard Test</a></li>
+                    <li><a href="{% url 'sensitivity_converter' %}"><i class="fas fa-exchange-alt"></i> Sensitivity Converter</a></li>
+                    <li><a href="{% url 'dinosaur_game' %}"><i class="fas fa-gamepad"></i> Dinosaur Game</a></li>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-star"></i> All Tests</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+            <a href="#">Disclaimer</a>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2023 GamingTests. All rights reserved.
+        </div>
+    </footer>
+
 
 

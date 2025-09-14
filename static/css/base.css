@@ -1,3 +1,6 @@
+main {
+    flex: 1; /* takes all available space, pushes footer down */
+}
 .spacebar-test-area.idle {
     background: var(--dark-card);
     border-color: var(--primary)!important;
@@ -492,4 +495,120 @@
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer Styles */
+footer {
+    background-color: #121212;
+    color: #ffffff;
+    padding: 3rem 1rem;
+    font-size: 17px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+    color: #f0f0f0;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary);
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: #cccccc;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+    transform: translateX(5px); /* smooth slide */
+}
+
+.footer-links i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.footer-links a:hover i {
+    transform: translateX(3px);
+    opacity: 0.8;
+}
+
+.legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #222;
+    justify-content: center;
+}
+
+.legal-links a {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.legal-links a:hover {
+    color: white;
+    transform: scale(1.05); /* subtle zoom effect */
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 3rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-section h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .legal-links {
+        justify-content: center;
+    }
 }
