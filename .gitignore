@@ -1,6 +1,17 @@
-venv
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables
 .env
-env
-.gitignore
-gitignore
+
+# SQLite database
 db.sqlite3
+
+# Logs
+*.log
+
+# System files
+__pycache__/
+*.pyc

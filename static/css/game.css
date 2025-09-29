@@ -209,7 +209,7 @@ html, body {
         .content-wrapper {
             flex: 1;
             padding: 20px;
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
             width: 100%;
         }
@@ -323,13 +323,6 @@ html, body {
             margin-bottom: 15px;
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            background: var(--light);
-        }
-
         .attribution {
             background: var(--card-bg);
             padding: 15px;
@@ -338,6 +331,8 @@ html, body {
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
             display: inline-block;
+            width: 100%!important;
+            text-align: center;
         }
 
         @media (max-width: 768px) {

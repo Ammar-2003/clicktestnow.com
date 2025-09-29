@@ -210,15 +210,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 attemptsDisplay.textContent = `Attempts: 0/${totalAttempts}`;
                 waitingIndicator.textContent = 'Click to start test';
                 break;
-            case 'waiting':
-                timeDisplay.textContent = '--';
-                attemptsDisplay.textContent = `Attempts: ${currentAttempt}/${totalAttempts}`;
-                waitingIndicator.textContent = 'Wait for green...';
-                break;
+case 'waiting':
+    timeDisplay.textContent = '--';
+    attemptsDisplay.textContent = `Attempts: ${currentAttempt}/${totalAttempts}`;
+    waitingIndicator.textContent = 'Wait for green...';
+    testArea.style.backgroundColor = 'red';   // 🔴 red background
+    break;
             case 'ready':
                 timeDisplay.textContent = '--';
                 attemptsDisplay.textContent = `Attempts: ${currentAttempt}/${totalAttempts}`;
                 waitingIndicator.textContent = 'CLICK NOW!';
+                testArea.style.backgroundColor = 'green';   // 🔴 red background
                 break;
             case 'recording':
                 // This state is very brief, just for visual feedback
