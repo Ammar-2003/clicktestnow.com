@@ -15,7 +15,7 @@
     --dark-bg: #121212;
     --light: #1e1e1e;
     --gray: #2d2d2d;
-    --text: #e0e0e0;
+    --text: #d0d0d0;
     --text-light: #a0a0a0;
     --card-bg: #1E1E1E;
     --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
@@ -33,6 +33,8 @@ body {
     background-color: var(--dark-bg);
     min-height: 100vh;
     transition: var(--transition);
+    font-size: 17px;
+
 }
 
 .container {
@@ -369,7 +371,7 @@ body {
 }
 
 .content-section h2 {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 700;
     color: var(--primary);
     margin-bottom: 1.25rem;
@@ -597,4 +599,60 @@ body {
 
         .content-card-body {
             font-size: 17px;
+        }
+
+/* Styles for Content */
+        h2 {
+            font-size: 1.6em;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-bottom: 1em;
+        }
+        ul, ol {
+            padding-left: 1.5em;
+            margin-bottom: 1.5em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+    border: 1px solid #ddd; /* outer border */
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd; /* grid lines */
+}
+
+th {
+    font-weight: 600;
+}
+        .emoji {
+            font-size: 1.2em;
+        }
+        .faq-section {
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 2em;
+        }
+        .faq-section h2 {
+            margin-top: 0;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            table {
+                font-size: 0.85em;
+            }
+            th, td {
+                padding: 8px 10px;
+            }
         }

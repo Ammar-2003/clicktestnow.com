@@ -10,307 +10,446 @@
     <script src="{% static 'js/home.js' %}" defer></script>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="{% url 'home' %}" class="logo">
-                    <div class="logo-icon"><i class="fas fa-mouse"></i></div>
-                    ClickTestNow
+        <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="nav-brand">
+                <a href="{% url 'home' %}" class="logo-link">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <span class="logo-text">ClickTestNow</span>
                 </a>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="Search for tools...">
-                    <div class="search-icon"><i class="fas fa-search"></i></div>
-                    <div class="search-results"></div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="nav-menu-container">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="nav-link">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+
+                    <!-- Mouse Performance Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">
+                            <i class="fas fa-mouse"></i> Mouse Performance
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'mouse_dpi_analyzer' %}">
+                                <i class="fas fa-bullseye"></i> DPI Analyzer
+                            </a>
+                            <a href="{% url 'mouse_test' %}">
+                                <i class="fas fa-mouse-pointer"></i> Mouse Test
+                            </a>
+                            <a href="{% url 'polling_rate_tester' %}">
+                                <i class="fas fa-tachometer-alt"></i> Polling Rate
+                            </a>
+                            <a href="{% url 'edpi_calculator' %}">
+                                <i class="fas fa-calculator"></i> eDPI Calculator
+                            </a>
+                            <a href="{% url 'sensitivity_converter' %}">
+                                <i class="fas fa-sliders-h"></i> Sensitivity Converter
+                            </a>
+                        </div>
+                    </li>
+
+                    <!-- Click Tests Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">
+                            <i class="fas fa-hand-pointer"></i> Click Tests
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'cps_test' %}">
+                                <i class="fas fa-mouse-pointer"></i> CPS Test
+                            </a>
+                            <a href="{% url 'jitter_click_test' %}">
+                                <i class="fas fa-bolt"></i> Jitter Click Test
+                            </a>
+                            <a href="{% url 'butterfly_click_test' %}">
+                                <i class="fas fa-infinity"></i> Butterfly Click Test
+                            </a>
+                            <a href="{% url 'reaction_time_test' %}">
+                                <i class="fas fa-clock"></i> Reaction Time Test
+                            </a>
+                            <a href="{% url '1_second_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 1 Second Test
+                            </a>
+                            <a href="{% url '2_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 2 Second Test
+                            </a>
+                            <a href="{% url '5_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 5 Second Test
+                            </a>
+                            <a href="{% url '10_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 10 Second Test
+                            </a>
+                            <a href="{% url '15_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 15 Second Test
+                            </a>
+                            <a href="{% url '20_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 20 Second Test
+                            </a>
+                            <a href="{% url '30_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 30 Second Test
+                            </a>
+                            <a href="{% url '60_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 60 Second Test
+                            </a>
+                            <a href="{% url '100_seconds_mouse_cps_test' %}">
+                                <i class="fas fa-stopwatch"></i> 100 Second Test
+                            </a>
+                        </div>
+                    </li>
+
+                    <!-- Spacebar Tests Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">
+                            <i class="fas fa-keyboard"></i> Spacebar Tests
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'spacebar_counter' %}">
+                                <i class="fas fa-space-shuttle"></i> Spacebar Counter
+                            </a>
+                            <a href="{% url '1_second_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 1 Second Test
+                            </a>
+                            <a href="{% url '2_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 2 Second Test
+                            </a>
+                            <a href="{% url '5_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 5 Second Test
+                            </a>
+                            <a href="{% url '10_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 10 Second Test
+                            </a>
+                            <a href="{% url '15_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 15 Second Test
+                            </a>
+                            <a href="{% url '20_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 20 Second Test
+                            </a>
+                            <a href="{% url '30_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 30 Second Test
+                            </a>
+                            <a href="{% url '60_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 60 Second Test
+                            </a>
+                            <a href="{% url '100_seconds_spacebar_counter' %}">
+                                <i class="fas fa-stopwatch"></i> 100 Second Test
+                            </a>
+                        </div>
+                    </li>
+
+                    <!-- Other Tests Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">
+                            <i class="fas fa-th"></i> Other Tests
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'keyboard_test' %}">
+                                <i class="fas fa-keyboard"></i> Keyboard Test
+                            </a>
+                            <a href="{% url 'dinosaur_game' %}">
+                                <i class="fas fa-gamepad"></i> Dinosaur Game
+                            </a>
+                        </div>
+                    </li>
+
+                    <!-- Contact Link -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user"></i> Contact Us
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+<section class="hero">
+    <!-- Animated Background Elements -->
+    <div class="hero-background">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+        <div class="pulse-ring"></div>
+    </div>
+    
+    <div class="container">
+        <div class="hero-content">
+            <!-- Animated Title -->
+            <h1 class="hero-title">
+                <span id="typed-text"></span><span class="cursor"></span>
+            </h1>
+            
+            <!-- Professional Description -->
+            <p class="hero-description">
+                Precision testing suite for gamers, professionals, and enthusiasts. Optimize your peripheral performance with industry-leading analysis tools.
+            </p>
+            
+            <!-- Animated Buttons -->
+            <div class="hero-buttons">
+                <a href="#tools" class="cta-button">
+                    <span>Explore Tools</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#features" class="secondary-button">
+                    <span>Learn More</span>
+                    <i class="fas fa-info-circle"></i>
+                </a>
+            </div>
+            
+            <!-- Stats Counter -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="50">0</div>
+                    <div class="stat-label">Precision Tools</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="1000">0</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="99">0</div>
+                    <div class="stat-label">Accuracy Rate</div>
                 </div>
             </div>
         </div>
-    </header>
-<section class="hero">
-  <div class="container">
-    <div class="hero-content">
-      <h1>Master Your Mouse Performance</h1>
-      <p>
-        ClickTestNow offers a comprehensive suite of testing utilities to analyze, optimize,
-        and enhance your mouse and keyboard performance for gaming and productivity.
-      </p>
-      <div class="hero-buttons">
-        <a href="#tools" class="cta-button">
-          <span>Explore Tools</span>
-          <i class="fas fa-arrow-right"></i>
-        </a>
-        <a href="#features" class="cta-button secondary-button">
-          <span>Learn More</span>
-          <i class="fas fa-info-circle"></i>
-        </a>
-      </div>
     </div>
-  </div>
 </section>
-
     <section id="tools" class="tools-section">
         <div class="container">
-            <h2 class="section-title">Our Tools</h2>
+            <h2 class="section-title">All Tools</h2>
             
-            <div class="category-tabs">
-                <div class="category-tab active" data-category="all">All Tools</div>
-                <div class="category-tab" data-category="click">Click Tests</div>
-                <div class="category-tab" data-category="spacebar">Spacebar Tests</div>
-                <div class="category-tab" data-category="analysis">Analysis Tools</div>
-                <div class="category-tab" data-category="game">Games</div>
-            </div>
-            
-            <!-- Mouse Analysis Tools Section -->
-            <div class="tool-section">
-                <div class="tool-section-header">
-                    <div class="tool-section-icon">
-                        <i class="fas fa-crosshairs"></i>
-                    </div>
-                    <h2 class="tool-section-title">Mouse Analysis Tools</h2>
+            <div class="tools-grid">
+                <!-- Mouse Analysis Tools -->
+                <div class="tool-card" data-categories="analysis">
+                    <div class="tool-icon"><i class="fas fa-crosshairs"></i></div>
+                    <h3>DPI Analyzer</h3>
+                    <p>Measure your mouse's true DPI and find perfect sensitivity settings.</p>
+                    <a href="{% url 'mouse_dpi_analyzer' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="tools-grid">
-                    <div class="tool-card" data-categories="analysis">
-                        <div class="tool-icon"><i class="fas fa-crosshairs"></i></div>
-                        <h3>DPI Analyzer</h3>
-                        <p>Measure your mouse's true DPI and find the perfect sensitivity settings for your needs.</p>
-                        <a href="{% url 'mouse_dpi_analyzer' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="analysis">
-                        <div class="tool-icon"><i class="fas fa-exchange-alt"></i></div>
-                        <h3>Sensitivity Converter</h3>
-                        <p>Convert your mouse sensitivity between different games and applications.</p>
-                        <a href="{% url 'sensitivity_converter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="analysis">
-                        <div class="tool-icon"><i class="fas fa-calculator"></i></div>
-                        <h3>eDPI Calculator</h3>
-                        <p>Calculate your effective DPI for consistent gaming performance across different settings.</p>
-                        <a href="{% url 'edpi_calculator' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                
+                <div class="tool-card" data-categories="analysis">
+                    <div class="tool-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <h3>Sensitivity Converter</h3>
+                    <p>Convert mouse sensitivity between games and applications.</p>
+                    <a href="{% url 'sensitivity_converter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="analysis">
+                    <div class="tool-icon"><i class="fas fa-calculator"></i></div>
+                    <h3>eDPI Calculator</h3>
+                    <p>Calculate effective DPI for consistent gaming performance.</p>
+                    <a href="{% url 'edpi_calculator' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
 
-                    <div class="tool-card" data-categories="analysis">
-                        <div class="tool-icon"><i class="fas fa-mouse"></i></div>
-                        <h3>Mouse Test</h3>
-                        <p>Comprehensive testing tool to check all aspects of your mouse performance.</p>
-                        <a href="{% url 'mouse_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="analysis">
-                        <div class="tool-icon"><i class="fas fa-sync-alt"></i></div>
-                        <h3>Polling Rate Tester</h3>
-                        <p>Check your mouse's polling rate and responsiveness.</p>
-                        <a href="{% url 'polling_rate_tester' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="analysis">
-                        <div class="tool-icon"><i class="fas fa-bolt"></i></div>
-                        <h3>Reaction Time Test</h3>
-                        <p>Measure your reaction time and compare it with others.</p>
-                        <a href="{% url 'reaction_time_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                <div class="tool-card" data-categories="analysis">
+                    <div class="tool-icon"><i class="fas fa-mouse"></i></div>
+                    <h3>Mouse Test</h3>
+                    <p>Comprehensive testing for all aspects of mouse performance.</p>
+                    <a href="{% url 'mouse_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
                 </div>
-            </div>
+                
+                <div class="tool-card" data-categories="analysis">
+                    <div class="tool-icon"><i class="fas fa-sync-alt"></i></div>
+                    <h3>Polling Rate Tester</h3>
+                    <p>Check your mouse's polling rate and responsiveness.</p>
+                    <a href="{% url 'polling_rate_tester' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="analysis">
+                    <div class="tool-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Reaction Time Test</h3>
+                    <p>Measure your reaction time and compare with others.</p>
+                    <a href="{% url 'reaction_time_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
 
-            <!-- Click Test Tools Section -->
-            <div class="tool-section">
-                <div class="tool-section-header">
-                    <div class="tool-section-icon">
-                        <i class="fas fa-hand-pointer"></i>
-                    </div>
-                    <h2 class="tool-section-title">Click Test Tools</h2>
+                <!-- Click Test Tools -->
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>CPS Test</h3>
+                    <p>Test clicks per second and improve clicking speed for gaming.</p>
+                    <a href="{% url 'cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="tools-grid">
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        <h3>CPS Test</h3>
-                        <p>Test your clicks per second and improve your clicking speed for gaming.</p>
-                        <a href="{% url 'cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-hand-rock"></i></div>
-                        <h3>Jitter Click Test</h3>
-                        <p>Measure your jitter clicking speed and compare with players worldwide.</p>
-                        <a href="{% url 'jitter_click_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-hand-point-up"></i></div>
-                        <h3>Butterfly Click Test</h3>
-                        <p>Test your butterfly clicking technique and maximize your CPS rate.</p>
-                        <a href="{% url 'butterfly_click_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-hand-rock"></i></div>
+                    <h3>Jitter Click Test</h3>
+                    <p>Measure jitter clicking speed and compare worldwide.</p>
+                    <a href="{% url 'jitter_click_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-hand-point-up"></i></div>
+                    <h3>Butterfly Click Test</h3>
+                    <p>Test butterfly clicking technique to maximize CPS rate.</p>
+                    <a href="{% url 'butterfly_click_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
 
-                    <!-- Timed Click Tests -->
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>1 Second Test</h3>
-                        <p>How many clicks can you perform in just one second? Challenge yourself!</p>
-                        <a href="{% url '1_second_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>2 Second Test</h3>
-                        <p>Test your clicking speed over 2 seconds with our specialized tool.</p>
-                        <a href="{% url '2_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>5 Second Test</h3>
-                        <p>Test your clicking endurance with our 5-second clicking challenge.</p>
-                        <a href="{% url '5_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>10 Second Test</h3>
-                        <p>A longer test to measure your sustained clicking speed over 10 seconds.</p>
-                        <a href="{% url '10_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                <!-- Timed Click Tests -->
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>1 Second Test</h3>
+                    <p>How many clicks in one second? Challenge yourself!</p>
+                    <a href="{% url '1_second_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>2 Second Test</h3>
+                    <p>Test clicking speed over 2 seconds with specialized tool.</p>
+                    <a href="{% url '2_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>5 Second Test</h3>
+                    <p>Test clicking endurance with 5-second challenge.</p>
+                    <a href="{% url '5_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>10 Second Test</h3>
+                    <p>Measure sustained clicking speed over 10 seconds.</p>
+                    <a href="{% url '10_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
 
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>15 Second Test</h3>
-                        <p>Push your limits with our 15-second CPS challenge.</p>
-                        <a href="{% url '15_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>20 Second Test</h3>
-                        <p>Test your clicking stamina with our 20-second challenge.</p>
-                        <a href="{% url '20_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>30 Second Test</h3>
-                        <p>Half-minute clicking marathon to test your endurance and speed.</p>
-                        <a href="{% url '30_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>60 Second Test</h3>
-                        <p>The ultimate test of clicking stamina - how many clicks in a full minute?</p>
-                        <a href="{% url '60_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="click">
-                        <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
-                        <h3>100 Second Test</h3>
-                        <p>The ultimate endurance test - how many clicks can you make in 100 seconds?</p>
-                        <a href="{% url '100_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>15 Second Test</h3>
+                    <p>Push limits with 15-second CPS challenge.</p>
+                    <a href="{% url '15_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
                 </div>
-            </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>20 Second Test</h3>
+                    <p>Test clicking stamina with 20-second challenge.</p>
+                    <a href="{% url '20_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>30 Second Test</h3>
+                    <p>Half-minute clicking marathon for endurance and speed.</p>
+                    <a href="{% url '30_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>60 Second Test</h3>
+                    <p>Ultimate test of clicking stamina in a full minute.</p>
+                    <a href="{% url '60_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="click">
+                    <div class="tool-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>100 Second Test</h3>
+                    <p>Ultimate endurance test - clicks in 100 seconds.</p>
+                    <a href="{% url '100_seconds_mouse_cps_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
 
-            <!-- Spacebar Test Tools Section -->
-            <div class="tool-section">
-                <div class="tool-section-header">
-                    <div class="tool-section-icon">
-                        <i class="fas fa-keyboard"></i>
-                    </div>
-                    <h2 class="tool-section-title">Spacebar Test Tools</h2>
+                <!-- Spacebar Test Tools -->
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>Spacebar Counter</h3>
+                    <p>Test spacebar pressing speed for rapid usage games.</p>
+                    <a href="{% url 'spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="tools-grid">
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>Spacebar Counter</h3>
-                        <p>Test your spacebar pressing speed for games that require rapid spacebar usage.</p>
-                        <a href="{% url 'spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>1s Spacebar Test</h3>
-                        <p>How many times can you press the spacebar in one second?</p>
-                        <a href="{% url '1_second_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>2s Spacebar Test</h3>
-                        <p>Test your spacebar speed over 2 seconds with our specialized tool.</p>
-                        <a href="{% url '2_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>5s Spacebar Test</h3>
-                        <p>Test your spacebar pressing speed over 5 seconds.</p>
-                        <a href="{% url '5_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>10s Spacebar Test</h3>
-                        <p>Test your spacebar speed over 10 seconds with our specialized tool.</p>
-                        <a href="{% url '10_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>15s Spacebar Test</h3>
-                        <p>Test your spacebar speed over 15 seconds with our specialized tool.</p>
-                        <a href="{% url '15_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>20s Spacebar Test</h3>
-                        <p>Test your spacebar speed over 20 seconds with our specialized tool.</p>
-                        <a href="{% url '20_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>30s Spacebar Test</h3>
-                        <p>Test your spacebar speed over 30 seconds with our specialized tool.</p>
-                        <a href="{% url '30_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>60s Spacebar Test</h3>
-                        <p>Test your spacebar speed over 60 seconds with our specialized tool.</p>
-                        <a href="{% url '60_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="spacebar">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>100s Spacebar Test</h3>
-                        <p>Test your spacebar speed over 100 seconds with our specialized tool.</p>
-                        <a href="{% url '100_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>1s Spacebar Test</h3>
+                    <p>How many spacebar presses in one second?</p>
+                    <a href="{% url '1_second_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
                 </div>
-            </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>2s Spacebar Test</h3>
+                    <p>Test spacebar speed over 2 seconds.</p>
+                    <a href="{% url '2_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>5s Spacebar Test</h3>
+                    <p>Test spacebar pressing speed over 5 seconds.</p>
+                    <a href="{% url '5_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>10s Spacebar Test</h3>
+                    <p>Test spacebar speed over 10 seconds.</p>
+                    <a href="{% url '10_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>15s Spacebar Test</h3>
+                    <p>Test spacebar speed over 15 seconds.</p>
+                    <a href="{% url '15_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>20s Spacebar Test</h3>
+                    <p>Test spacebar speed over 20 seconds.</p>
+                    <a href="{% url '20_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>30s Spacebar Test</h3>
+                    <p>Test spacebar speed over 30 seconds.</p>
+                    <a href="{% url '30_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>60s Spacebar Test</h3>
+                    <p>Test spacebar speed over 60 seconds.</p>
+                    <a href="{% url '60_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tool-card" data-categories="spacebar">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>100s Spacebar Test</h3>
+                    <p>Test spacebar speed over 100 seconds.</p>
+                    <a href="{% url '100_seconds_spacebar_counter' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
+                </div>
 
-            <!-- Other Tools Section -->
-            <div class="tool-section">
-                <div class="tool-section-header">
-                    <div class="tool-section-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <h2 class="tool-section-title">Other Tools</h2>
+                <!-- Other Tools -->
+                <div class="tool-card" data-categories="analysis">
+                    <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>Keyboard Test</h3>
+                    <p>Check keyboard responsiveness and functionality.</p>
+                    <a href="{% url 'keyboard_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="tools-grid">
-                    <div class="tool-card" data-categories="analysis">
-                        <div class="tool-icon"><i class="fas fa-keyboard"></i></div>
-                        <h3>Keyboard Test</h3>
-                        <p>Check your keyboard's responsiveness and functionality.</p>
-                        <a href="{% url 'keyboard_test' %}" class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <div class="tool-card" data-categories="game">
-                        <div class="tool-icon"><i class="fas fa-gamepad"></i></div>
-                        <h3>Dinosaur Game</h3>
-                        <p>Enjoy the classic dinosaur game while testing your reflexes.</p>
-                        <a href="{% url 'dinosaur_game' %}" class="tool-link">Play Game <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                
+                <div class="tool-card" data-categories="game">
+                    <div class="tool-icon"><i class="fas fa-gamepad"></i></div>
+                    <h3>Dinosaur Game</h3>
+                    <p>Classic dinosaur game while testing reflexes.</p>
+                    <a href="{% url 'dinosaur_game' %}" class="tool-link">Play Game <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -318,38 +457,454 @@
 
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title">Why Choose PrecisionTools?</h2>
+            <h2 class="section-title">Why Choose ClickTestNow?</h2>
             <div class="features-grid">
                 <div class="feature-card fade-in">
                     <div class="feature-icon"><i class="fas fa-tachometer-alt"></i></div>
                     <h3>High Precision</h3>
-                    <p>Our tools provide accurate measurements to help you optimize your setup.</p>
+                    <p>Accurate measurements to optimize your setup.</p>
                 </div>
                 <div class="feature-card fade-in">
                     <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
                     <h3>Performance Analytics</h3>
-                    <p>Track your progress with detailed statistics and leaderboards.</p>
+                    <p>Track progress with detailed statistics.</p>
                 </div>
                 <div class="feature-card fade-in">
                     <div class="feature-icon"><i class="fas fa-globe"></i></div>
                     <h3>Global Comparison</h3>
-                    <p>Compare your scores with players from around the world.</p>
+                    <p>Compare scores with players worldwide.</p>
                 </div>
             </div>
         </div>
     </section>
+        <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{% url 'spacebar_counter' %}"><i class="fas fa-keyboard"></i> Spacebar Counter</a></li>
+                    <li><a href="{% url 'reaction_time_test' %}"><i class="fas fa-stopwatch"></i> Reaction Time Test</a></li>
+                    <li><a href="{% url 'butterfly_click_test' %}"><i class="fas fa-mouse"></i> Butterfly Click Test</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Click Tests</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'cps_test' %}"><i class="fas fa-hand-pointer"></i> CPS Test</a></li>
+                    <li><a href="{% url 'jitter_click_test' %}"><i class="fas fa-hand-sparkles"></i> Jitter Click Test</a></li>
+                    <li><a href="{% url '1_second_mouse_cps_test' %}"><i class="fas fa-running"></i> 1 Second CPS Test</a></li>
+                    <li><a href="{% url '10_seconds_mouse_cps_test' %}"><i class="fas fa-clock"></i> 10 Second CPS Test</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Mouse Tests</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'mouse_dpi_analyzer' %}"><i class="fas fa-bullseye"></i> DPI Analyzer</a></li>
+                    <li><a href="{% url 'polling_rate_tester' %}"><i class="fas fa-tachometer-alt"></i> Polling Rate Tester</a></li>
+                    <li><a href="{% url 'mouse_test' %}"><i class="fas fa-mouse-pointer"></i> Mouse Test</a></li>
+                    <li><a href="{% url 'edpi_calculator' %}"><i class="fas fa-calculator"></i> eDPI Calculator</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>More</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'keyboard_test' %}"><i class="fas fa-keyboard"></i> Keyboard Test</a></li>
+                    <li><a href="{% url 'sensitivity_converter' %}"><i class="fas fa-exchange-alt"></i> Sensitivity Converter</a></li>
+                    <li><a href="{% url 'dinosaur_game' %}"><i class="fas fa-gamepad"></i> Dinosaur Game</a></li>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-star"></i> All Tests</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+            <a href="#">Disclaimer</a>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 ClickTestNow. All rights reserved.
+        </div>
+    </footer>
+    <script>
+// Updated Navbar JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    const dropdowns = document.querySelectorAll('.dropdown');
+    const allToolsLink = document.querySelector('.all-tools-link');
+    const navLinks = document.querySelectorAll('.nav-link:not(.dropdown-toggle)');
 
-<footer>
-  <div class="container">
-    <div class="legal-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Contact</a>
-    </div>
-    <div class="copyright">
-      &copy; 2025 ClickTestNow. All rights reserved.
-    </div>
-  </div>
-</footer>
+    // Mobile menu toggle
+    mobileMenu.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        
+        // Close all dropdowns when menu closes
+        if (!navMenu.classList.contains('active')) {
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+
+    // Mobile dropdown functionality
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        
+        toggle.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Toggle current dropdown
+                dropdown.classList.toggle('active');
+                
+                // Close other dropdowns
+                dropdowns.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        otherDropdown.classList.remove('active');
+                    }
+                });
+            }
+        });
+    });
+
+    // Close mobile menu when clicking on regular nav links
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                // Close mobile menu
+                mobileMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+    });
+
+    // Fixed All Tools scroll functionality
+    if (allToolsLink) {
+        allToolsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Close mobile menu if open
+            if (window.innerWidth <= 768) {
+                mobileMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+            
+            // Find the target section - try multiple selectors
+            let targetSection = document.getElementById('all-tools');
+            
+            if (!targetSection) {
+                // Try finding by class name
+                targetSection = document.querySelector('.section-title');
+            }
+            
+            if (!targetSection) {
+                // Try finding by text content
+                const sections = document.querySelectorAll('h2, .section-title');
+                targetSection = Array.from(sections).find(section => 
+                    section.textContent.includes('All MySite Tools') || 
+                    section.textContent.includes('Our Famous Tools') ||
+                    section.textContent.includes('Our Tools')
+                );
+            }
+            
+            if (targetSection) {
+                // Add offset for fixed navbar
+                const offset = 80;
+                const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Update URL hash without scrolling
+                history.pushState(null, null, '#all-tools');
+            } else {
+                console.log('Target section not found');
+            }
+        });
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) {
+            if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        }
+    });
+
+    // Handle window resize - Polling Rate Tester visibility
+    function handlePollingRateVisibility() {
+        const pollingRateItem = document.querySelector('.polling-rate-item');
+        if (pollingRateItem) {
+            if (window.innerWidth <= 1099) {
+                pollingRateItem.style.display = 'none';
+            } else {
+                pollingRateItem.style.display = 'flex';
+            }
+        }
+    }
+
+    // Initial check and resize listener
+    handlePollingRateVisibility();
+    window.addEventListener('resize', function() {
+        handlePollingRateVisibility();
+        
+        if (window.innerWidth > 768) {
+            // Reset mobile menu state on desktop
+            mobileMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+
+    // Ensure section has correct ID for scrolling
+    function ensureAllToolsSection() {
+        const sections = document.querySelectorAll('h2.section-title');
+        const allToolsSection = Array.from(sections).find(section => 
+            section.textContent.includes('All MySite Tools') || 
+            section.textContent.includes('Our Famous Tools') ||
+            section.textContent.includes('Our Tools')
+        );
+        
+        if (allToolsSection && !allToolsSection.id) {
+            allToolsSection.id = 'all-tools';
+        }
+    }
+    
+    // Run on load and after a short delay to catch dynamically loaded content
+    ensureAllToolsSection();
+    setTimeout(ensureAllToolsSection, 100);
+});
+
+// Enhanced Hero Section Animations - All Start Simultaneously
+document.addEventListener('DOMContentLoaded', function() {
+    // Start all animations immediately without delays
+    function startAllAnimations() {
+        initTypingAnimation();
+        animateStats();
+    }
+    
+    // Smooth typing animation for hero title
+    function initTypingAnimation() {
+        const typedTextElement = document.getElementById('typed-text');
+        const cursorElement = document.querySelector('.cursor');
+        const texts = [
+            "Precision Testing Suite",
+            "Mouse Performance Analytics", 
+            "Gaming Optimization Tools",
+            "Professional Grade Analysis"
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let isPaused = false;
+        let typingSpeed = 80;
+        
+        function type() {
+            if (isPaused) return;
+            
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                // Smooth deleting
+                typedTextElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 40;
+            } else {
+                // Smooth typing
+                typedTextElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                const currentChar = currentText[charIndex - 1];
+                typingSpeed = [',', '.', '!', '?'].includes(currentChar) ? 200 : 80;
+            }
+            
+            // Check if current text is complete
+            if (!isDeleting && charIndex === currentText.length) {
+                // Pause at end of text
+                isPaused = true;
+                setTimeout(() => {
+                    isPaused = false;
+                    isDeleting = true;
+                    type();
+                }, 1500);
+            } else if (isDeleting && charIndex === 0) {
+                // Move to next text
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                isPaused = true;
+                setTimeout(() => {
+                    isPaused = false;
+                    type();
+                }, 500);
+            } else {
+                // Continue typing/deleting
+                setTimeout(type, typingSpeed);
+            }
+        }
+        
+        // Start typing animation immediately
+        type();
+        
+        // Smooth cursor blink
+        let cursorVisible = true;
+        setInterval(() => {
+            cursorVisible = !cursorVisible;
+            cursorElement.style.opacity = cursorVisible ? '1' : '0.3';
+        }, 600);
+    }
+    
+    // Enhanced number counting animation - Start immediately
+    function animateStats() {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        statNumbers.forEach(stat => {
+            const target = parseInt(stat.getAttribute('data-count'));
+            const duration = 2000;
+            const startTime = performance.now();
+            const startValue = 1;
+            
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeOutExpo = 1 - Math.pow(2, -10 * progress);
+                const currentValue = Math.floor(startValue + (target - startValue) * easeOutExpo);
+                
+                let displayValue = currentValue;
+                if (stat.getAttribute('data-count') === '99') {
+                    displayValue = currentValue + '%';
+                } else if (stat.getAttribute('data-count') === '10000') {
+                    displayValue = currentValue.toLocaleString() + '+';
+                } else {
+                    displayValue = currentValue + '+';
+                }
+                
+                stat.textContent = displayValue;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    let finalValue = target;
+                    if (stat.getAttribute('data-count') === '99') {
+                        finalValue = target + '%';
+                    } else if (stat.getAttribute('data-count') === '10000') {
+                        finalValue = target.toLocaleString() + '+';
+                    } else {
+                        finalValue = target + '+';
+                    }
+                    stat.textContent = finalValue;
+                }
+            }
+            
+            requestAnimationFrame(updateNumber);
+        });
+    }
+    
+    // Start all animations immediately
+    startAllAnimations();
+    
+    // Mouse move parallax effect for background shapes
+    const hero = document.querySelector('.hero');
+    const shapes = document.querySelectorAll('.shape');
+    
+    if (hero && shapes.length > 0) {
+        hero.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const { width, height, left, top } = hero.getBoundingClientRect();
+            
+            const moveX = ((clientX - left) / width - 0.5) * 20;
+            const moveY = ((clientY - top) / height - 0.5) * 20;
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.3;
+                const currentTransform = shape.style.transform || '';
+                const baseTransform = currentTransform.split('translate')[0];
+                shape.style.transform = `${baseTransform} translate(${moveX * speed}px, ${moveY * speed}px)`;
+            });
+        });
+        
+        hero.addEventListener('mouseleave', () => {
+            shapes.forEach(shape => {
+                shape.style.transform = '';
+            });
+        });
+    }
+});
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Dropdown functionality for desktop
+        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 968) {
+                    e.preventDefault();
+                    const dropdown = this.parentElement;
+                    dropdown.classList.toggle('active');
+                }
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.nav-item.dropdown')) {
+                document.querySelectorAll('.nav-item.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Handle hover for desktop
+        if (window.innerWidth > 968) {
+            document.querySelectorAll('.nav-item.dropdown').forEach(dropdown => {
+                dropdown.addEventListener('mouseenter', function() {
+                    this.classList.add('active');
+                });
+                
+                dropdown.addEventListener('mouseleave', function() {
+                    this.classList.remove('active');
+                });
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".dropdown-menu").forEach(menu => {
+        let itemCount = menu.querySelectorAll("a").length;
+        if (itemCount > 6) {
+            menu.classList.add("multi-column");
+        }
+    });
+});
+</script>
 </body>
 </html>

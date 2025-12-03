@@ -34,6 +34,7 @@ body {
     background: var(--dark);
     min-height: 100vh;
     transition: var(--transition);
+    font-size: 17px;
 }
 
 .container {
@@ -403,3 +404,44 @@ body {
         .card-body.content-card-body {
             font-size: 17px;
         }
+
+ table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+    border: 1px solid #ddd; /* outer border */
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd; /* grid lines */
+}
+
+th {
+    font-weight: 600;
+}
+        .emoji {
+            font-size: 1.2em;
+        }
+        .faq-section {
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 2em;
+        }
+        .faq-section h2 {
+            margin-top: 0;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            table {
+                font-size: 0.85em;
+            }
+            th, td {
+                padding: 8px 10px;
+            }
+        }       

@@ -15,7 +15,7 @@
             --dark: #121212;
             --light: #1e1e1e;
             --gray: #2d2d2d;
-            --text: #e0e0e0;
+            --text: #d5d5d5;
             --text-light: #a0a0a0;
             --card-bg: #1E1E1E;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
@@ -35,7 +35,6 @@
                 radial-gradient(circle at 15% 50%, rgba(6, 182, 212, 0.03) 0%, transparent 25%),
                 radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 25%);
             overflow-x: hidden;
-            padding: 20px;
             font-size: 17px;
         }
 
@@ -262,7 +261,7 @@
         }
 
         .content-section h2 {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 1.2rem;
@@ -272,7 +271,6 @@
         .content-section h3 {
             font-size: 1.4rem;
             margin: 1.5rem 0 0.8rem;
-            color: var(--primary);
         }
 
         .content-section p {
@@ -651,4 +649,45 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to   { opacity: 1; transform: translateY(0); }
+        }
+
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+    border: 1px solid #ddd; /* outer border */
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd; /* grid lines */
+}
+
+th {
+    font-weight: 600;
+}
+        .emoji {
+            font-size: 1.2em;
+        }
+        .faq-section {
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 2em;
+        }
+        .faq-section h2 {
+            margin-top: 0;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            table {
+                font-size: 0.85em;
+            }
+            th, td {
+                padding: 8px 10px;
+            }
         }

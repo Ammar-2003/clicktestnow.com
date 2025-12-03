@@ -119,3 +119,6 @@
         // Initial check and add scroll listener
         window.addEventListener('scroll', checkScroll);
         checkScroll();
+
+
+        

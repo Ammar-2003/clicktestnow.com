@@ -36,6 +36,8 @@
         background-image: 
             radial-gradient(circle at 15% 50%, rgba(6, 182, 212, 0.03) 0%, transparent 25%),
             radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 25%);
+        font-size: 17px;
+    
     }
 
     .container {
@@ -85,13 +87,11 @@
     }
 
     .card-header h2 {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
         font-weight: 700;
         display: flex;
         align-items: center;
-        color: var(--text);
         color: var(--primary);
-
     }
 
     .card-header h2 i {
@@ -130,15 +130,13 @@
 
     .instruction-list li {
         margin-bottom: 0.5rem;
-        font-size: 0.9rem;
+        font-size: 1rem;
         line-height: 1.6;
         position: relative;
         font-size: 1rem;
 
     }
 
-    .instruction-list li::marker {
-    }
 
     .btn {
         display: inline-flex;
@@ -229,7 +227,7 @@
     }
 
     .stat-card h3 {
-        font-size: 0.95rem;
+        font-size: 1rem;
         font-weight: 600;
         color: var(--text-light);
         margin-bottom: 1rem;
@@ -270,7 +268,7 @@
     }
 
     .content-section h2 {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
         font-weight: 700;
         color: var(--primary);
         margin-bottom: 1.25rem;
@@ -289,12 +287,16 @@
         margin-bottom: 1.25rem;
         color: var(--text);
         line-height: 1.7;
+        font-size: 1rem;
+
     }
 
     .content-section ul, .content-section ol {
         margin-bottom: 1.5rem;
         padding-left: 1.75rem;
         color: var(--text);
+        font-size: 1rem;
+
     }
 
     .content-section li {
@@ -580,49 +582,6 @@
     .pulse {
         animation: pulse 2s infinite;
     }
-
-    /* Responsive adjustments */
-    @media (max-width: 968px) {
-        .nav-menu {
-            position: fixed;
-            left: -100%;
-            top: 70px;
-            flex-direction: column;
-            background-color: var(--card-bg);
-            width: 100%;
-            text-align: center;
-            transition: 0.3s;
-            box-shadow: var(--shadow);
-            padding: 1rem 0;
-            gap: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-menu.active {
-            left: 0;
-        }
-
-        .nav-item {
-            margin: 0.5rem 0;
-        }
-
-        .hamburger {
-            display: flex;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-    }
-
     @media (max-width: 768px) {
         .header h1 {
             font-size: 2.25rem;
@@ -648,9 +607,7 @@
             font-size: 0.85rem;
         }
 
-        .nav-container {
-            padding: 0 1rem;
-        }
+
 
         .conversion-arrow {
             transform: rotate(90deg);
@@ -658,53 +615,11 @@
         }
     }
 
-    /* Dropdown container */
-    .nav-item.dropdown {
-        position: relative;
-    }
 
-    /* Dropdown menu */
-    .nav-item .dropdown-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background: var(--dark-card);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-lg);
-        list-style: none;
-        padding: 0.5rem 0;
-        min-width: 200px;
-        z-index: 1000;
-        animation: fadeIn 0.25s ease-in-out;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
 
-    /* Dropdown items */
-    .nav-item .dropdown-menu a {
-        display: block;
-        padding: 0.7rem 1rem;
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: var(--text);
-        text-decoration: none;
-        transition: all 0.25s ease;
-        border-radius: 6px;
-        margin: 0 0.5rem;
-        width: calc(100% - 1rem);
-    }
 
-    /* Hover effect */
-    .nav-item .dropdown-menu a:hover {
-        background: var(--gradient-primary);
-        color: #fff;
-        transform: translateX(5px);
-    }
 
-    /* Show dropdown on hover */
-    .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-    }
+
 
     /* Searchable select styles */
     .searchable {
@@ -734,4 +649,45 @@
 
         .content-card-body {
             font-size: 17px;
+        }
+
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+    border: 1px solid #ddd; /* outer border */
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd; /* grid lines */
+}
+
+th {
+    font-weight: 600;
+}
+        .emoji {
+            font-size: 1.2em;
+        }
+        .faq-section {
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 2em;
+        }
+        .faq-section h2 {
+            margin-top: 0;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            table {
+                font-size: 0.85em;
+            }
+            th, td {
+                padding: 8px 10px;
+            }
         }
