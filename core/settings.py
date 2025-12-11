@@ -31,7 +31,7 @@ load_dotenv()  # loads .env into os.environ as strings
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'clicktestnow.com']
 
 
 PRE_APPS = [
@@ -57,7 +57,8 @@ THIRD_PARTY_APPS = [
 ]
 
 INSTALLED_APPS = PRE_APPS + PROJECT_APPS + THIRD_PARTY_APPS
-SITE_ID = 1
+
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,6 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'accounts.User'
 SOCIALACCOUNT_ADAPTER = 'app.accounts.adapters.CustomSocialAccountAdapter'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
