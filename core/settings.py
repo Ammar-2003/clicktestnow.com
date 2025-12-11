@@ -13,11 +13,15 @@ import dj_database_url
 from decouple import config
 from pathlib import Path
 import os
+import dj_database_url
+from dotenv import load_dotenv
+
 
 SECRET_KEY = config('SECRET_KEY')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv()  # loads .env into os.environ as strings
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -95,14 +99,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+db_url = os.getenv('DB_URL')
 
-# Default DB (SQLite for local use)
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
 
 # If DATABASE_URL exists (like on Render), use Postgres
 if os.environ.get("DATABASE_URL"):
