@@ -1,224 +1,469 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precision Sensitivity Converter | Professional Gaming Sensitivity Tool</title>
-    <meta name="description" content="Advanced tool to accurately convert mouse sensitivity between popular games with professional precision.">
-    <meta name="keywords" content="sensitivity converter, mouse sensitivity, gaming sensitivity, DPI converter, game sens, FPS sensitivity">
-    <meta name="author" content="Precision Sensitivity Converter">
-    <meta name="robots" content="noindex, nofollow">
+{% block first_head %}
+    <title>Mouse Sensitivity Converter: Switch Games Without Losing Aim</title>
+    <meta name="description" content="Use this mouse sensitivity converter tool to convert your sensi quickly and easily. Achieve consistent aim across different devices and games.">
+    <meta name="author" content="Mouse Sensitivity Converter">
+    <link rel="canonical" href="https://clicktestnow.com/mouse-sensitivity-converter/"/>
+    <meta property="og:title" content="Mouse Sensitivity Converter: Switch Games Without Losing Aim">
+    <meta property="og:description" content="Use this mouse sensitivity converter tool to convert your sensi quickly and easily. Achieve consistent aim across different devices and games.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://clicktestnow.com/mouse-sensitivity-converter/">
+    <meta property="og:site_name" content="ClickTestNow">
+    <meta property="og:image" content="{% static 'Vguides/mouse-sensitivity-converter.jpg' %}">
+    <meta property="og:image:alt" content="Mouse sensitivity converter visual guide">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% static 'Vguides/mouse-sensitivity-converter.jpg' %}">
+    <meta name="twitter:image:alt" content="Mouse sensitivity converter visual guide">
+    <meta itemprop="image" content="{% static 'Vguides/mouse-sensitivity-converter.jpg' %}">
+    <meta name="featured-image" content="{% static 'Vguides/mouse-sensitivity-converter.jpg' %}">
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/sensi.css' %}">
     <script src="{% static 'js/sensi.js' %}" defer></script>
-<body class="dark-mode">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Mouse Sensitivity Converter: Switch Games Without Losing Aim",
+        "description": "Use this mouse sensitivity converter tool to convert your sensi quickly and easily. Achieve consistent aim across different devices and games.",
+        "url": "{{ request.build_absolute_uri }}",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-12-31"
+        },
+        "softwareVersion": "1.0",
+        "featureList": [
+            "Converts sensitivity between popular FPS games",
+            "Supports DPI adjustment for accurate conversion",
+            "Calculates equivalent sensitivity values",
+            "Maintains consistent aim and muscle memory",
+            "Free to use",
+            "Works in any browser",
+            "Supports 20+ popular games",
+            "Instant conversion results",
+            "Professional-grade accuracy"
+        ],
+        "screenshot": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/mouse-sensitivity-converter.jpg' %}",
+            "width": 1280,
+            "height": 720,
+            "caption": "Mouse Sensitivity Converter interface showing game selection and conversion"
+        },
+        "downloadUrl": "{{ request.build_absolute_uri }}",
+        "softwareRequirements": "Web browser with JavaScript enabled",
+        "releaseNotes": "Free online tool for converting mouse sensitivity settings between games.",
+        "countriesSupported": "Worldwide",
+        "permissions": "Access to mouse settings and game data",
+        "targetPlatform": "Web Browser",
+        "usesDevice": ["Mouse", "Keyboard"],
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "datePublished": "2025-12-16T00:00:00+00:00",
+        "dateModified": "2025-12-16T00:00:00+00:00"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Mouse Sensitivity Converter - How To Switch Games Without Losing Aim",
+        "description": "Convert your mouse sensitivity between popular games with professional accuracy. This guide explains why and how to use a sensitivity converter to maintain consistent aim.",
+        "articleBody": "The Mouse sensitivity converter is a free tool which is designed for players who need to convert sensitivities between different games. It supports many conversions and allows you to easily switch settings without losing accuracy. Mouse sensitivity settings often vary significantly across different game engines, even those built on the same engine, which can cause players to perform poorly when switching between games. A Sens converter or aim converter matches sens values accurately to help you play with the same comfort across titles without losing control.",
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+                "width": 250,
+                "height": 250
+            }
+        },
+        "datePublished": "2025-12-16T00:00:00+00:00",
+        "dateModified": "2025-12-16T00:00:00+00:00",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ request.build_absolute_uri }}"
+        },
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/mouse-sensitivity-converter.jpg' %}",
+            "width": 1280,
+            "height": 720,
+            "caption": "Mouse Sensitivity Converter - Convert settings between 20+ popular games"
+        },
+        "wordCount": "750",
+        "timeRequired": "PT2M",
+        "keywords": "mouse sensitivity converter, aim converter, dpi converter, game sensitivity, fps sensitivity"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is our sensitivity converter?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our sensitivity converter is an easy-to-use tool that helps you match mouse sensitivity settings across different games. It calculates equivalent values so your aim feels consistent. This saves you time and frustration adjusting manually. It works with popular games and DPI settings."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I convert my sensitivity for a mouse with a different DPI?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, you can convert sensitivity for any mouse DPI. The tool adjusts values based on your current and target DPI settings. This ensures your cursor moves the same distance physically. It's perfect for gamers switching mice or tweaking performance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why should I convert my sensitivity?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Converting sensitivity maintains muscle memory across games or devices. It helps you aim accurately without relearning controls. This improves gameplay consistency and comfort. Plus, it reduces frustration from unpredictable sensitivity changes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What games are supported?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We support many popular games including Fortnite, CS:GO, Valorant, Apex Legends, and Overwatch. The list is regularly updated based on user requests. Our goal is to cover all major FPS and competitive titles. Check the dropdown menu for the full list."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I request a new game for the calculator?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "If your game isn't listed, you can request it via our contact form or support email. We welcome suggestions and prioritize popular requests. Providing game details helps us add support faster. Stay tuned for updates after submitting your request."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Isn't the tool working properly? / Something feels wrong?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "If the tool isn't working or results seem off, try refreshing the page and checking inputs. Ensure your DPI and sensitivity values are correct. Contact support if problems persist. We're here to help and improve the tool based on feedback."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "Step-by-Step Guide to Using the Sensitivity Converter",
+        "description": "Learn how to use the mouse sensitivity converter tool to accurately transfer your settings between different video games.",
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/mouse-sensitivity-converter.jpg' %}",
+            "width": 1280,
+            "height": 720,
+            "caption": "Step-by-step sensitivity conversion visual guide"
+        },
+        "step": [
+            {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Select Source and Target Games",
+                "text": "Select the source game (Convert From) and the target game (Convert To) using the dropdown menus. This aligns the settings correctly across titles.",
+                "url": "{{ request.build_absolute_uri }}#step1"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Enter Sensitivity and DPI",
+                "text": "Enter the original sensitivity setting from your source game and the corresponding DPI. If your target game has a different DPI, enter that value to maintain precision.",
+                "url": "{{ request.build_absolute_uri }}#step2"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "View Converted Results",
+                "text": "Click the 'Convert' button. Your converted sensitivity will automatically calculate and display on-screen, giving you an instant match for the target game(s).",
+                "url": "{{ request.build_absolute_uri }}#step3"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Check Advanced Details",
+                "text": "Click 'Advanced' (if available) to see details, including eDPI, 360 rotation, and other measurements that help refine accuracy and ensure smoother gameplay.",
+                "url": "{{ request.build_absolute_uri }}#step4"
+            }
+        ],
+        "totalTime": "PT3M",
+        "supply": ["Current Mouse Sensitivity Value", "Current Mouse DPI", "Web Browser"],
+        "tool": ["Mouse Sensitivity Converter Tool"],
+        "estimatedCost": {
+            "@type": "MonetaryAmount",
+            "currency": "USD",
+            "value": "0"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "{{ request.scheme }}://{{ request.get_host }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "All Tools",
+                "item": "{{ request.scheme }}://{{ request.get_host }}/#tools"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Mouse Sensitivity Converter",
+                "item": "{{ request.build_absolute_uri }}"
+            }
+        ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
     <div class="container">
         <header class="header">
-                <h1>Mouse Sensitivity Converter </h1>
+            <h1>Mouse Sensitivity Converter - How To Switch Games Without Losing Aim</h1>
             <p>Convert your mouse sensitivity between popular games with professional accuracy</p>
         </header>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Sensitivity Conversion</h2>
+            </div>
+            <div class="card-body">
+                <div class="converter-form">
+                    <div class="source-game">
+                        <div class="form-group">
+                            <label class="form-label" for="source-game">Convert From:</label>
+                            <select class="form-select" id="source-game">
+                                <option value="" disabled selected>Select a game</option>
+                                <option value="apex">Apex Legends</option>
+                                <option value="aimlab">Aim Lab</option>
+                                <option value="bo6">COD: Black Ops 6</option>
+                                <option value="warzone">COD: Warzone / MW2 / MW3</option>
+                                <option value="cod_legacy">COD: Cold War / Vanguard</option>
+                                <option value="cs2">Counter-Strike 2 / CS:GO</option>
+                                <option value="destiny2">Destiny 2</option>
+                                <option value="tarkov">Escape from Tarkov</option>
+                                <option value="fortnite">Fortnite</option>
+                                <option value="halo_infinite">Halo Infinite</option>
+                                <option value="kovaaks">KovaaK's</option>
+                                <option value="marvelrivals">Marvel Rivals</option>
+                                <option value="overwatch2">Overwatch 2</option>
+                                <option value="pubg">PUBG</option>
+                                <option value="r6siege">Rainbow Six Siege</option>
+                                <option value="rust">Rust</option>
+                                <option value="tf2">Team Fortress 2</option>
+                                <option value="thefinals">THE FINALS</option>
+                                <option value="valorant">Valorant</option>
+                                <option value="xdefiant">XDefiant</option>
+                                <option value="minecraft">Minecraft</option>
+                                <option value="roblox">Roblox</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="source-sens">Sensitivity Value:</label>
+                            <input type="number" class="form-input" id="source-sens" step="0.01" placeholder="Enter sensitivity">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="dpi-value">DPI:</label>
+                            <input type="number" class="form-input" id="dpi-value" placeholder="Enter DPI">
+                        </div>
+                    </div>
 
-        <main>
-            <div class="card">
-                <div class="card-header">
-                    <h2>Sensitivity Conversion</h2>
+                    <div class="conversion-arrow">
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </div>
+
+                    <div class="target-games">
+                        <div class="form-group">
+                            <label class="form-label" for="target-games">Convert To:</label>
+                            <select class="form-select" id="target-games">
+                                <option value="" disabled selected>Select a game</option>
+                                <option value="apex">Apex Legends</option>
+                                <option value="aimlab">Aim Lab</option>
+                                <option value="bo6">COD: Black Ops 6</option>
+                                <option value="warzone">COD: Warzone / MW2 / MW3</option>
+                                <option value="cod_legacy">COD: Cold War / Vanguard</option>
+                                <option value="cs2">Counter-Strike 2 / CS:GO</option>
+                                <option value="destiny2">Destiny 2</option>
+                                <option value="tarkov">Escape from Tarkov</option>
+                                <option value="fortnite">Fortnite</option>
+                                <option value="halo_infinite">Halo Infinite</option>
+                                <option value="kovaaks">KovaaK's</option>
+                                <option value="marvelrivals">Marvel Rivals</option>
+                                <option value="overwatch2">Overwatch 2</option>
+                                <option value="pubg">PUBG</option>
+                                <option value="r6siege">Rainbow Six Siege (Standard)</option>
+                                <option value="rust">Rust</option>
+                                <option value="tf2">Team Fortress 2</option>
+                                <option value="thefinals">THE FINALS</option>
+                                <option value="valorant">Valorant</option>
+                                <option value="xdefiant">XDefiant</option>
+                                <option value="minecraft">Minecraft (Java)</option>
+                                <option value="roblox">Roblox</option>
+                            </select>
+                            <div class="form-label form-label-small">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="converter-form">
-                        <div class="source-game">
-                            <div class="form-group">
-                                <label class="form-label" for="source-game">Convert From:</label>
-                                <select class="form-select" id="source-game">
-                                    <option value="" disabled selected>Select a game</option>
-                                    <option value="cs2">Counter-Strike 2</option>
-                                    <option value="csgo">CS:GO</option>
-                                    <option value="cs16">Counter-Strike 1.6</option>
-                                    <option value="valorant">Valorant</option>
-                                    <option value="apex">Apex Legends</option>
-                                    <option value="overwatch2">Overwatch 2</option>
-                                    <option value="marvelrivals">Marvel Rivals</option>
-                                    <option value="thefinals">THE FINALS</option>
-                                    <option value="fortnite">Fortnite</option>
-                                    <option value="pubg">PUBG (PC)</option>
-                                    <option value="cod_mw2019">Call of Duty: Modern Warfare (2019)</option>
-                                    <option value="cod_mw2_2022">Call of Duty: MWII (2022)</option>
-                                    <option value="cod_mw3_2023">Call of Duty: MWIII (2023)</option>
-                                    <option value="warzone">Call of Duty: Warzone</option>
-                                    <option value="warzone2">Call of Duty: Warzone 2</option>
-                                    <option value="cod_cw">Call of Duty: Black Ops Cold War</option>
-                                    <option value="cod_vanguard">Call of Duty: Vanguard</option>
-                                    <option value="battlefield_1">Battlefield 1</option>
-                                    <option value="battlefield_v">Battlefield V</option>
-                                    <option value="battlefield_2042">Battlefield 2042</option>
-                                    <option value="halo_infinite">Halo Infinite</option>
-                                    <option value="destiny2">Destiny 2</option>
-                                    <option value="tarkov">Escape from Tarkov</option>
-                                    <option value="r6siege">Rainbow Six Siege</option>
-                                    <option value="splitgate">Splitgate</option>
-                                    <option value="xdefiant">XDefiant</option>
-                                    <option value="helldivers2">Helldivers 2 (2024)</option>
-                                    <option value="marvelrivals">Marvel Rivals (2024)</option>
-                                    <option value="stalker2">STALKER 2</option>
-                                    <option value="quake_champions">Quake Champions</option>
-                                    <option value="quake_live">Quake Live</option>
-                                    <option value="tf2">Team Fortress 2</option>
-                                    <option value="paladins">Paladins</option>
-                                    <option value="hyperscape">Hyper Scape</option>
-                                    <option value="roguecompany">Rogue Company</option>
-                                    <option value="splitgate">Splitgate</option>
-                                    <option value="ins_sandstorm">Insurgency: Sandstorm</option>
-                                    <option value="dayz">DayZ</option>
-                                    <option value="warface">Warface</option>
-                                    <option value="krunker">Krunker</option>
-                                    <option value="crossfire">CrossFire</option>
-                                    <option value="kovaaks">KovaaK's</option>
-                                    <option value="aimlab">Aim Lab</option>
-                                    <option value="osu">Osu!</option>
-                                    <option value="rust">Rust</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="source-sens">Sensitivity Value:</label>
-                                <input type="number" class="form-input" id="source-sens" step="0.01" placeholder="Enter sensitivity">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="dpi-value">DPI:</label>
-                                <input type="number" class="form-input" id="dpi-value" placeholder="Enter DPI">
-                            </div>
-                        </div>
 
-                        <div class="conversion-arrow">
-                            <i class="fas fa-long-arrow-alt-right"></i>
-                        </div>
+                <div class="button-group">
+                    <button id="convert-btn" class="btn"><i class="fas fa-sync-alt"></i> Convert</button>
+                    <button id="reset-btn" class="btn btn-danger"><i class="fas fa-redo"></i> Reset</button>
+                </div>
 
-                        <div class="target-games">
-                            <div class="form-group">
-                                <label class="form-label" for="target-games">Convert To:</label>
-                                <select class="form-select" id="target-games">
-                                    <option value="" disabled selected>Select a game</option>
-                                    <option value="cs2">Counter-Strike 2</option>
-                                    <option value="csgo">CS:GO</option>
-                                    <option value="cs16">Counter-Strike 1.6</option>
-                                    <option value="valorant">Valorant</option>
-                                    <option value="apex">Apex Legends</option>
-                                    <option value="overwatch2">Overwatch 2</option>
-                                    <option value="marvelrivals">Marvel Rivals</option>
-                                    <option value="thefinals">THE FINALS</option>
-                                    <option value="fortnite">Fortnite</option>
-                                    <option value="pubg">PUBG (PC)</option>
-                                    <option value="cod_mw2019">Call of Duty: Modern Warfare (2019)</option>
-                                    <option value="cod_mw2_2022">Call of Duty: MWII (2022)</option>
-                                    <option value="cod_mw3_2023">Call of Duty: MWIII (2023)</option>
-                                    <option value="warzone">Call of Duty: Warzone</option>
-                                    <option value="warzone2">Call of Duty: Warzone 2</option>
-                                    <option value="cod_cw">Call of Duty: Black Ops Cold War</option>
-                                    <option value="cod_vanguard">Call of Duty: Vanguard</option>
-                                    <option value="battlefield_1">Battlefield 1</option>
-                                    <option value="battlefield_v">Battlefield V</option>
-                                    <option value="battlefield_2042">Battlefield 2042</option>
-                                    <option value="halo_infinite">Halo Infinite</option>
-                                    <option value="destiny2">Destiny 2</option>
-                                    <option value="tarkov">Escape from Tarkov</option>
-                                    <option value="r6siege">Rainbow Six Siege</option>
-                                    <option value="splitgate">Splitgate</option>
-                                    <option value="xdefiant">XDefiant</option>
-                                    <option value="helldivers2">Helldivers 2 (2024)</option>
-                                    <option value="marvelrivals">Marvel Rivals (2024)</option>
-                                    <option value="stalker2">STALKER 2</option>
-                                    <option value="quake_champions">Quake Champions</option>
-                                    <option value="quake_live">Quake Live</option>
-                                    <option value="tf2">Team Fortress 2</option>
-                                    <option value="paladins">Paladins</option>
-                                    <option value="hyperscape">Hyper Scape</option>
-                                    <option value="roguecompany">Rogue Company</option>
-                                    <option value="splitgate">Splitgate</option>
-                                    <option value="ins_sandstorm">Insurgency: Sandstorm</option>
-                                    <option value="dayz">DayZ</option>
-                                    <option value="warface">Warface</option>
-                                    <option value="krunker">Krunker</option>
-                                    <option value="crossfire">CrossFire</option>
-                                    <option value="kovaaks">KovaaK's</option>
-                                    <option value="aimlab">Aim Lab</option>
-                                    <option value="osu">Osu!</option>
-                                    <option value="rust">Rust</option>
-                                </select>
-                                <div class="form-label form-label-small">
-                                    Hold Ctrl/Cmd to select multiple games
-                                </div>
-                            </div>
-                        </div>
+                <div class="results-container hidden" id="results-container">
+                    <div class="results-title">Converted Sensitivity Values</div>
+                    <div class="game-results" id="game-results">
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="button-group">
-                        <button id="convert-btn" class="btn"><i class="fas fa-sync-alt"></i> Convert</button>
-                        <button id="reset-btn" class="btn btn-danger"><i class="fas fa-redo"></i> Reset</button>
+        <div class="card">
+            <div class="card-body content-section">
+                <h2>About the Mouse Sensitivity Converter</h2>
+                <p>The Mouse sensitivity converter is a free tool which is designed for players who need to convert sensitivities between different games. It supports many conversions and allows you to easily switch settings without losing accuracy. Whether you're adjusting between shooting games or strategy games, this calculator helps maintain consistent control throughout every session, keeping your gameplay stable and smooth.</p>
+                <p>Its simple design makes it perfect for gamers who value precision and balance. By using this tool, you can convert values very quickly, keeping your aim steady, and enjoy a smoother experience across setups, which ensures that your sensitivity feels right in every game.</p>
+                                <h2>How This Sensitivity Converter Works</h2>
+                <div class="featured-image-container">
+                    <img src="{% static 'Vguides/mouse-sensitivity-converter.jpg' %}" 
+                         alt="Mouse sensitivity converter visual guide"
+                         title="Mouse Sensitivity Converter Visual Guide"
+                         class="featured-image"
+                         width="850"
+                         height="515"
+                         loading="lazy">
+                    <div class="image-caption">
+                        <p><strong>Sensitivity Conversion Interface:</strong> Shows the conversion tool with game selection dropdowns, sensitivity input fields, DPI adjustment, and conversion results for transferring settings between different games.</p>
                     </div>
+                </div>
 
-                    <div class="results-container hidden" id="results-container">
-                        <div class="results-title">Converted Sensitivity Values</div>
-                        <div class="game-results" id="game-results">
+                <h2>Step-by-Step Guide to Using the Sensitivity Converter</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Select games using the dropdown menu and choose which ones you're converting from and to. This helps the system align settings correctly across titles.</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Enter the original sensitivity setting from your chosen game. If your DPI (Dots Per Inch) is different between titles, adjust it by entering the correct values for both the original and target setups to keep precision consistent.</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>View results, your converted sensitivity will automatically calculate and display on-screen, giving you an instant match between games.</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Click Advanced to see details, including eDPI, 360 rotation, and measurements that help refine accuracy and ensure smoother gameplay.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Why You Need a Mouse Sensitivity Converter</h2>
+                <p>Mouse sensitivity settings often vary significantly across different game engines, even those built on the same engine, which can cause players to perform poorly when switching between games. A Sens converter or aim converter matches sens values accurately to help you play with the same comfort across titles without losing control.</p>
+                <p>Using this tool isn't always required, but it helps translate the rotational movements of mice across games. It's the recommended method for maintaining consistency and stable accuracy, no matter which setup you're on.</p>
+                <p>In the original method, users had to calculate DPI, measure distance travelled, and note the 360-degree rotation across different setups. This involved comparing gameA with mouseA, and gameB with mouseB, while taking in-game yaw values to obtain matching results in both cases.</p>
+                <p>The process was complicated, time-consuming, and full of mathematical calculations. The modern converter is much faster, easier, and is now the preferred tool among FPS gamers to convert sensitivities quickly and efficiently.</p>
+
+                <div class="faq-section">
+                    <h2>FAQs About Sensitivity Converter</h2>
+                    <h3>What is our sensitivity converter?</h3>
+                    <p>Our sensitivity converter is an easy-to-use tool that helps you match mouse sensitivity settings across different games. It calculates equivalent values so your aim feels consistent. This saves you time and frustration adjusting manually. It works with popular games and DPI settings.</p>
+
+                    <h3>Can I convert my sensitivity for a mouse with a different DPI?</h3>
+                    <p>Yes, you can convert sensitivity for any mouse DPI. The tool adjusts values based on your current and target DPI settings. This ensures your cursor moves the same distance physically. It's perfect for gamers switching mice or tweaking performance.</p>
+
+                    <h3>Why should I convert my sensitivity?</h3>
+                    <p>Converting sensitivity maintains muscle memory across games or devices. It helps you aim accurately without relearning controls. This improves gameplay consistency and comfort. Plus, it reduces frustration from unpredictable sensitivity changes.</p>
+
+                    <h3>What games are supported?</h3>
+                    <p>We support many popular games including Fortnite, CS:GO, Valorant, Apex Legends, and Overwatch. The list is regularly updated based on user requests. Our goal is to cover all major FPS and competitive titles. Check the dropdown menu for the full list.</p>
+
+                    <h3>How can I request a new game for the calculator?</h3>
+                    <p>If your game isn't listed, you can request it via our contact form or support email. We welcome suggestions and prioritize popular requests. Providing game details helps us add support faster. Stay tuned for updates after submitting your request.</p>
+
+                    <h3>Isn't the tool working properly? </h3>
+                    <p>If the tool isn't working or results seem off, try refreshing the page and checking inputs. Ensure your DPI and sensitivity values are correct. Contact support if problems persist. We're here to help and improve the tool based on feedback.</p>
+                </div>
+                
+                <!-- Related Tools Section -->
+                <div class="related-tools-section">
+                    <strong>Related Mouse & Gaming Tools</strong>
+                    <p>Explore our other mouse testing and gaming tools to optimize your setup and performance:</p>
+                    
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <a href="{% url 'mouse_dpi_analyzer' %}">Check DPI Now</a>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <a href="{% url 'edpi_calculator' %}">Calculate eDPI</a>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <a href="{% url 'polling_rate_tester' %}">Test Polling Rate</a>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <a href="{% url 'mouse_test' %}">Test Mouse Now</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-body content-section">
-    <h2>About the Sensitivity Converter</h2>
-    <p>The Mouse sensitivity converter is a free tool which is designed for players who need to convert sensitivities between different games. It supports many conversions and allows you to easily switch settings without losing accuracy. Whether you’re adjusting between shooting games or strategy games, this calculator helps maintain consistent control throughout every session, keeping your gameplay stable and smooth.</p>
-    <p>Its simple design makes it perfect for gamers who value precision and balance. By using this tool, you can convert values very quickly, keeping your aim steady, and enjoy a smoother experience across setups, which ensures that your sensitivity feels right in every game.</p>
-
-    <h2>Step-by-Step Guide to Using the Sensitivity Converter</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Step</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Select games using the dropdown menu and choose which ones you’re converting from and to. This helps the system align settings correctly across titles.</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Enter the original sensitivity setting from your chosen game. If your DPI (Dots Per Inch) is different between titles, adjust it by entering the correct values for both the original and target setups to keep precision consistent.</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>View results — your converted sensitivity will automatically calculate and display on-screen, giving you an instant match between games.</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Click Advanced to see details, including eDPI, 360 rotation, and measurements that help refine accuracy and ensure smoother gameplay.</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2>Why You Need a Mouse Sensitivity Converter</h2>
-    <p>Mouse sensitivity settings often vary significantly across different game engines, even those built on the same engine, which can cause players to perform poorly when switching between games. A Sens converter or aim converter matches sens values accurately to help you play with the same comfort across titles without losing control.</p>
-    <p>Using this tool isn’t always required, but it helps translate the rotational movements of mice across games. It’s the recommended method for maintaining consistency and stable accuracy, no matter which setup you’re on.</p>
-    <p>In the original method, users had to calculate DPI, measure distance travelled, and note the 360-degree rotation across different setups. This involved comparing gameA with mouseA, and gameB with mouseB, while taking in-game yaw values to obtain matching results in both cases.</p>
-    <p>The process was complicated, time-consuming, and full of mathematical calculations. The modern converter is much faster, easier, and is now the preferred tool among FPS gamers to convert sensitivities quickly and efficiently.</p>
-
-    <div class="faq-section">
-        <h2>FAQs</h2>
-        <ul>
-            <li>What is our sensitivity converter?</li>
-            <li>Can I convert my sensitivity for a mouse with a different DPI?</li>
-            <li>Why should I convert my sensitivity?</li>
-            <li>What games are supported?</li>
-            <li>How can I request a new game for the calculator?</li>
-            <li>Isn’t the tool working properly? / Something feels wrong?</li>
-        </ul>
+        </div>
     </div>
-                </div>
-            </div>
-        </main>
-    </div>
-</body>
-</html>
 {% endblock %}

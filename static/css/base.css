@@ -9,6 +9,12 @@
 .card{
     margin-left: 40px;
 }
+:root{
+        --primary: #F2C94C!important;
+        --danger: #c94036!important;
+        --link: #82CFFF;
+        --text: #c2c2c2!important;
+}
 
 .spacebar-test-area.idle {
     background: var(--dark-card);
@@ -359,7 +365,7 @@
 }
 
 .nav-brand .logo-link:hover {
-    color: #FFFF00;   
+    color: var(--primary);
 }
 
 .nav-brand .logo-link i {
@@ -398,7 +404,7 @@
 }
 
 .nav-link:hover {
-    color: #FFFF00;   
+    color: var(--primary);
 }
 
 .nav-link i {
@@ -452,7 +458,7 @@
 }
 
 .dropdown-menu a:hover {
-    color: #FFFF00;   
+    color: var(--primary);
     padding-left: 25px;
 }
 
@@ -723,3 +729,62 @@ footer {
         justify-content: center;
     }
 }
+
+.related-tools-section {
+  margin-top: 32px;
+}
+
+.related-tools-section strong {
+  font-size: 1.05rem;
+  color: #e6e6e6;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.related-tools-section p {
+  font-size: 0.9rem;
+  color: #9a9a9a;
+  margin-bottom: 14px;
+}
+
+/* Grid layout */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+/* Tool link wrapper */
+.tool-card {
+  padding: 10px 12px;
+  border: 1px solid #2f2f2f;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Link style */
+.tool-card a {
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #78b7ff;
+  font-weight: 500;
+  display: block;
+}
+
+/* Hover state */
+.tool-card:hover {
+  background-color: #222;
+  border-color: #3a3a3a;
+}
+
+.tool-card:hover a {
+    color: #4da3ff;
+}
+
+/* Focus for accessibility */
+.tool-card a:focus-visible {
+  outline: 2px solid #666;
+  outline-offset: 3px;
+}
+

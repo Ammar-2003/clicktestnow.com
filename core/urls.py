@@ -20,5 +20,19 @@ from django.urls import path , include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.home.urls')),
-    path('accounts/', include('app.accounts.urls'))
+    path('accounts/', include('app.accounts.urls')),
+]
+
+from django.http import HttpResponse
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Disallow:",
+        # "Sitemap: https://clicktestnow.com/sitemap.xml"  # Add later if you have sitemap
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+urlpatterns += [
+    path("robots.txt", robots_txt),
 ]

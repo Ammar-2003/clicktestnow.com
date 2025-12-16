@@ -2,12 +2,12 @@ from django.urls import path
 from . import views
 urlpatterns = [
     path('', views.home, name='home' ),
-    path('dpi-analyzer/', views.mouse_dpi_analyzer, name='mouse_dpi_analyzer' ),
-    path('mouse-test/', views.mouse_test , name='mouse_test' ),
+    path('mouse-dpi-analyzer/', views.mouse_dpi_analyzer, name='mouse_dpi_analyzer' ),
+    path('online-mouse-tester/', views.mouse_test , name='mouse_test' ),
     path('keyboard-test/', views.keyboard_test , name='keyboard_test' ),
     path('dinosaur-game/', views.game , name='dinosaur_game' ),
-    path('sensitivity-converter/', views.sensitivity_converter , name='sensitivity_converter' ),
-    path('polling-rate-tester/', views.polling_rate_tester , name='polling_rate_tester' ),
+    path('mouse-sensitivity-converter/', views.sensitivity_converter , name='sensitivity_converter' ),
+    path('mouse-polling-rate-test/', views.polling_rate_tester , name='polling_rate_tester' ),
     path('edpi-calculator/', views.edpi_calculator , name='edpi_calculator' ),
     #jitter-test
     path('jitter-click-test/', views.jitter_click_test, name='jitter_click_test'),

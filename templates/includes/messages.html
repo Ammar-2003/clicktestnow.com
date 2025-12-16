@@ -3,8 +3,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<div id="notification-container" class="notification-container">
+    <link rel="stylesheet" href="{% static 'css/includes.css' %}">
+</head>
+<body>
+
     {% if messages %}
         {% for message in messages %}
             <div class="notification-message {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}info{% endif %}"
@@ -32,191 +36,9 @@
             </div>
         {% endfor %}
     {% endif %}
-</div>
 
-<style>
-    .notification-container {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        z-index: 9999;
-        max-width: min(24rem, calc(100vw - 2rem));
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        pointer-events: none;
-    }
-    
-    .notification-message {
-        display: flex;
-        align-items: flex-start;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        position: relative;
-        border-left: 4px solid;
-        pointer-events: auto;
-        transform: translateX(120%);
-        opacity: 0;
-        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        max-height: 120px;
-        overflow: hidden;
-    }
-    
-    .notification-message.show {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    
-    .notification-message.hide {
-        transform: translateX(120%);
-        opacity: 0;
-    }
-    
-    .notification-icon {
-        margin-right: 0.75rem;
-        margin-top: 0.125rem;
-        flex-shrink: 0;
-        width: 1.25rem;
-        height: 1.25rem;
-    }
-    
-    .notification-content {
-        flex-grow: 1;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        font-size: 0.875rem;
-        line-height: 1.25;
-    }
-    
-    .notification-close {
-        margin-left: 0.75rem;
-        font-size: 1.25rem;
-        font-weight: bold;
-        cursor: pointer;
-        background: none;
-        border: none;
-        padding: 0;
-        flex-shrink: 0;
-        align-self: flex-start;
-    }
-    
-    /* Error notification */
-    .notification-message.error {
-        background-color: #FEF2F2;
-        color: #B91C1C;
-        border-color: #EF4444;
-    }
-    
-    .notification-message.error .notification-close {
-        color: #B91C1C;
-    }
-    
-    /* Success notification */
-    .notification-message.success {
-        background-color: #ECFDF5;
-        color: #047857;
-        border-color: #10B981;
-    }
-    
-    .notification-message.success .notification-close {
-        color: #047857;
-    }
-    
-    /* Warning notification */
-    .notification-message.warning {
-        background-color: #FFFBEB;
-        color: #B45309;
-        border-color: #F59E0B;
-    }
-    
-    .notification-message.warning .notification-close {
-        color: #B45309;
-    }
-    
-    /* Info notification */
-    .notification-message.info {
-        background-color: #EFF6FF;
-        color: #1E40AF;
-        border-color: #3B82F6;
-    }
-    
-    .notification-message.info .notification-close {
-        color: #1E40AF;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 640px) {
-        .notification-container {
-            top: 0.5rem;
-            right: 0.5rem;
-            left: 0.5rem;
-            max-width: none;
-        }
-        
-        .notification-message {
-            max-height: none;
-        }
-    }
-</style>
+    <!-- Scripts -->
+    <script src="{% static 'js/includes.js' %}" defer></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const container = document.getElementById('notification-container');
-        if (!container) return;
-        
-        const notifications = container.querySelectorAll('.notification-message');
-        
-        // Function to show notifications with a staggered delay
-        notifications.forEach((notification, index) => {
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 100 * index);
-            
-            const duration = parseInt(notification.getAttribute('data-duration')) || 5000;
-            
-            // Auto-dismiss after duration
-            setTimeout(() => {
-                closeNotification(notification);
-            }, duration + (100 * index));
-        });
-        
-        // Add container to body to prevent layout shifts
-        if (document.body) {
-            document.body.appendChild(container);
-        }
-    });
-    
-    function closeNotification(notification) {
-        if (!notification) return;
-        
-        notification.classList.remove('show');
-        notification.classList.add('hide');
-        
-        setTimeout(() => {
-            notification.remove();
-            
-            // Remove container if no notifications left
-            const container = document.getElementById('notification-container');
-            if (container && container.querySelectorAll('.notification-message').length === 0) {
-                container.remove();
-            }
-        }, 300);
-    }
-    
-    // Prevent body scrolling when notifications are present
-    function updateBodyScroll() {
-        const container = document.getElementById('notification-container');
-        if (container && container.querySelectorAll('.notification-message').length > 0) {
-            document.documentElement.style.overflow = 'hidden';
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.documentElement.style.overflow = '';
-            document.body.style.overflow = '';
-        }
-    }
-    
-    // Observe DOM changes to update scroll behavior
-    const observer = new MutationObserver(updateBodyScroll);
-    observer.observe(document.body, { childList: true, subtree: true });
-</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
         :root {
-            --primary: #FFFF00;   
+            --primary: #F2C94C;   
             --primary-dark: #FFD700; 
             --primary-light: #22d3ee;
             --secondary: #1E90FF;
@@ -14,13 +14,14 @@
             --text-secondary-light: #666666;
             --success: #4CAF50;
             --warning: #FF9800;
-            --danger: #F44336;
+            --danger: #c94036;
             --info: #2196F3;
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
             --card-hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
             --glow-primary: 0 0 15px rgba(6, 182, 212, 0.5);
             --glow-success: 0 0 15px rgba(76, 175, 80, 0.5);
             --border: #36506b;
+            --link: #82CFFF;
         }
 
         * {
@@ -566,21 +567,21 @@
             gap: 6px;
             padding: 8px 16px;
             background-color: transparent;
-            color: var(--primary);
+            color: rgb(231, 231, 231);
             text-decoration: none;
             border-radius: 6px;
             font-weight: 500;
             transition: all 0.3s;
-            border: 1px solid var(--primary);
+            border: 1px solid var(--link);
             text-align: center;
             width: fit-content;
             font-size: 0.9rem;
         }
 
-        .tool-link:hover {
-            color: white;
-        }
-
+.tool-link {
+    color: var(--text-secondary-dark);
+    border: 1px solid var(--link);
+}
         /* Features Section */
         .features {
             padding: 70px 0;
@@ -726,7 +727,7 @@
 }
 
 .nav-brand .logo-link:hover {
-    color: #FFFF00;   
+    color: var(--primary);   
 }
 
 .nav-brand .logo-link i {
@@ -765,7 +766,7 @@
 }
 
 .nav-link:hover {
-    color: #FFFF00;   
+    color: var(--primary);   
 }
 
 .nav-link i {
@@ -819,7 +820,7 @@
 }
 
 .dropdown-menu a:hover {
-    color: #FFFF00;   
+    color: var(--primary);   
     padding-left: 25px;
 }
 

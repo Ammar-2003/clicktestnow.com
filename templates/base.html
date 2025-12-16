@@ -1,14 +1,19 @@
 {% load static %} 
-{% include 'includes/messages.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClickTestNow</title>
+    {% block first_head %}{% endblock %}
+    <link rel="icon" href="{% static 'pics/clicktestnow.com-favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'pics/clicktestnow.com-favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'pics/clicktestnow.com-favicon.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'pics/clicktestnow.com-favicon.png' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <script src="{% static 'js/base.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
     <!-- Main Navigation -->
@@ -183,7 +188,6 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-
     <!-- Footer (kept exactly as it was) -->
     <footer>
         <div class="footer-container">
@@ -239,57 +243,6 @@
             &copy; 2025 ClickTestNow. All rights reserved.
         </div>
     </footer>
-
-    <script>
-        // Mobile menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        // Dropdown functionality for desktop
-        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-            toggle.addEventListener('click', function(e) {
-                if (window.innerWidth <= 968) {
-                    e.preventDefault();
-                    const dropdown = this.parentElement;
-                    dropdown.classList.toggle('active');
-                }
-            });
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.nav-item.dropdown')) {
-                document.querySelectorAll('.nav-item.dropdown').forEach(dropdown => {
-                    dropdown.classList.remove('active');
-                });
-            }
-        });
-
-        // Handle hover for desktop
-        if (window.innerWidth > 968) {
-            document.querySelectorAll('.nav-item.dropdown').forEach(dropdown => {
-                dropdown.addEventListener('mouseenter', function() {
-                    this.classList.add('active');
-                });
-                
-                dropdown.addEventListener('mouseleave', function() {
-                    this.classList.remove('active');
-                });
-            });
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".dropdown-menu").forEach(menu => {
-        let itemCount = menu.querySelectorAll("a").length;
-        if (itemCount > 6) {
-            menu.classList.add("multi-column");
-        }
-    });
-});
-    </script>
+{% block extra_script %}{% endblock %}
 </body>
 </html>
