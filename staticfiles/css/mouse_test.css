@@ -5,9 +5,8 @@
         }
 
         :root {
-            --primary: #FFFF00;
             --primary-dark: #FFD700;
-            --secondary: #1E90FF;
+            --secondary: #2479cd;
             --success: #06d6a0;
             --danger: #ef476f;
             --warning: #ffd166;
@@ -106,7 +105,7 @@
             margin-right: 1rem;
             font-size: 1.5rem;
             flex-shrink: 0;
-            color: var(--secondary);
+            color: #1a7ad9;;
         }
 
         .alert strong {
@@ -210,7 +209,7 @@
             align-items: center;
             justify-content: center;
             padding: 0.9rem 1.8rem;
-            background: var(--secondary);
+            background: #1a7ad9;
             color: white;
             font-weight: 600;
             border-radius: var(--radius);
@@ -246,6 +245,7 @@
             color: var(--text-light);
             font-style: italic;
             font-size: 1.1rem;
+
         }
 
         .action-success {
@@ -383,6 +383,7 @@
             top: 0;
             left: 0;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
+
         }
         
         #vis-right-button {
@@ -419,6 +420,7 @@
             font-size: 20px;
             transition: all 0.2s ease;
             opacity: 0.7;
+
         }
 
         .scroll-arrow.active {

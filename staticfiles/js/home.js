@@ -1,4 +1,4 @@
-        // Tool data for search functionality
+// Tool data for search functionality
         const tools = [
             { name: "DPI Analyzer", url: "{% url 'mouse_dpi_analyzer' %}", category: "analysis", keywords: ["mouse", "dpi", "sensitivity", "analyzer"] },
             { name: "Mouse Test", url: "{% url 'mouse_test' %}", category: "analysis", keywords: ["mouse", "test", "performance"] },

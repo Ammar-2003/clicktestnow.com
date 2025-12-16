@@ -233,7 +233,6 @@ body {
     border: none;
     cursor: pointer;
     transition: var(--transition);
-    box-shadow: 0 4px 6px rgba(67, 97, 238, 0.3);
 }
 
 .btn i {
@@ -241,9 +240,7 @@ body {
 }
 
 .btn:hover {
-    background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(67, 97, 238, 0.4);
 }
 
 .btn:active {
@@ -252,12 +249,6 @@ body {
 
 .btn-danger {
     background: var(--danger);
-    box-shadow: 0 4px 6px rgba(239, 71, 111, 0.3);
-}
-
-.btn-danger:hover {
-    background: #e5366a;
-    box-shadow: 0 6px 8px rgba(239, 71, 111, 0.4);
 }
 
 /* Content styles */

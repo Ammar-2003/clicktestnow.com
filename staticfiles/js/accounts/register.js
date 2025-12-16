@@ -1,5 +1,5 @@
-        // Clear form errors and reset form on page load or reload
-        document.addEventListener("DOMContentLoaded", function () {
+// Clear form errors and reset form on page load or reload
+document.addEventListener("DOMContentLoaded", function () {
             // Check if the page was reloaded or if it's a fresh load
             const isPageReloaded =
                 performance.navigation.type === 1 ||

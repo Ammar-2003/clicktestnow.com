@@ -7,7 +7,7 @@
     :root {
     --primary: #FFFF00;   
     --primary-dark: #FFD700; 
-        --secondary: #1E90FF;
+        --secondary: #0e71d3;
         --success: #06d6a0;
         --danger: #ef476f;
         --warning: #ffd166;
@@ -179,9 +179,6 @@
         background: var(--danger);
     }
 
-    .btn-danger:hover {
-        background: #e5366a;
-    }
 
     .stats-grid {
         display: grid;
@@ -691,3 +688,58 @@ th {
                 padding: 8px 10px;
             }
         }
+
+
+        /* Make sure the parent containers don't restrict dropdown direction */
+.converter-form {
+  position: relative; /* Ensure dropdowns have correct relative context */
+  overflow: visible; /* Prevent clipping dropdown */
+}
+
+/* Style for the select elements */
+.form-select {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1.5px solid #2a2a2a;
+  border-radius: 6px;
+  background-color: #2a2a2a;
+  color: #c0c0c0;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none; /* Remove default arrow for some browsers */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg width='10' height='5' viewBox='0 0 10 5' xmlns='http://www.w3.org/2000/svg'%3e%3cpath fill='%23666' d='M0 0l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 5px;
+}
+
+/* Hover and focus effect */
+.form-select:hover,
+.form-select:focus {
+  border-color: #024286;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 68, 140, 0.5);
+}
+
+/* Optional: adjust height */
+.form-select {
+  height: 40px;
+  line-height: 1.2;
+}
+
+/* Style the labels */
+.form-label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: #222;
+  font-size: 0.95rem;
+}
+
+/* Smaller label for instructions */
+.form-label-small {
+  font-size: 0.8rem;
+  color: #e0e0e0;
+  margin-top: 4px;
+}
