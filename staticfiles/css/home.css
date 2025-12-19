@@ -1103,4 +1103,65 @@ footer {
   white-space: nowrap;
   border: 0;
 }
+        .card-header h2 .fas,
+        .alert-info p,
+        .alert-info .formula,
+        .form-group label .fas,
+        .stat-card h3 .fas,
+        .content-section h2 .fas,
+        .stat-value {
+            color: rgb(212, 212, 212);
+        }
+
+        .card-body.content-card-body {
+            font-size: 17px;
+        }
+    
+
+        .alert-info > div {
+            color: rgb(214, 214, 214);
+            font-size: 18px;
+        }
+
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+    border: 1px solid #ddd; /* outer border */
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd; /* grid lines */
+}
+
+th {
+    font-weight: 600;
+}
+        .emoji {
+            font-size: 1.2em;
+        }
+        .faq-section {
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 2em;
+        }
+        .faq-section h2 {
+            margin-top: 0;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            table {
+                font-size: 0.85em;
+            }
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+
 

@@ -1,27 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block first_head %}
     <title>Butterfly Click Test (Kohi Clicking) | Professional Click Speed Measurement Tool</title>
     <meta name="description" content="Test your butterfly clicking (Kohi clicking) skills with our precise butterfly click test. Measure your click speed accurately and compare with rankings.">
     <meta name="author" content="Precision CPS Analyzer">
-<meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
     <link rel="stylesheet" href="{% static 'css/butterfly.css' %}">
     <script src="{% static 'js/butterfly.js' %}" defer></script>
-</head>
-<body class="dark-mode">
+{% endblock %}
+
+{% block content %}
     <div class="container">
         <header class="header">
             <h1 style="color: var(--primary)">Butterfly Click Test (Kohi Clicking)</h1>
             <p>Professional-grade tool to accurately measure your butterfly clicking (Kohi clicking) speed in 5 seconds</p>
         </header>
 
-        <main>
             <div class="card">
                 <div class="card-header">
                     <h2></i>Butterfly Click Measurement</h2>
@@ -246,12 +244,9 @@
                     </div>
                 </div>
             </div>
-        </main>
     </div>
     <script>
     // Check if user is authenticated
     const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
     </script>
-</body>
-</html>
 {% endblock %}

@@ -407,9 +407,7 @@ body {
 }
 
 .btn-danger:hover {
-    background: #E53935;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary {
@@ -418,9 +416,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: var(--primary-light);
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .button-group {
@@ -450,7 +446,7 @@ body {
 
 .instruction-list li {
     margin-bottom: 8px;
-    color: white;
+    color: white!important;
 }
 
 .technique-tag {
@@ -474,7 +470,6 @@ body {
     align-items: center;
     gap: 10px;
     background: var(--dark-card);
-    padding: 15px;
     border-radius: 12px;
 }
 
@@ -901,18 +896,10 @@ h1 {
 
 .content-section ul li {
     position: relative;
-    padding-left: 25px;
     margin-bottom: 10px;
 }
 
-.content-section ul li::before {
-    content: '\2022'; /* Unicode for a bullet point */
-    color: var(--primary-light);
-    font-size: 24px;
-    position: absolute;
-    left: 0;
-    top: -4px;
-}
+
 .clean-divider {
   width: 100%; /* Spans the full width of its container */
   height: 1px; /* A very thin line */
@@ -1115,4 +1102,35 @@ h1 {
 @keyframes glow-blue {
     from { box-shadow: 0 0 10px rgba(30, 144, 255, 0.3); }
     to { box-shadow: 0 0 20px rgba(30, 144, 255, 0.6); }
+}
+
+/* Button styles */
+#cps-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.75rem;
+    background: var(--secondary);
+    color: white;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+#cps-reset-btn i {
+    margin-right: 0.5rem;
+}
+
+#cps-reset-btn:hover {
+    transform: translateY(-2px);
+}
+
+#cps-reset-btn:active {
+    transform: translateY(0);
+}
+
+#cps-reset-btn {
+    background: var(--danger);
 }

@@ -46,7 +46,6 @@ def twenty_seconds_spacebar_counter(request):
 #dynamic_ones
 #jitter-test
 
-@login_required
 def jitter_click_test(request):
     # Get global high score
     global_high_score = JitterScore.get_global_high_score()

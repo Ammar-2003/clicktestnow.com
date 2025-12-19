@@ -107,17 +107,33 @@ document.addEventListener('DOMContentLoaded', function() {
     // Reset test button
     resetBtn.addEventListener('click', resetTest);
     
-    // Test area click handler
-    testArea.addEventListener('click', function(e) {
-        if (testState === 'idle' || testState === 'ended') {
-            startTest();
-            return;
-        }
-        
-        if (testState === 'active') {
-            registerClick(e);
-        }
+testArea.addEventListener('click', function(e) {
+
+if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
+    e.preventDefault();
+
+    const prompt = document.getElementById("loginPrompt");
+    prompt.classList.remove("hidden");
+
+    // Trigger animation smoothly
+    requestAnimationFrame(() => {
+        prompt.classList.add("show");
     });
+
+    return;
+}
+
+    // ✅ START TEST
+    if (testState === 'idle' || testState === 'ended') {
+        startTest();
+        return;
+    }
+
+    // ✅ REGISTER CLICKS
+    if (testState === 'active') {
+        registerClick(e);
+    }
+});
     
     // Start the test
     function startTest() {
@@ -636,3 +652,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load leaderboard on page load
     updateLeaderboard();
 });
+
