@@ -115,8 +115,13 @@ if os.environ.get("DATABASE_URL"):
     DATABASES["default"] = dj_database_url.parse(
         os.environ["DATABASE_URL"],
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True,
     )
+    # Ensure we have OPTIONS dictionary
+    if 'OPTIONS' not in DATABASES['default']:
+        DATABASES['default']['OPTIONS'] = {}
+    # Add the option to disable server-side cursors
+    DATABASES['default']['OPTIONS']['DISABLE_SERVER_SIDE_CURSORS'] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
