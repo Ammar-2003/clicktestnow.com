@@ -80,8 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let timeRemaining = testDuration;
     let clickCount = 0;
     let testState = 'idle'; // 'idle', 'countdown', 'active', 'ended', 'cooldown'
-    let testInterval;
-    let cooldownInterval;
+    let testInterval = null;
+    let cooldownInterval = null;
+    let countdownInterval = null;
     let startTime;
     let clickTimes = [];
     let testHistory = [];
@@ -104,36 +105,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Reset test button
-    resetBtn.addEventListener('click', resetTest);
-    
-testArea.addEventListener('click', function(e) {
-
-if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
-    e.preventDefault();
-
-    const prompt = document.getElementById("loginPrompt");
-    prompt.classList.remove("hidden");
-
-    // Trigger animation smoothly
-    requestAnimationFrame(() => {
-        prompt.classList.add("show");
+    // Reset test button - FIXED: Now properly cancels everything immediately
+    resetBtn.addEventListener('click', function() {
+        resetTest();
     });
+    
+    testArea.addEventListener('click', function(e) {
+        if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
+            e.preventDefault();
 
-    return;
-}
+            const prompt = document.getElementById("loginPrompt");
+            prompt.classList.remove("hidden");
 
-    // ✅ START TEST
-    if (testState === 'idle' || testState === 'ended') {
-        startTest();
-        return;
-    }
+            // Trigger animation smoothly
+            requestAnimationFrame(() => {
+                prompt.classList.add("show");
+            });
 
-    // ✅ REGISTER CLICKS
-    if (testState === 'active') {
-        registerClick(e);
-    }
-});
+            return;
+        }
+
+        // ✅ START TEST
+        if (testState === 'idle' || testState === 'ended') {
+            startTest();
+            return;
+        }
+
+        // ✅ REGISTER CLICKS
+        if (testState === 'active') {
+            registerClick(e);
+        }
+    });
     
     // Start the test
     function startTest() {
@@ -154,7 +156,20 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
             <div>Get ready to jitter click!</div>
         `;
 
-        const countdownInterval = setInterval(() => {
+        // Clear any existing interval first
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+        
+        countdownInterval = setInterval(() => {
+            // Check if test was reset during countdown
+            if (testState !== 'countdown') {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+                return;
+            }
+            
             countdown--;
             if (countdown > 0) {
                 statusDisplay.innerHTML = `
@@ -163,27 +178,39 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
                 `;
             } else {
                 clearInterval(countdownInterval);
-                testState = 'active';
-                testArea.classList.remove('countdown');
-                testArea.classList.add('active');
+                countdownInterval = null;
                 
-                // Updated to 5-second text for jitter test
-                statusDisplay.innerHTML = `
-                    <div class="cps-timer">${timeRemaining.toFixed(1)}</div>
-                    <div class="cps-click-counter">Clicks: ${clickCount}</div>
-                    <div>Jitter click as fast as you can!</div>
-                `;
-                
-                startTime = Date.now();
-                
-                // Start the test timer to update every 10 milliseconds
-                testInterval = setInterval(updateTimer, 10);
+                // Check again if test wasn't reset during the last interval
+                if (testState === 'countdown') {
+                    testState = 'active';
+                    testArea.classList.remove('countdown');
+                    testArea.classList.add('active');
+                    
+                    // Updated to 5-second text for jitter test
+                    statusDisplay.innerHTML = `
+                        <div class="cps-timer">${timeRemaining.toFixed(1)}</div>
+                        <div class="cps-click-counter">Clicks: ${clickCount}</div>
+                        <div>Jitter click as fast as you can!</div>
+                    `;
+                    
+                    startTime = Date.now();
+                    
+                    // Start the test timer to update every 10 milliseconds
+                    testInterval = setInterval(updateTimer, 10);
+                }
             }
         }, 1000);
     }
 
     // Update the timer and status display
     function updateTimer() {
+        // Check if test was reset
+        if (testState !== 'active') {
+            clearInterval(testInterval);
+            testInterval = null;
+            return;
+        }
+        
         const elapsed = (Date.now() - startTime) / 1000;
         timeRemaining = testDuration - elapsed;
 
@@ -232,7 +259,15 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
     
     // End the test
     function endTest() {
+        // Clear intervals
         clearInterval(testInterval);
+        testInterval = null;
+        
+        // Check if test wasn't reset
+        if (testState !== 'active') {
+            return;
+        }
+        
         testState = 'ended';
         testArea.classList.remove('active');
         testArea.classList.add('ended');
@@ -373,22 +408,33 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
         updateUserStats(testResult);
         
         // Save the score to the database if user is authenticated
-        if (isUserAuthenticated) {
+        if (IS_AUTHENTICATED) {
             saveScoreToDatabase(cps, clickCount);
-        } else {
-            // Show login prompt for unauthenticated users
-            statusDisplay.innerHTML += `<div style="margin-top: 10px; color: #FFD700;"><i class="fas fa-info-circle"></i> <a href="/login/" style="color: #FFD700;">Login</a> to save your score and see your global rank</div>`;
         }
         
         // Set 3-second cooldown before allowing another test
         testState = 'cooldown';
         let cooldownTime = 3;
         
+        // Clear any existing cooldown interval
+        if (cooldownInterval) {
+            clearInterval(cooldownInterval);
+            cooldownInterval = null;
+        }
+        
         cooldownInterval = setInterval(() => {
+            // Check if test was reset during cooldown
+            if (testState !== 'cooldown') {
+                clearInterval(cooldownInterval);
+                cooldownInterval = null;
+                return;
+            }
+            
             cooldownTime--;
             
             if (cooldownTime <= 0) {
                 clearInterval(cooldownInterval);
+                cooldownInterval = null;
                 testState = 'ended';
                 statusDisplay.innerHTML = `
                     <div class="cps-timer">${cps.toFixed(1)}</div>
@@ -420,15 +466,38 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
         userStats.consistency = ((userStats.consistency * (userStats.totalTests - 1)) + testResult.consistency) / userStats.totalTests;
     }
     
-    // Reset the test
+    // Reset the test - FIXED: Now completely stops everything immediately
     function resetTest() {
-        clearInterval(testInterval);
-        clearInterval(cooldownInterval);
+        console.log('Resetting test from state:', testState);
+        
+        // Immediately set state to idle to prevent any further actions
         testState = 'idle';
+        
+        // Clear ALL intervals with null checks
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+            console.log('Cleared countdownInterval');
+        }
+        
+        if (testInterval) {
+            clearInterval(testInterval);
+            testInterval = null;
+            console.log('Cleared testInterval');
+        }
+        
+        if (cooldownInterval) {
+            clearInterval(cooldownInterval);
+            cooldownInterval = null;
+            console.log('Cleared cooldownInterval');
+        }
+        
+        // Reset all test variables
         timeRemaining = testDuration;
         clickCount = 0;
         clickTimes = [];
         
+        // Reset UI elements immediately
         testArea.className = 'cps-test-area idle';
         statusDisplay.innerHTML = `
             <div class="cps-timer">${testDuration.toFixed(1)}</div>
@@ -436,10 +505,29 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
             <div>Click to start jitter test</div>
         `;
         
+        // Reset timer display
+        timerDisplay.textContent = testDuration.toFixed(1);
+        clicksDisplay.textContent = '0';
+        
+        // Hide results panels
         userTestResults.style.display = 'none';
         advancedStats.style.display = 'none';
         techniqueRecommendation.style.display = 'none';
         saveBtn.style.display = 'none';
+        cleanDivider.style.display = 'none';
+        
+        // Reset any ongoing animations or feedback elements
+        const feedbackElements = testArea.querySelectorAll('.click-feedback');
+        feedbackElements.forEach(el => el.remove());
+        
+        // Remove any achievement overlays
+        const overlays = document.querySelectorAll('.achievement-overlay');
+        overlays.forEach(el => {
+            el.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => el.remove(), 300);
+        });
+        
+        console.log('Test fully reset to idle state');
     }
     
     // Save score to database
@@ -488,6 +576,11 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
     
     // Show achievement animation based on rank
     function showAchievementAnimation(rank, score, clicks) {
+        // Don't show if test was reset
+        if (testState !== 'ended' && testState !== 'cooldown') {
+            return;
+        }
+        
         // Create overlay
         const overlay = document.createElement('div');
         overlay.className = 'achievement-overlay';
@@ -652,4 +745,3 @@ if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
     // Load leaderboard on page load
     updateLeaderboard();
 });
-

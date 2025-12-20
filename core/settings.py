@@ -55,11 +55,13 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django.contrib.sitemaps',
+
 ]
 
 INSTALLED_APPS = PRE_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
-SITE_ID = 2
+#SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
