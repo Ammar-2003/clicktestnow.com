@@ -1,255 +1,586 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 Second CPS Test | Professional Click Speed Measurement Tool</title>
-    <meta name="description" content="Test your clicking speed with our precise 1 second CPS test. Measure your clicks per second accurately and compare with global rankings.">
-    <meta name="keywords" content="1 second cps test, clicks per second test, click speed test, mouse click tester, gaming mouse CPS, cps test 1 second">
-    <meta name="author" content="Precision CPS Analyzer">
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+{% block first_head %}
+    <title>1 Second CPS Test: Prove Your Lightning-Fast Clicks</title>
+    <meta name="description" content="Test your speed in the 1 Second CPS Test and see how fast you can really click. Challenge your reflexes and prove your lightning-fast skills now!">
+    <meta name="author" content="ClickTestNow">
+    <meta property="og:title" content="1 Second CPS Test: Prove Your Lightning-Fast Clicks">
+    <meta property="og:description" content="Test your speed in the 1 Second CPS Test and see how fast you can really click. Challenge your reflexes and prove your lightning-fast skills now!">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ClickTestNow">
+    <link rel="canonical" href="https://clicktestnow.com/1-second-cps-test/">
+    <meta property="og:image" content="{% static 'Vguides/1-second-cps-test.jpg' %}">
+    <meta property="og:image:alt" content="1 Second CPS Test interface">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% static 'Vguides/1-second-cps-test.jpg' %}">
+    <meta name="twitter:image:alt" content="1 Second CPS Test interface">
+    <meta itemprop="image" content="{% static 'Vguides/1-second-cps-test.jpg' %}">
+    <meta name="featured-image" content="{% static 'Vguides/1-second-cps-test.jpg' %}">
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/cps/1second.css' %}">
     <script src="{% static 'js/cps/1second.js' %}" defer></script>
-</head>
-<body class="dark-mode">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <script>
+        const IS_AUTHENTICATED = {{ user.is_authenticated|yesno:"true,false" }};
+        const LOGIN_URL = "{% url 'login' %}?next={{ request.path }}";
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "1 Second CPS Test - Measure Click Speed in 1 Second",
+        "description": "Free online tool to test and measure your clicking speed in 1 second. Calculate clicks per second (CPS) accurately for gaming performance.",
+        "url": "{{ request.build_absolute_uri }}",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-12-31"
+        },
+        "softwareVersion": "1.0",
+        "featureList": [
+            "Free 1 second click speed test",
+            "Measure CPS (clicks per second)",
+            "Precise 1-second timing",
+            "Performance tracking",
+            "Gaming technique guide",
+            "No installation required",
+            "Works in any browser",
+            "Compare with global averages",
+            "Practice mode available",
+            "Detailed results analysis"
+        ],
+        "screenshot": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/1-second-cps-test.jpg' %}",
+            "width": 1280,
+            "height": 720,
+            "caption": "1 Second CPS Test interface showing real-time click measurement"
+        },
+        "downloadUrl": "{{ request.build_absolute_uri }}",
+        "softwareRequirements": "Web browser with JavaScript enabled",
+        "releaseNotes": "Free online 1-second clicking speed measurement tool for gamers",
+        "countriesSupported": "Worldwide",
+        "targetPlatform": "Web Browser",
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "datePublished": "2025-12-23T00:00:00+00:00",
+        "dateModified": "2025-12-23T00:00:00+00:00"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Complete Guide to 1 Second CPS Test: Techniques, Tips & Strategies",
+        "description": "Learn everything about 1-second clicking tests, from basic techniques to advanced methods. Includes how to perform 1 second CPS test, improve clicking speed, and optimize gaming performance.",
+        "articleBody": "This comprehensive guide covers 1-second clicking techniques used in fast-paced games like Minecraft and PvP. Learn how to maximize your clicks per second in 1 second, measure your performance accurately, and improve your speed with targeted practice. Includes detailed instructions on finger positioning, timing optimization, and mouse selection for optimal 1-second performance.",
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+                "width": 250,
+                "height": 250
+            }
+        },
+        "datePublished": "2025-12-23T00:00:00+00:00",
+        "dateModified": "2025-12-23T00:00:00+00:00",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ request.build_absolute_uri }}"
+        },
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/1-second-cps-test.jpg' %}",
+            "width": 1280,
+            "height": 720,
+            "caption": "1 Second CPS Test - Complete technique guide and speed measurement"
+        },
+        "wordCount": "1200",
+        "timeRequired": "PT6M",
+        "keywords": "1 second cps test, click speed test, cps test 1 second, mouse click test, gaming click speed"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a good CPS score in 1 second?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A good CPS score in 1 second is typically 8-12 clicks. Beginner players average 4-6 CPS, skilled players achieve 7-9 CPS, experts reach 10-12 CPS, and masters can hit 13+ CPS. These scores vary based on technique and practice level."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use this CPS test on a mobile device?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, the 1 Second CPS Test works perfectly on mobile devices. Tap tests function like mouse clicks, and the interface automatically adjusts to smaller screens. You can test your tapping speed on smartphones and tablets with the same accuracy as on desktop."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What's the fastest way to improve my 1-second clicking speed?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The fastest way to improve is through targeted practice with specific techniques. Mix jitter, butterfly, and regular clicking drills, then compare your results. Focus on proper finger positioning, use a quality gaming mouse, and practice regularly with the 1-second test to track progress."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does the timer start automatically when I click?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, the timer begins counting down immediately when you make your first click or tap. The 1-second countdown starts automatically, and you should continue clicking as fast as possible until the timer reaches zero to record your best performance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Which clicking technique is best for 1-second tests?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For 1-second tests, jitter clicking often produces the highest CPS scores due to rapid vibration-based clicking. Butterfly clicking is also effective for quick bursts. The best technique depends on your comfort, practice, and mouse type. Experiment with different methods to find what works best for you."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How accurate is the 1 Second CPS Test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The 1 Second CPS Test uses precise JavaScript timing to measure your clicks with millisecond accuracy. It's designed to provide reliable, consistent measurements for competitive gaming and performance tracking. The tool accounts for browser limitations to deliver accurate CPS calculations."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Perform a 1 Second CPS Test - Step-by-Step Guide",
+        "description": "Learn how to properly test your clicking speed in 1 second and maximize your CPS performance.",
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/1-second-cps-test.jpg' %}",
+            "width": 1280,
+            "height": 720,
+            "caption": "Step-by-step 1 second CPS testing guide showing proper technique"
+        },
+        "step": [
+            {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Access the 1 Second CPS Test Tool",
+                "text": "Visit the ClickTestNow website and access the 1 Second CPS Test through the dedicated testing page.",
+                "url": "{{ request.build_absolute_uri }}#step1"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Prepare Your Setup",
+                "text": "Ensure you have a comfortable mouse and sitting position. The test uses a fixed 1-second duration for precise speed measurement.",
+                "url": "{{ request.build_absolute_uri }}#step2"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Start the Test",
+                "text": "Click the large test area in the center of the screen to begin the 1-second CPS test timer immediately.",
+                "url": "{{ request.build_absolute_uri }}#step3"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Click as Fast as Possible",
+                "text": "As soon as the timer starts, click your mouse as rapidly as possible for exactly 1 second. Every click counts toward your CPS score.",
+                "url": "{{ request.build_absolute_uri }}#step4"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 5,
+                "name": "View and Analyze Results",
+                "text": "View your results showing clicks per second (CPS) with detailed performance metrics. Compare with global rankings and track your progress over time.",
+                "url": "{{ request.build_absolute_uri }}#step5"
+            }
+        ],
+        "totalTime": "PT2M",
+        "supply": ["Computer", "Mouse"],
+        "tool": ["Web Browser", "1 Second CPS Test Tool"],
+        "estimatedCost": {
+            "@type": "MonetaryAmount",
+            "currency": "USD",
+            "value": "0"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "{{ request.scheme }}://{{ request.get_host }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "All Tools",
+                "item": "{{ request.scheme }}://{{ request.get_host }}/#tools"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "1 Second CPS Test",
+                "item": "{{ request.build_absolute_uri }}"
+            }
+        ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
     <div class="container">
         <header class="header">
-            <h1 style="color: var(--primary)">1 Second CPS Test</h1>
-            <p>Professional-grade tool to accurately measure your clicking speed in 1 second</p>
+            <h1>1 Second CPS Test: Prove Your Lightning-Fast Clicks</h1>
+            <p>Test your speed in the 1 Second CPS Test and see how fast you can really click. Challenge your reflexes and prove your lightning-fast skills now!</p>
         </header>
 
-        <main>
-            <div class="card">
-                <div class="card-header">
-                    <h2></i>1 Second Click Measurement</h2>
-                </div>
-                <div class="card-body">
-                                        <div class="time-links">
-    <a href="{% url '1_second_mouse_cps_test' %}" class="time-link active">1s</a>
-    <a href="{% url '2_seconds_mouse_cps_test' %}" class="time-link">2s</a>
-    <a href="{% url '5_seconds_mouse_cps_test' %}" class="time-link">5s</a>
-    <a href="{% url '10_seconds_mouse_cps_test' %}" class="time-link">10s</a>
-    <a href="{% url '15_seconds_mouse_cps_test' %}" class="time-link">15s</a>
-    <a href="{% url '20_seconds_mouse_cps_test' %}" class="time-link">20s</a>
-    <a href="{% url '30_seconds_mouse_cps_test' %}" class="time-link">30s</a>
-    <a href="{% url '60_seconds_mouse_cps_test' %}" class="time-link">60s</a>
-    <a href="{% url '100_seconds_mouse_cps_test' %}" class="time-link">100s</a>
+        <div class="card">
+            <div class="card-header">
+                <h2>1 Second Click Speed Test</h2>
+            </div>
+            <div class="card-body">
+                                                                 <div id="loginPrompt" class="login-prompt hidden">
+    <h4>🔐 Login Required to Save Your Performance</h4>
+    <p>
+        Your score will be saved and displayed on the
+        <strong>global leaderboard</strong>, where players from around the world
+        compare their performance.
+    </p>
+    <p>
+        Login to record your score, track your progress, and compete globally.
+    </p>
+    <a href="{% url 'login' %}?next={{ request.path }}" class="login-btn">
+        Login to Continue
+    </a>
 </div>
-                    <div class="alert alert-info">
-                        <div class="alert-icon">💡</div>
-                        <div>
-                            <strong style="color: white;">How to Use This 1 Second CPS Test:</strong>
-                            <ol class="instruction-list">
-                                <li>Click the test area to begin immediately</li>
-                                <li>Click as fast as possible for exactly 1 second</li>
-                                <li>Your clicks per second (CPS) will be calculated</li>
-                                <li>View your results and compare with global rankings</li>
-                                <li>Click the test area again to restart</li>
-                            </ol>
+                <div class="measurement-area-container">
+                    <div class="cps-test-area idle" id="cps-test-area">
+                        <div class="cps-status" id="cps-status">
+                            <div class="cps-timer" id="cps-timer">1.0</div>
+                            <div class="cps-click-counter" id="cps-clicks">Clicks: 0</div>
+                            <div>Click to start test</div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="measurement-area-container">
-                        <div class="cps-test-area idle" id="cps-test-area">
-                            <div class="cps-status" id="cps-status">
-                                <div class="cps-timer" id="cps-timer">1.0</div>
-                                <div class="cps-click-counter" id="cps-clicks">Clicks: 0</div>
-                                <div>Click to start test</div>
+                <!-- Global Top Player Stats -->
+                <div class="stats-grid" id="global-top-player-stats">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-crown"></i> Top Player</h3>
+                        <div class="stat-value" id="top-player-name">
+                            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Global #1 Clicker</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-tachometer-alt"></i> Top CPS Score</h3>
+                        <div class="stat-value" id="top-player-cps">
+                            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} CPS{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Best 1-Second Performance</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-mouse-pointer"></i> Top Player Clicks</h3>
+                        <div class="stat-value" id="top-player-clicks">
+                            {% if top_player_stats %}{{ top_player_stats.clicks }}{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Total Clicks in 1 Second</div>
+                    </div>
+                </div>
+
+                <div class="clean-divider" style="display: none;"></div>
+                <div class="stats-grid" id="user-test-results" style="display: none;">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-user"></i> Your Position</h3>
+                        <div class="stat-value" id="user-position">--</div>
+                        <div class="stat-label">Global Ranking</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-tachometer-alt"></i> Your CPS Score</h3>
+                        <div class="stat-value" id="user-cps-score">--</div>
+                        <div class="stat-label">Clicks Per Second</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
+                        <div class="stat-value" id="user-total-clicks">--</div>
+                        <div class="stat-label">All registered clicks</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid" id="advanced-stats" style="display: none;">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-bolt"></i> Click Frequency</h3>
+                        <div class="stat-value" id="reaction-time">-- Hz</div>
+                        <div class="stat-label">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>Avg: 8-12 Hz</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-running"></i> Click Stamina</h3>
+                        <div class="stat-value" id="stamina-score">--</div>
+                        <div class="stat-label">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>Top 25%: 85+</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-mouse"></i> Click Technique</h3>
+                        <div class="stat-value" id="click-technique">--</div>
+                        <div class="stat-label" id="technique-tags"></div>
+                    </div>
+                </div>
+
+                <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                    <h4><i class="fas fa-lightbulb"></i> Improvement Tip</h4>
+                    <p id="improvement-tip">Based on your clicking pattern, we recommend focusing on maintaining consistent speed to increase your CPS.</p>
+                </div>
+
+                <div class="button-group">
+                    <button id="cps-reset-btn">
+                        <i class="fas fa-redo"></i> Reset Test
+                    </button>
+                    <button id="save-btn" class="btn btn-primary" style="display: none;">
+                        <i class="fas fa-save"></i> Save Results
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-trophy"></i> 1 Second CPS Leaderboard</h2>
+            </div>
+            <div class="card-body">
+                <div class="leaderboard-container">
+                    <table class="leaderboard">
+                        <thead class="leaderboard-header">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>CPS</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-content">
+                            {% for score in top_scores %}
+                            <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                <td class="leaderboard-player">{{ score.user.username }}</td>
+                                <td class="leaderboard-score">{{ score.score|floatformat:1 }} CPS</td>
+                                <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    {% if user.is_authenticated and user_best_score %}
+                    <div class="user-best-score">
+                        <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                        <div class="user-score">
+                            <span class="score-value">{{ user_best_score.score|floatformat:1 }} CPS</span>
+                            <span class="score-rank">
+                                {% if user_rank %}
+                                    <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                {% else %}
+                                    Not ranked
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="content-section">
+                    <h2>What is CPS?</h2>
+                    <p>Clicks Per Second measures how many times someone clicks a mouse in a short period of time. This measurement is important for competitive gaming, especially in PvP games like Minecraft, where faster clicking has a significant advantage and influences real matches and overall gameplay. A CPS test gives an accurate and real-time measurement of clicking speed, helping players know about their performance, improve their gaming skills, and optimise timing and precision.</p>
+                    
+                    <h2>What is meant by a 1 Second CPS Test?</h2>
+                    <p>If you want to check your clicks per second, you are in the right place. The One Second CPS Test measures how many times you click the mouse. Many gamers take the test to check mouse clicking speed, and it is popular in PvP games like Minecraft. The test is a fun way to compete with friends and improve gaming skills.</p>
+                    
+                    <h2>Things to Know Before a Click Test</h2>
+                    <p>Experts recommend choosing the best device before taking a clicker test. This way, it helps you land soft and massive clicks and makes the test easier to handle. Using the right device can improve comfort and control while clicking. The key to becoming better and overtaking other competitors is patience and good practice. Regular practice helps build better, steady speed over time.</p>
+                    
+                    <h2>How to Increase Clicking Speed</h2>
+                    <h3>Best ways to click faster in the 1 Second CPS Test</h3>
+                    <p>There are many ways to get better at clicking in the 1 Second CPS Test, but some are more helpful than others. The best way to improve speed is to know the real secret to clicking faster, which is practice. What you have learned should be used to make an improvement plan, because practice can feel boring and futile without a program that tracks progress, sets goals, and gives something to work towards.</p>
+                    
+                    <h3>Practice</h3>
+                    <p>Without these things, practice turns into mindless clicks and mouse movements that feel less effective than other forms of training the brain, such as playing chess or learning a new language. Regular practice helps build control and makes clicking more consistent over time.</p>
+                    
+                    <h3>Master a Clicking Technique</h3>
+                    <p>Another way to improve is learning new clicking techniques that help raise your test score. Mastering the techniques demonstrated in the article takes time and dedication, but it allows you to become an excellent clicker, speed-wise. The most important part of successful clicking is proper form, because sloppy practice is all for naught without correct hand and finger placement.</p>
+                    
+                    <div class="featured-image-container">
+                        <img src="{% static 'Vguides/1-second-cps-test.jpg' %}" 
+                             alt="1 Second CPS Test"
+                             title="1 Second CPS Test Interface"
+                             class="featured-image"
+                             width="850"
+                             height="515"
+                             loading="lazy">
+                    </div>
+                    
+                    <h2>Most Popular Clicking Techniques Used by Gamers</h2>
+                    
+                    <h3>Jitter Clicking Technique</h3>
+                    <p>The most common clicking technique among gamers includes different styles used to increase speed. One popular method is jitter clicking, where one finger, usually the Index finger, is involved. During the click, the finger and hand move in a vibrating motion as you lift the wrist and hit the left mouse button while it is lifted above the mouse. Gamers should take breaks often to prevent fatigue and refresh themselves. This method helps attain a maximum speed of up to 14 CPS, but it is hard to try without regular practice and dedication, which help you master it with time.</p>
+                    
+                    <h3>Drag Clicking Technique</h3>
+                    <p>Another option is Drag clicking, used for increasing clicking speed. It requires forceful dragging across the button and is also known as tap-clicking or Fazer-clicking. This method works seamlessly to improve CPS and allows users to register between 10–30 score. Some players use electrical tape to make it more efficient.</p>
+                    
+                    <h3>Butterfly Clicking</h3>
+                    <p>Butterfly clicking uses two fingers that slam alternately on the LMB at a steady rhythm and can increase the cps rate up to 22cps, making it easier to attack in Minecraft PVP. It is also called double clicking because you click twice concurrently.</p>
+                    
+                    <h3>Triple-Tap Method</h3>
+                    <p>The triple-tap method is performed using one hand and the other, tapping in a relaxing rhythm. This faster method offers the same level of relaxation and sustainability and is a newly discovered technique by the gaming community that helps register more clicks.</p>
+                    
+                    <h2>Important Small Factors That Affect CPS</h2>
+                    
+                    <h3>Use a High-Quality Gaming Mouse</h3>
+                    <p>Using a gaming mouse or a well-functioning mouse can make a big difference when increasing CPS. A good mouse with high CPI which is called Counts Per Inch, helps you move the cursor at higher speeds without clicking multiple times. Extra buttons and features like programmable macros on the side of the mouse can improve game performance, comfort, and smooth movement while clicking.</p>
+                    
+                    <h3>Use Auto clicker (Risky)</h3>
+                    <p>Another option is an auto clicker, which can be risky depending on the situation. The process of clicking the same button a hundred times can feel boring, so programs are designed to relieve this necessary task. Auto clickers use macros to automate mouse clicks at certain points and repeat them in quick succession. They are frequently used in games that involve grinding to save time, but certain games disallow them and may ban players, so it is important to be cautious. Professional gamers choose different techniques to register more clicks based on rules and comfort.</p>
+                    
+                    <h2>Why Practising CPS Matters</h2>
+                    
+                    <h3>Competitive Advantage</h3>
+                    <p>Improving CPS gives a strong competitive advantage in fast-paced games. A higher CPS can improve combat effectiveness in Minecraft PvP, where quick reactions matter a lot during intense moments.</p>
+                    
+                    <h3>Skill Development</h3>
+                    <p>Skill development comes from regular practice. Practising CPS improves hand-eye coordination and reaction time, helping players perform better and stay more controlled while playing.</p>
+                    
+                    <h3>Performance Tracking</h3>
+                    <p>Practising CPS also helps with performance tracking. Players can monitor progress over time using detailed statistics and analytics, making it easier to understand growth and weak areas.</p>
+                    
+                    <h3>Technique Refinement</h3>
+                    <p>Technique refinement becomes simpler when you practice CPS regularly. You can test different clicking methods and find what works best for your style and comfort.</p>
+                    
+                    <h3>Community Engagement</h3>
+                    <p>CPS practice supports community engagement by letting players compete on global leaderboards and compare skills with players worldwide.</p>
+                    
+<h2>How the Ranking System Works</h2>
+<p>
+Our CPS ranking system is based on real test results. Every player is ranked by their clicking speed and placed accordingly on our global leaderboard.
+</p>
+
+<h3>Top 10 Leaderboard</h3>
+<p>
+Only the fastest players make it into the Top 10 leaderboard. This table displays the highest CPS scores achieved on the platform, allowing competitive players to compare themselves with the very best.
+</p>
+
+<h3>Your Exact Position After Each Test</h3>
+<p>
+After completing a CPS test, your exact position is shown immediately in the results section. Whether your rank is #1, #100, or much lower, you will always see where you stand among all recorded players.
+</p>
+
+<h3>Why This Ranking System Is Fair</h3>
+<p>
+Rankings are calculated purely based on CPS performance. There are no skill tiers or hidden levels. Only real scores and real positions. This makes the system transparent and competitive for both beginners and advanced players.
+</p>                    
+                    <h2>Steps to Use the CPS Test</h2>
+                    <ol>
+                        <li>Select the test time in seconds or press one of the preset buttons.</li>
+                        <li>Click the + button or use the spacebar until the test time reaches zero.</li>
+                        <li>View the clicks per second (CPS) and clicks per minute (CPM) result values.</li>
+                        <li>Click the test area again to restart the test.</li>
+                        <li>Check the click test results history table.</li>
+                    </ol>
+                    
+                    <div class="faq-section">
+                        <h2>FAQs About 1 Second CPS Test</h2>
+                        
+                        <h3>Can I use this CPS test on a mobile device?</h3>
+                        <p>Yes. Tap tests work just like mouse clicks, and the interface automatically adjusts to smaller screens.</p>
+                        
+                        <h3>What's the fastest way to improve my clicking speed?</h3>
+                        <p>Mix jitter, butterfly, and drag clicking drills, then compare your results using the duration-specific test pages.</p>
+                        
+                        <h3>Does the timer start automatically when I click?</h3>
+                        <p>Yes. The timer begins counting down as soon as you click or tap the pad. Let it run until the end to record a clean personal best.</p>
+                    </div>
+                    
+                    <!-- Related Tools Section -->
+                    <div class="related-tools-section">
+                        <strong>Related Click Testing Tools</strong>
+                        <p>Explore our other clicking and gaming tools to improve your performance:</p>
+                        
+                        <div class="tools-grid">
+                            <div class="tool-card">
+                                <a href="{% url 'jitter_click_test' %}">Jitter Click Test</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'cps_test' %}">CPS Test</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'mouse_dpi_analyzer' %}">Mouse DPI Analyzer</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'keyboard_test' %}">Keyboard Test</a>
                             </div>
                         </div>
                     </div>
-
-<!-- Global Top Player Stats -->
-<div class="stats-grid" id="global-top-player-stats">
-    <div class="stat-card">
-        <h3><i class="fas fa-crown"></i> Top Player</h3>
-        <div class="stat-value" id="top-player-name">
-            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Global #1 Clicker</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-tachometer-alt"></i> Top CPS Score</h3>
-        <div class="stat-value" id="top-player-cps">
-            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} CPS{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Best 1-Second Performance</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-mouse-pointer"></i> Top Player Clicks</h3>
-        <div class="stat-value" id="top-player-clicks">
-            {% if top_player_stats %}{{ top_player_stats.clicks }}{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Total Clicks in 1 Second</div>
-    </div>
-</div>
-
-<div class="clean-divider" style="display: none;"></div>
-<div class="stats-grid" id="user-test-results" style="display: none;">
-    <div class="stat-card">
-        <h3><i class="fas fa-user"></i> Your Position</h3>
-        <div class="stat-value" id="user-position">--</div>
-        <div class="stat-label">Global Ranking</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-tachometer-alt"></i> Your CPS Score</h3>
-        <div class="stat-value" id="user-cps-score">--</div>
-        <div class="stat-label">Clicks Per Second</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
-        <div class="stat-value" id="user-total-clicks">--</div>
-        <div class="stat-label">All registered clicks</div>
-    </div>
-</div>
-
-<div class="stats-grid" id="advanced-stats" style="display: none;">
-    <div class="stat-card">
-        <h3><i class="fas fa-bolt"></i> Click Frequency</h3>
-        <div class="stat-value" id="reaction-time">-- Hz</div>
-        <div class="stat-label">
-            <i class="fas fa-globe-americas"></i>
-            <span>Avg: 8-12 Hz</span>
-        </div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-running"></i> Click Stamina</h3>
-        <div class="stat-value" id="stamina-score">--</div>
-        <div class="stat-label">
-            <i class="fas fa-globe-americas"></i>
-            <span>Top 25%: 85+</span>
-        </div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-mouse"></i> Click Technique</h3>
-        <div class="stat-value" id="click-technique">--</div>
-        <div class="stat-label" id="technique-tags"></div>
-    </div>
-</div>
-
-                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
-                        <h4><i class="fas fa-lightbulb"></i> Improvement Tip</h4>
-                        <p id="improvement-tip">Based on your clicking pattern, we recommend focusing on maintaining consistent speed to increase your CPS.</p>
-                    </div>
-
-                    <div class="button-group">
-<button id="cps-reset-btn"
-    style="background: linear-gradient(135deg, #e63946, #d90429);
-           color: #fff;
-           border: none;
-           padding: 10px 18px;
-           border-radius: 8px;
-           cursor: pointer;
-           font-size: 15px;
-           font-weight: 600;
-           display: inline-flex;
-           align-items: center;
-           gap: 6px;
-           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
-           transition: all 0.25s ease;"
-    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
-    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
-    onmousedown="this.style.transform='scale(0.96)';"
-    onmouseup="this.style.transform='scale(1)';"
->
-    <i class="fas fa-redo"></i> Reset Test
-</button>
-                        <button id="save-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i> Save Results</button>
-                    </div>
                 </div>
             </div>
-
-            <!-- Leaderboard Section -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-trophy"></i> 1 Second CPS Leaderboard</h2>
-                </div>
-                <div class="card-body">
-                    <div class="leaderboard-container">
-                        <table class="leaderboard">
-                            <thead class="leaderboard-header">
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Player</th>
-                                    <th>CPS</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leaderboard-content">
-                                {% for score in top_scores %}
-                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
-                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
-                                    <td class="leaderboard-player">{{ score.user.username }}</td>
-                                    <td class="leaderboard-score">{{ score.score|floatformat:1 }} CPS</td>
-                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        
-                        {% if user.is_authenticated and user_best_score %}
-                        <div class="user-best-score">
-                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
-                            <div class="user-score">
-                                <span class="score-value">{{ user_best_score.score|floatformat:1 }} CPS</span>
-                                <span class="score-rank">
-                                    {% if user_rank %}
-                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
-                                    {% else %}
-                                        Not ranked
-                                    {% endif %}
-                                </span>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="content-section">
-                        <h2> Understanding 1 Second CPS Test</h2>
-                        <p>The 1 Second CPS Test measures how many clicks you can make in exactly one second. This test is perfect for evaluating your raw clicking speed without requiring extended stamina.</p>
-                        
-                        <p>The 1-second duration is ideal for measuring:</p>
-                        <ul>
-                            <li><strong>Raw Speed:</strong> Pure clicking speed without endurance factors</li>
-                            <li><strong>Reaction Time:</strong> How quickly you can initiate and maintain clicks</li>
-                            <li><strong>Technique Effectiveness:</strong> How efficient your clicking method is</li>
-                            <li><strong>Quick Comparisons:</strong> Fast and easy way to compare with others</li>
-                        </ul>
-                    </div>
-
-                    <div class="content-section">
-                        <h2> Clicking Techniques</h2>
-                        <p>Different clicking techniques can help you achieve higher CPS in 1-second tests:</p>
-                        
-                        <ul>
-                            <li><strong>Regular Clicking:</strong> Using one finger for all clicks</li>
-                            <li><strong>Butterfly Clicking:</strong> Using two fingers alternating on the same button</li>
-                            <li><strong>Jitter Clicking:</strong> Vibrating your arm or hand muscles for rapid clicks</li>
-                            <li><strong>Drag Clicking:</strong> Dragging your finger across the mouse button</li>
-                        </ul>
-                        
-                        <p>Each technique has its advantages. Experiment to find which works best for you in 1-second bursts.</p>
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
     </div>
-
-    <script>
-    const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-    </script>
-</body>
-</html>
 {% endblock %}

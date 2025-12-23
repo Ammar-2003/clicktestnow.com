@@ -544,7 +544,7 @@ body {
 
 /* Styles for the stats card icons and values */
 .stat-card h3 .fas {
-    color: white;
+    color: rgb(207, 207, 207)!important;
 }
 
 .stat-card .stat-value {
@@ -557,11 +557,11 @@ body {
 }
 
         .card-header h2 .fas {
-            color: white;
+            color: rgb(204, 204, 204)!important;
         }
         
         .alert-text {
-            color: white;
+            color: rgb(208, 208, 208)!important;
             font-size: 14px;
         }
 
@@ -631,3 +631,33 @@ th {
                 padding: 8px 10px;
             }
         }
+
+/* Button styles */
+#cps-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.75rem;
+    color: rgb(225, 225, 225);
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+#cps-reset-btn i {
+    margin-right: 0.5rem;
+}
+
+#cps-reset-btn:hover {
+    transform: translateY(-2px);
+}
+
+#cps-reset-btn:active {
+    transform: translateY(0);
+}
+
+#cps-reset-btn {
+    background: var(--danger);
+}

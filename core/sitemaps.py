@@ -14,6 +14,8 @@ class StaticViewSitemap(Sitemap):
             'polling_rate_tester',
             'edpi_calculator',
             'jitter_click_test',
+            '1_second_mouse_cps_test',
+            '2_seconds_mouse_cps_test',
         ]
 
     def location(self, item):

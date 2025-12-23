@@ -475,7 +475,6 @@ body {
     align-items: center;
     gap: 10px;
     background: var(--dark-card);
-    padding: 15px;
     border-radius: 12px;
 }
 
@@ -1149,4 +1148,36 @@ h1 {
 .time-link.active {
     background: var(--border);
     color: white;
+}
+
+/* Button styles */
+#cps-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.75rem;
+    background: var(--secondary);
+    color: white;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+
+#cps-reset-btn i {
+    margin-right: 0.5rem;
+}
+
+#cps-reset-btn:hover {
+    transform: translateY(-2px);
+}
+
+#cps-reset-btn:active {
+    transform: translateY(0);
+}
+
+#cps-reset-btn {
+    background: var(--danger);
 }

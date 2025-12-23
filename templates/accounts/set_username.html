@@ -1,14 +1,16 @@
 {% load static %}
-{% include 'includes/messages.html' %}
-{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Set Username</title>
-    <link rel="stylesheet" href="{% static 'css/accounts/set_username.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts/set_username.css' %}">
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/notifications.css' %}">
 </head>
+<body>
+            {% include "includes/messages.html" %}
 
 <div class="floating-elements">
     <div class="floating-dot"></div>
@@ -104,5 +106,5 @@
         }
     });
 </script>
-
-{% endblock %}
+</body>
+</html>

@@ -9,11 +9,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'pics/clicktestnow.com-favicon.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'pics/clicktestnow.com-favicon.png' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'pics/clicktestnow.com-favicon.png' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <script src="{% static 'js/base.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'css/notifications.css' %}">
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-
-    {% block extra_head %}{% endblock %}
+    <script src="{% static 'js/base.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script src="{% static 'js/notifications.js' %}"></script>
+    {% block extra_head %}
+    {% endblock %}
 </head>
 <body>
     <!-- Main Navigation -->
@@ -184,6 +186,7 @@
         </div>
     </nav>
 
+        {% include "includes/messages.html" %}
 
     <!-- Main content -->
     <main>

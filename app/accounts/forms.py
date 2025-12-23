@@ -54,10 +54,16 @@ class SetUsernameForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data['username'].strip()
+        
         if not username:
             raise ValidationError("Username cannot be empty")
+        
         if username.lower() == "null":
             raise ValidationError("Invalid username")
-        if User.objects.filter(username__iexact=username).exists():
+        
+        # Check for case-sensitive uniqueness (remove __iexact)
+        # This will make "ammar", "AMMAR", "AmMar" all different
+        if User.objects.filter(username=username).exists():
             raise ValidationError("This username is already taken")
+        
         return username

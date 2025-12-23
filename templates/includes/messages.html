@@ -1,44 +1,51 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/includes.css' %}">
-</head>
-<body>
+{% load notification_tags %}
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="notification-message {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}info{% endif %}"
-                data-duration="5000" role="alert" aria-live="assertive">
-
-                <div class="notification-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        {% if message.tags == 'error' %}
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                        {% elif message.tags == 'success' %}
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        {% elif message.tags == 'warning' %}
-                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                        {% else %}
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                        {% endif %}
-                    </svg>
-                </div>
-
-                <span class="notification-content">{{ message|escape }}</span>
-
-                <button class="notification-close" aria-label="Close notification" onclick="closeNotification(this.parentElement)">
-                    &times;
-                </button>
+{% if messages %}
+<div id="notification-container" class="notification-container">
+    {% for message in messages %}
+    {% with css_class=message.tags|notification_class %}
+    <div class="notification-message {{ css_class }}" 
+         data-duration="6000"
+         role="alert"
+         aria-live="polite"
+         tabindex="0">
+        
+        <!-- Icon Container -->
+        <div class="notification-icon-container" aria-hidden="true">
+            {{ message.tags|notification_icon }}
+        </div>
+        
+        <!-- Content Area -->
+        <div class="notification-content">
+            <div class="notification-title">
+                <span class="notification-type">
+                    {{ css_class|title }}
+                </span>
+                {% if forloop.first and messages|length > 1 %}
+                <span class="notification-count" style="font-size: 0.75rem; opacity: 0.7;">
+                    ({{ messages|length }} total)
+                </span>
+                {% endif %}
             </div>
-        {% endfor %}
-    {% endif %}
-
-    <!-- Scripts -->
-    <script src="{% static 'js/includes.js' %}" defer></script>
-
-</body>
-</html>
+            <div class="notification-text">
+                {{ message }}
+            </div>
+        </div>
+        
+        <!-- Close Button -->
+        <button type="button" 
+                class="notification-close" 
+                aria-label="Close notification"
+                title="Dismiss">
+            ×
+        </button>
+        
+        <!-- Screen reader announcement -->
+        <span class="sr-only">
+            {{ css_class|title }} notification: {{ message }}
+        </span>
+    </div>
+    {% endwith %}
+    {% endfor %}
+</div>
+{% endif %}

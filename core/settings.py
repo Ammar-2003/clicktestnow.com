@@ -32,7 +32,7 @@ load_dotenv()  # loads .env into os.environ as strings
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'clicktestnow.com']
-# settings.py (development only!)
+# (development only!)
 #ALLOWED_HOSTS = ['*']  # Allow any host
 
 PRE_APPS = [
@@ -61,7 +61,7 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = PRE_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
-#SITE_ID = 2
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

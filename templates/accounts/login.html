@@ -1,4 +1,4 @@
-{% load static socialaccount %} {% include 'includes/messages.html' %}
+{% load static socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +7,13 @@
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'css/accounts/login.css' %}">
     <script src="{% static 'js/accounts/login.js' %}" defer></script>
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/notifications.css' %}">
 </head>
 
 <body>
+        {% include "includes/messages.html" %}
+
     <div class="floating-elements">
         <div class="floating-dot"></div>
         <div class="floating-dot"></div>

@@ -25,7 +25,6 @@ def mouse_test(request):
 def keyboard_test(request):
     return render(request , 'keyboard_test.html')
 
-@login_required
 def game(request):
     return render(request , 'game/dinosaur.html')
 def mouse_dpi_analyzer(request):
@@ -176,7 +175,6 @@ def get_jitter_global_top_player(request):
 
 #cps-test
 
-@login_required
 def cps_test(request):
     # Get global high score
     global_high_score = CPSScore.get_global_high_score()
@@ -307,7 +305,6 @@ def get_cps_global_top_player(request):
 
 #one-second-cps-test
 
-@login_required
 def one_second_cps_test(request):
     # Get global high score
     global_high_score = OneSecondScore.get_global_high_score()
@@ -449,7 +446,6 @@ def get_one_second_cps_global_top_player(request):
 
 #2-second-cps
 
-@login_required
 def two_second_test(request):
     # Get global high score
     global_high_score = TwoSecondScore.get_global_high_score()
@@ -574,7 +570,7 @@ def get_two_second_global_top_player(request):
         })
 
 #5-second-cps
-@login_required
+
 def five_second_test(request):
     # Get global high score
     global_high_score = FiveSecondScore.get_global_high_score()
@@ -698,7 +694,6 @@ def get_five_second_global_top_player(request):
             'message': 'No top player found'
         })
 #10-seocnd-cps
-@login_required
 def ten_second_cps_test(request):
     # Get global high score
     global_high_score = TenSecondCPSScore.get_global_high_score()
@@ -826,7 +821,6 @@ def get_ten_second_cps_global_top_player(request):
 
     
 #15-second-cps-test
-@login_required
 def fifteen_second_cps_test(request):
     # Get global high score
     global_high_score = FifteenSecondCpsTest.get_global_high_score()
@@ -956,7 +950,6 @@ def get_fifteen_second_cps_global_top_player(request):
         })
 
 #20-second-cps-test
-@login_required
 def twenty_second_cps_test(request):
     # Get global high score
     global_high_score = TwentySecondCPSTest.get_global_high_score()
@@ -1082,7 +1075,6 @@ def get_twenty_second_cps_global_top_player(request):
 
 #30-second-cps-test
 
-@login_required
 def thirty_second_cps_test(request):
     # Get global high score
     global_high_score = ThirtySecondCPSTest.get_global_high_score()
@@ -1210,7 +1202,6 @@ def get_thirty_second_cps_global_top_player(request):
         })
     
 #60-second-cps-test
-@login_required
 def sixty_second_cps_test(request):
     # Get global high score
     global_high_score = SixtySecondsCPSTest.get_global_high_score()
@@ -1338,7 +1329,6 @@ def get_sixty_second_cps_global_top_player(request):
         })
 
 #100-second-cps-test
-@login_required
 def hundred_second_cps_test(request):
     # Get global high score
     global_high_score = HundredSecondCpsScore.get_global_high_score()
@@ -1470,7 +1460,6 @@ def get_hundred_second_cps_global_top_player(request):
 #reaction-time-test
 
 # Reaction Time Test
-@login_required
 def reaction_time_test(request):
     # Get global best time
     global_best_time = ReactionTimeScore.get_global_best_time()
@@ -1597,7 +1586,6 @@ def get_reaction_time_global_top_player(request):
         })
 
 # Butterfly/Kohi test
-@login_required
 def butterfly_click_test(request):
     # Get global high score
     global_high_score = ButterflyScore.get_global_high_score()
@@ -1727,8 +1715,6 @@ def get_butterfly_global_top_player(request):
         })
 
 #spacebar-counter
-
-@login_required
 def spacebar_counter(request):
     # Get global high score
     global_high_score = SpacebarScore.get_global_high_score()
@@ -1859,7 +1845,6 @@ def get_spacebar_global_top_player(request):
 
 #one-second-spacebar-counter
 
-@login_required
 def one_second_spacebar_counter(request):
     # Get global high score
     global_high_score = OneSecondSpacebarScore.get_global_high_score()
@@ -1983,7 +1968,6 @@ def get_one_second_spacebar_global_top_player(request):
     
 #2-second-spacebar-counter
 
-@login_required
 def two_second_spacebar_counter(request):
     # Get global high score
     global_high_score = TwoSecondSpacebarScore.get_global_high_score()
@@ -2113,7 +2097,6 @@ def get_two_second_spacebar_global_top_player(request):
 
 #5-second-spacebar-counter
 
-@login_required
 def five_second_spacebar_counter(request):
     # Get global high score
     global_high_score = FiveSecondSpacebarScore.get_global_high_score()
@@ -2241,7 +2224,6 @@ def get_five_second_spacebar_global_top_player(request):
             'message': 'No top player found'
         })
     
-@login_required
 def spacebar_counter10(request):
     # Get global high score
     global_high_score = SpacebarScore10.get_global_high_score()
@@ -2366,7 +2348,6 @@ def get_spacebar_global_top_player10(request):
         })
 
 #15-second-spacebar-counter
-@login_required
 def spacebar_counter15(request):
     # Get global high score
     global_high_score = SpacebarScore15.get_global_high_score()
@@ -2495,8 +2476,6 @@ def get_spacebar_global_top_player15(request):
         })
 
 #20-second-spacebar-counter
-
-@login_required
 def spacebar_counter20(request):
     # Get global high score
     global_high_score = SpacebarScore20.get_global_high_score()
@@ -2621,7 +2600,6 @@ def get_spacebar_global_top_player20(request):
         })
 
 #30-second-spacebar-score
-@login_required
 def spacebar_counter_30(request):
     # Get global high score
     global_high_score = SpacebarScore30.get_global_high_score()
@@ -2750,7 +2728,6 @@ def get_spacebar_global_top_player_30(request):
         })
     
 #60-second-spacebar-ccounter
-@login_required
 def spacebar_counter_60(request):
     # Get global high score
     global_high_score = SpacebarScore60.get_global_high_score()
@@ -2880,7 +2857,6 @@ def get_spacebar_global_top_player_60(request):
         })
     
 #100-second-spacebar-counter
-@login_required
 def spacebar_counter_100(request):
     # Get global high score
     global_high_score = SpacebarScore100.get_global_high_score()

@@ -1,6 +1,4 @@
 :root {
-    --primary: #FFFF00;   
-    --primary-dark: #FFD700; 
     --primary-light: #22d3ee;
     --secondary: #1E90FF;
     --dark-bg: #121212;
@@ -474,7 +472,6 @@ body {
     align-items: center;
     gap: 10px;
     background: var(--dark-card);
-    padding: 15px;
     border-radius: 12px;
 }
 
@@ -484,7 +481,7 @@ body {
 }
 
 .header h1 {
-    color: var(--text-primary-dark);
+    color: var(--primary);
     margin-bottom: 10px;
 }
 
@@ -888,8 +885,7 @@ h1 {
     color: var(--text-primary-dark); /* Keeps the icons white */
 }
 
-.content-section p,
-.content-section ul li {
+.content-section p{
     font-size: 17px;
     line-height: 1.6;
     color: var(--text-secondary-dark);
@@ -909,7 +905,6 @@ h1 {
 
 .content-section ul li::before {
     content: '\2022'; /* Unicode for a bullet point */
-    color: var(--primary-light);
     font-size: 24px;
     position: absolute;
     left: 0;
