@@ -61,7 +61,7 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = PRE_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
-SITE_ID = 2
+SITE_ID = 5
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -103,26 +103,17 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-db_url = os.getenv('DB_URL')
 
 DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
+}
 
-# If DATABASE_URL exists (like on Render), use Postgres
-if os.environ.get("DATABASE_URL"):
-    DATABASES["default"] = dj_database_url.parse(
-        os.environ["DATABASE_URL"],
-        conn_max_age=0,
-        ssl_require=True
-    )
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-DISABLE_SERVER_SIDE_CURSORS = True
 
 
 AUTH_PASSWORD_VALIDATORS = [

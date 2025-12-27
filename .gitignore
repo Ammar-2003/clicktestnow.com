@@ -6,8 +6,6 @@ env/
 # Environment variables
 .env
 
-# SQLite database
-db.sqlite3
 
 # Logs
 *.log
