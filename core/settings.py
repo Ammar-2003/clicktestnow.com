@@ -31,7 +31,7 @@ load_dotenv()  # loads .env into os.environ as strings
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'clicktestnow.com', 'ilovemouse-com.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'clicktestnow.com', 'ilovemouse-com.onrender.com', 'untranscribable-bernita-friendless.ngrok-free.dev']
 # (development only!)
 #ALLOWED_HOSTS = ['*']  # Allow any host
 
