@@ -889,82 +889,8 @@
 }
 
 @media (max-width: 968px) {
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 70px;
-        flex-direction: column;
-        background: #1a1a1a;
-        width: 100%;
-        height: calc(100vh - 70px);
-        padding: 20px;
-        transition: left 0.3s ease;
-        overflow-y: auto;
-        gap: 5px;
-    }
-    
-    .nav-menu.active {
-        left: 0;
-    }
-    
-    .nav-item {
-        width: 100%;
-    }
-    
-    .nav-link {
-        padding: 15px;
-        font-size: 1rem;
-        border-radius: 8px;
-        justify-content: space-between;
-    }
-    
-    .dropdown-menu {
-        position: static;
-        background: rgba(0, 0, 0, 0.2);
-        box-shadow: none;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        transition: max-height 0.3s ease;
-    }
-    
-    .nav-item.dropdown.active .dropdown-menu {
-        max-height: 500px;
-        padding: 10px 0 10px 20px;
-    }
-    
-    .dropdown-menu a {
-        padding: 12px 15px;
-        font-size: 0.95rem;
-    }
-    
     .hamburger {
         display: flex;
-    }
-}
-
-@media (max-width: 480px) {
-    .nav-container {
-        padding: 0 15px;
-        height: 60px;
-    }
-    
-    .nav-brand .logo-link {
-        font-size: 1.2rem;
-    }
-    
-    .nav-brand .logo-link i {
-        font-size: 1.4rem;
-    }
-    
-    .nav-menu {
-        top: 60px;
-        height: calc(100vh - 60px);
     }
 }
 
@@ -1163,5 +1089,86 @@ th {
                 padding: 8px 10px;
             }
         }
+
+        /* 1. NAVBAR MOBILE FIXES */
+@media (max-width: 968px) {
+  /* Lock body scroll when navbar is open */
+  body.navbar-open {
+    overflow: hidden;
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+  }
+  
+  /* Fix navbar positioning */
+  .navbar {
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .nav-container {
+    padding: 0 15px;
+    height: 60px;
+  }
+  
+  /* Fix nav menu positioning */
+  .nav-menu {
+    position: fixed;
+    left: -100%;
+    top: 90px;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background: #1a1a1a;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+  
+  .nav-menu.active {
+    left: 0;
+  }
+  
+  /* Adjust content area to account for fixed navbar */
+  .pt-content {
+    margin-top: 60px;
+    padding-top: 20px;
+  }
+  
+  /* Dropdown adjustments */
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    border: none;
+    background: rgba(0,0,0,0.2);
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .nav-item.dropdown.active .dropdown-menu {
+    max-height: 500px;
+    padding: 10px 0;
+  }
+  
+  /* Multi-column dropdown fix */
+  .dropdown-menu.multi-column {
+    column-count: 1 !important;
+  }
+  footer{
+    font-size: 15px!important;
+  }
+
+    /* Typography adjustments */
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.3rem !important; }
+  h3 { font-size: 1.1rem !important; }
+}
 
 

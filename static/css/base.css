@@ -6,9 +6,7 @@
     font-size: 17px;
 }
 
-.card{
-    margin-left: 40px;
-}
+
 :root{
         --primary: #F2C94C!important;
         --danger: #c94036!important;
@@ -527,82 +525,8 @@
 }
 
 @media (max-width: 968px) {
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 70px;
-        flex-direction: column;
-        background: #1a1a1a;
-        width: 100%;
-        height: calc(100vh - 70px);
-        padding: 20px;
-        transition: left 0.3s ease;
-        overflow-y: auto;
-        gap: 5px;
-    }
-    
-    .nav-menu.active {
-        left: 0;
-    }
-    
-    .nav-item {
-        width: 100%;
-    }
-    
-    .nav-link {
-        padding: 15px;
-        font-size: 1rem;
-        border-radius: 8px;
-        justify-content: space-between;
-    }
-    
-    .dropdown-menu {
-        position: static;
-        background: rgba(0, 0, 0, 0.2);
-        box-shadow: none;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        transition: max-height 0.3s ease;
-    }
-    
-    .nav-item.dropdown.active .dropdown-menu {
-        max-height: 500px;
-        padding: 10px 0 10px 20px;
-    }
-    
-    .dropdown-menu a {
-        padding: 12px 15px;
-        font-size: 0.95rem;
-    }
-    
     .hamburger {
         display: flex;
-    }
-}
-
-@media (max-width: 480px) {
-    .nav-container {
-        padding: 0 15px;
-        height: 60px;
-    }
-    
-    .nav-brand .logo-link {
-        font-size: 1.2rem;
-    }
-    
-    .nav-brand .logo-link i {
-        font-size: 1.4rem;
-    }
-    
-    .nav-menu {
-        top: 60px;
-        height: calc(100vh - 60px);
     }
 }
 
@@ -929,8 +853,10 @@ footer {
   .dropdown-menu.multi-column {
     column-count: 1 !important;
   }
+  footer{
+    font-size: 15px!important;
+  }
 }
-
 /* MOBILE TABLE OPTIMIZATION */
 @media (max-width: 768px) {
   /* Fix table container and scrolling */
@@ -1027,7 +953,7 @@ footer {
 }
 
 /* Extra small screens - Stack table cells vertically */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   table {
     display: block !important;
     border: none !important;
@@ -1152,8 +1078,6 @@ table th {
   .container {
     width: 100% !important;
     max-width: 100% !important;
-    padding-left: 15px !important;
-    padding-right: 15px !important;
   }
   
   /* Fix card margins */
@@ -1162,11 +1086,48 @@ table th {
     margin-right: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
+    border-radius: 0 !important;
+    background: none!important;
+    box-shadow: none!important;
+    padding: 0!important;
+    border: none!important;
   }
+  .content-section {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    background: none!important;
+    box-shadow: none!important;
+    padding: 1rem!important;
+    border: none!important;
+  }
+.content-section h2,
+.content-section h3 {
+    background: none!important;
+  }
+  .time-links{
+    margin-top: 10px!important;
+  }
+
+  .card img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+.card-body {
+    padding: 0!important; 
+}
+.content-section ul,
+.content-section li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
   
   /* Body font adjustment */
   body {
-    font-size: 16px;
+    font-size: 15px;
     overflow-x: hidden;
   }
   
@@ -1184,7 +1145,7 @@ table th {
 html, body {
   max-width: 100%;
   overflow-x: hidden;
-    font-size: 15px !important;
+  font-size: 15px !important;
 
 }
   .content-section {

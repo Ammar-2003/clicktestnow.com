@@ -620,7 +620,7 @@ th {
         .faq-section h2 {
             margin-top: 0;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             body {
                 padding: 15px;
             }
