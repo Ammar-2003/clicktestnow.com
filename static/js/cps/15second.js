@@ -1,57 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const leaderboardContent = document.getElementById("leaderboard-content");
-
-    fetch("/get-15second-cps-leaderboard/")
-        .then(res => res.json())
-        .then(data => {
-            leaderboardContent.innerHTML = "";
-
-            if (data.status === "success" && data.leaderboard.length > 0) {
-                data.leaderboard.forEach((item, index) => {
-                    const date = new Date(item.created_at);
-                    const formattedDate = date.toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric"
-                    });
-
-                    const rankClass = index === 0 ? "rank-1" : 
-                                     index === 1 ? "rank-2" : 
-                                     index === 2 ? "rank-3" : "other";
-
-                    leaderboardContent.innerHTML += `
-                        <tr class="leaderboard-item ${rankClass}">
-                            <td class="leaderboard-rank">#${index + 1}</td>
-                            <td class="leaderboard-player">${item.username}</td>
-                            <td class="leaderboard-score">${parseFloat(item.score).toFixed(1)} CPS</td>
-                            <td class="leaderboard-date">${formattedDate}</td>
-                        </tr>
-                    `;
-                });
-                
-                // Update top player stats from API response
-                if (data.top_player_stats) {
-                    updateTopPlayerStats(data.top_player_stats);
-                }
-            } else {
-                leaderboardContent.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="no-records">No records yet. Be the first!</td>
-                    </tr>
-                `;
-            }
-        })
-        .catch(() => {
-            leaderboardContent.innerHTML = `
-                <tr>
-                    <td colspan="4" class="no-records" style="color: var(--danger);">
-                        Failed to load leaderboard
-                    </td>
-                </tr>
-            `;
-        });
-});
-
 document.addEventListener('DOMContentLoaded', function() {
     // Elements
     const testArea = document.getElementById('cps-test-area');
@@ -75,13 +21,67 @@ document.addEventListener('DOMContentLoaded', function() {
     const leaderboardContent = document.getElementById('leaderboard-content');
     const cleanDivider = document.querySelector('.clean-divider');
 
-    // Test variables - 15 seconds for CPS test
+    // Load leaderboard on page load
+    if (leaderboardContent) {
+        fetch("/get-15second-cps-leaderboard/")
+            .then(res => res.json())
+            .then(data => {
+                leaderboardContent.innerHTML = "";
+
+                if (data.status === "success" && data.leaderboard.length > 0) {
+                    data.leaderboard.forEach((item, index) => {
+                        const date = new Date(item.created_at);
+                        const formattedDate = date.toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric"
+                        });
+
+                        const rankClass = index === 0 ? "rank-1" : 
+                                         index === 1 ? "rank-2" : 
+                                         index === 2 ? "rank-3" : "other";
+
+                        leaderboardContent.innerHTML += `
+                            <tr class="leaderboard-item ${rankClass}">
+                                <td class="leaderboard-rank">#${index + 1}</td>
+                                <td class="leaderboard-player">${item.username}</td>
+                                <td class="leaderboard-score">${item.score.toFixed(1)} CPS</td>
+                                <td class="leaderboard-date">${formattedDate}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    // Update top player stats from API response
+                    if (data.top_player_stats) {
+                        updateTopPlayerStats(data.top_player_stats);
+                    }
+                } else {
+                    leaderboardContent.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                        </tr>
+                    `;
+                }
+            })
+            .catch(() => {
+                leaderboardContent.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="no-records" style="color: var(--danger);">
+                            Failed to load leaderboard
+                        </td>
+                    </tr>
+                `;
+            });
+    }
+
+    // Test variables - set to 15 seconds for 15-second CPS test
     let testDuration = 15;
     let timeRemaining = testDuration;
     let clickCount = 0;
     let testState = 'idle'; // 'idle', 'countdown', 'active', 'ended', 'cooldown'
-    let testInterval;
-    let cooldownInterval;
+    let testInterval = null;
+    let cooldownInterval = null;
+    let countdownInterval = null;
     let startTime;
     let clickTimes = [];
     let testHistory = [];
@@ -93,31 +93,57 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Initialize preset buttons
-    presetButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (testState !== 'idle' && testState !== 'ended') return;
-            
-            presetButtons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            testDuration = parseInt(this.dataset.duration);
-            resetTest();
+    if (presetButtons) {
+        presetButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (testState !== 'idle' && testState !== 'ended') return;
+                
+                presetButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                testDuration = parseInt(this.dataset.duration);
+                resetTest();
+            });
         });
-    });
+    }
     
     // Reset test button
-    resetBtn.addEventListener('click', resetTest);
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            resetTest();
+        });
+    }
     
-    // Test area click handler
-    testArea.addEventListener('click', function(e) {
-        if (testState === 'idle' || testState === 'ended') {
-            startTest();
-            return;
-        }
-        
-        if (testState === 'active') {
-            registerClick(e);
-        }
-    });
+    // Auth logic for test area
+    if (testArea) {
+        testArea.addEventListener('click', function(e) {
+            if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
+                e.preventDefault();
+
+                const prompt = document.getElementById("loginPrompt");
+                if (prompt) {
+                    prompt.classList.remove("hidden");
+
+                    // Trigger animation smoothly
+                    requestAnimationFrame(() => {
+                        prompt.classList.add("show");
+                    });
+                }
+
+                return;
+            }
+
+            // ✅ START TEST
+            if (testState === 'idle' || testState === 'ended') {
+                startTest();
+                return;
+            }
+
+            // ✅ REGISTER CLICKS
+            if (testState === 'active') {
+                registerClick(e);
+            }
+        });
+    }
     
     // Start the test
     function startTest() {
@@ -128,46 +154,79 @@ document.addEventListener('DOMContentLoaded', function() {
         clickTimes = [];
         timeRemaining = testDuration;
 
-        testArea.classList.remove('idle', 'ended');
-        testArea.classList.add('countdown');
+        if (testArea) {
+            testArea.classList.remove('idle', 'ended');
+            testArea.classList.add('countdown');
+        }
 
         // 3-second countdown before test starts
         let countdown = 3;
-        statusDisplay.innerHTML = `
-            <div class="cps-timer">${countdown}</div>
-            <div>Get ready to click!</div>
-        `;
+        if (statusDisplay) {
+            statusDisplay.innerHTML = `
+                <div class="cps-timer">${countdown}</div>
+                <div>Get ready to click!</div>
+            `;
+        }
 
-        const countdownInterval = setInterval(() => {
+        // Clear any existing interval first
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+        
+        countdownInterval = setInterval(() => {
+            // Check if test was reset during countdown
+            if (testState !== 'countdown') {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+                return;
+            }
+            
             countdown--;
-            if (countdown > 0) {
+            if (countdown > 0 && statusDisplay) {
                 statusDisplay.innerHTML = `
                     <div class="cps-timer">${countdown}</div>
                     <div>Get ready to click!</div>
                 `;
             } else {
                 clearInterval(countdownInterval);
-                testState = 'active';
-                testArea.classList.remove('countdown');
-                testArea.classList.add('active');
+                countdownInterval = null;
                 
-                // Updated to 15-second text for CPS test
-                statusDisplay.innerHTML = `
-                    <div class="cps-timer">${timeRemaining.toFixed(1)}</div>
-                    <div class="cps-click-counter">Clicks: ${clickCount}</div>
-                    <div>Click as fast as you can for 15 seconds!</div>
-                `;
-                
-                startTime = Date.now();
-                
-                // Start the test timer to update every 10 milliseconds
-                testInterval = setInterval(updateTimer, 10);
+                // Check again if test wasn't reset during the last interval
+                if (testState === 'countdown') {
+                    testState = 'active';
+                    if (testArea) {
+                        testArea.classList.remove('countdown');
+                        testArea.classList.add('active');
+                    }
+                    
+                    // Updated to 15-second text for 15-second CPS test
+                    if (statusDisplay) {
+                        statusDisplay.innerHTML = `
+                            <div class="cps-timer">${timeRemaining.toFixed(1)}</div>
+                            <div class="cps-click-counter">Clicks: ${clickCount}</div>
+                            <div>Click as fast as you can for 15 seconds!</div>
+                        `;
+                    }
+                    
+                    startTime = Date.now();
+                    
+                    // Start the test timer to update every 10 milliseconds
+                    testInterval = setInterval(updateTimer, 10);
+                }
             }
         }, 1000);
     }
 
     // Update the timer and status display
     function updateTimer() {
+        // Check if test was reset
+        if (testState !== 'active') {
+            clearInterval(testInterval);
+            testInterval = null;
+            return;
+        }
+        
         const elapsed = (Date.now() - startTime) / 1000;
         timeRemaining = testDuration - elapsed;
 
@@ -180,12 +239,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const formattedTime = Math.max(0, timeRemaining).toFixed(1);
 
         // Update the global timer display
-        timerDisplay.textContent = formattedTime;
+        if (timerDisplay) {
+            timerDisplay.textContent = formattedTime;
+        }
 
         // Also update the timer shown inside the statusDisplay
-        const statusTimer = statusDisplay.querySelector('.cps-timer');
-        if (statusTimer) {
-            statusTimer.textContent = formattedTime;
+        if (statusDisplay) {
+            const statusTimer = statusDisplay.querySelector('.cps-timer');
+            if (statusTimer) {
+                statusTimer.textContent = formattedTime;
+            }
         }
     }
         
@@ -198,28 +261,45 @@ document.addEventListener('DOMContentLoaded', function() {
         clickTimes.push(clickTime);
         
         // Update clicks display
-        document.querySelector('.cps-click-counter').textContent = `Clicks: ${clickCount}`;
+        const clickCounter = document.querySelector('.cps-click-counter');
+        if (clickCounter) {
+            clickCounter.textContent = `Clicks: ${clickCount}`;
+        }
         
         // Create visual feedback
-        const feedback = document.createElement('div');
-        feedback.className = 'click-feedback';
-        feedback.textContent = '+1';
-        feedback.style.left = `${e.offsetX}px`;
-        feedback.style.top = `${e.offsetY}px`;
-        testArea.appendChild(feedback);
-        
-        // Remove feedback after animation
-        setTimeout(() => {
-            feedback.remove();
-        }, 1000);
+        if (testArea) {
+            const feedback = document.createElement('div');
+            feedback.className = 'click-feedback';
+            feedback.textContent = '+1';
+            feedback.style.left = `${e.offsetX}px`;
+            feedback.style.top = `${e.offsetY}px`;
+            testArea.appendChild(feedback);
+            
+            // Remove feedback after animation
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.remove();
+                }
+            }, 1000);
+        }
     }
     
     // End the test
     function endTest() {
+        // Clear intervals
         clearInterval(testInterval);
+        testInterval = null;
+        
+        // Check if test wasn't reset
+        if (testState !== 'active') {
+            return;
+        }
+        
         testState = 'ended';
-        testArea.classList.remove('active');
-        testArea.classList.add('ended');
+        if (testArea) {
+            testArea.classList.remove('active');
+            testArea.classList.add('ended');
+        }
         
         const totalTime = testDuration;
         const cps = clickCount / totalTime;
@@ -290,46 +370,59 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Generate improvement tip
+        // Generate improvement tip for 15-second test
         let tip = "";
         if (cps < 6) {
-            tip = "Focus on developing a consistent rhythm and try different clicking techniques to improve your speed.";
+            tip = "Focus on developing a consistent rhythm and try different clicking techniques to improve your speed and stamina.";
         } else if (cps < 8) {
-            tip = "Good speed! Try to maintain consistency throughout the entire 15 seconds to improve your score.";
+            tip = "Good speed! Focus on maintaining consistency throughout the entire 15 seconds to improve your endurance score.";
         } else if (cps < 10) {
             tip = "Excellent speed! Work on building stamina to maintain your pace for the full duration.";
         } else if (cps < 12) {
-            tip = "Impressive speed! You're among the top clickers. Focus on small improvements to reach the next level.";
+            tip = "Impressive speed and endurance! You're among the top clickers. Focus on small improvements to reach elite level.";
+        } else if (cps < 15) {
+            tip = "Elite level clicking! You're in the top tier of clickers. The average is 13-15 CPS - keep pushing your limits!";
         } else {
-            tip = "Elite level clicking! You're in the top tier of clickers. Maintain this performance and experiment with advanced techniques.";
+            tip = "Master level performance! You're in rare air reserved for true masters. Continue perfecting your technique.";
         }
         
         // Update user test results
-        userPosition.textContent = '--';
-        userCpsScore.textContent = cps.toFixed(1);
-        userTotalClicks.textContent = clickCount;
+        if (userPosition) userPosition.textContent = '--';
+        if (userCpsScore) userCpsScore.textContent = cps.toFixed(1);
+        if (userTotalClicks) userTotalClicks.textContent = clickCount;
         
         // Show user test results
-        userTestResults.style.display = 'grid';
+        if (userTestResults) {
+            userTestResults.style.display = 'grid';
+        }
         
         // Update other results
-        reactionTimeEl.textContent = reactionTimeValue.toFixed(1) + ' Hz';
-        staminaScoreEl.textContent = Math.round(staminaScoreValue);
-        clickTechniqueEl.textContent = technique;
-        techniqueTagsEl.innerHTML = techniqueTags;
-        improvementTip.textContent = tip;
+        if (reactionTimeEl) reactionTimeEl.textContent = reactionTimeValue.toFixed(1) + ' Hz';
+        if (staminaScoreEl) staminaScoreEl.textContent = Math.round(staminaScoreValue);
+        if (clickTechniqueEl) clickTechniqueEl.textContent = technique;
+        if (techniqueTagsEl) techniqueTagsEl.innerHTML = techniqueTags;
+        if (improvementTip) improvementTip.textContent = tip;
         
         // Show detailed results and advanced stats
-        advancedStats.style.display = 'grid';
-        techniqueRecommendation.style.display = 'block';
+        if (advancedStats) {
+            advancedStats.style.display = 'grid';
+        }
+        if (techniqueRecommendation) {
+            techniqueRecommendation.style.display = 'block';
+        }
         
         // Update status
-        statusDisplay.innerHTML = `
-            <div class="cps-timer">${cps.toFixed(1)}</div>
-            <div>Final CPS Score</div>
-            <div>Test area will be available in 3 seconds</div>
-        `;
-        cleanDivider.style.display = 'block';
+        if (statusDisplay) {
+            statusDisplay.innerHTML = `
+                <div class="cps-timer">${cps.toFixed(1)}</div>
+                <div>Final CPS Score</div>
+                <div>Test area will be available in 3 seconds</div>
+            `;
+        }
+        
+        if (cleanDivider) {
+            cleanDivider.style.display = 'block';
+        }
 
         // Add to history
         const testResult = {
@@ -355,29 +448,42 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUserStats(testResult);
         
         // Save the score to the database if user is authenticated
-        if (isUserAuthenticated) {
+        if (IS_AUTHENTICATED) {
             saveScoreToDatabase(cps, clickCount);
-        } else {
-            // Show login prompt for unauthenticated users
-            statusDisplay.innerHTML += `<div style="margin-top: 10px; color: #4CAF50;"><i class="fas fa-info-circle"></i> <a href="/login/" style="color: #4CAF50;">Login</a> to save your score and see your global rank</div>`;
         }
         
         // Set 3-second cooldown before allowing another test
         testState = 'cooldown';
         let cooldownTime = 3;
         
+        // Clear any existing cooldown interval
+        if (cooldownInterval) {
+            clearInterval(cooldownInterval);
+            cooldownInterval = null;
+        }
+        
         cooldownInterval = setInterval(() => {
+            // Check if test was reset during cooldown
+            if (testState !== 'cooldown') {
+                clearInterval(cooldownInterval);
+                cooldownInterval = null;
+                return;
+            }
+            
             cooldownTime--;
             
             if (cooldownTime <= 0) {
                 clearInterval(cooldownInterval);
+                cooldownInterval = null;
                 testState = 'ended';
-                statusDisplay.innerHTML = `
-                    <div class="cps-timer">${cps.toFixed(1)}</div>
-                    <div>Final CPS Score</div>
-                    <div>Click to test again</div>
-                `;
-            } else {
+                if (statusDisplay) {
+                    statusDisplay.innerHTML = `
+                        <div class="cps-timer">${cps.toFixed(1)}</div>
+                        <div>Final CPS Score</div>
+                        <div>Click to test again</div>
+                    `;
+                }
+            } else if (statusDisplay) {
                 statusDisplay.innerHTML = `
                     <div class="cps-timer">${cps.toFixed(1)}</div>
                     <div>Final CPS Score</div>
@@ -404,24 +510,96 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Reset the test
     function resetTest() {
-        clearInterval(testInterval);
-        clearInterval(cooldownInterval);
+        console.log('Resetting test from state:', testState);
+        
+        // Immediately set state to idle to prevent any further actions
         testState = 'idle';
+        
+        // Clear ALL intervals with null checks
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+            console.log('Cleared countdownInterval');
+        }
+        
+        if (testInterval) {
+            clearInterval(testInterval);
+            testInterval = null;
+            console.log('Cleared testInterval');
+        }
+        
+        if (cooldownInterval) {
+            clearInterval(cooldownInterval);
+            cooldownInterval = null;
+            console.log('Cleared cooldownInterval');
+        }
+        
+        // Reset all test variables
         timeRemaining = testDuration;
         clickCount = 0;
         clickTimes = [];
         
-        testArea.className = 'cps-test-area idle';
-        statusDisplay.innerHTML = `
-            <div class="cps-timer">${testDuration.toFixed(1)}</div>
-            <div class="cps-click-counter">Clicks: 0</div>
-            <div>Click to start CPS test</div>
-        `;
+        // Reset UI elements immediately
+        if (testArea) {
+            testArea.className = 'cps-test-area idle';
+        }
         
-        userTestResults.style.display = 'none';
-        advancedStats.style.display = 'none';
-        techniqueRecommendation.style.display = 'none';
-        saveBtn.style.display = 'none';
+        if (statusDisplay) {
+            statusDisplay.innerHTML = `
+                <div class="cps-timer">${testDuration.toFixed(1)}</div>
+                <div class="cps-click-counter">Clicks: 0</div>
+                <div>Click to start 15-second test</div>
+            `;
+        }
+        
+        // Reset timer display
+        if (timerDisplay) {
+            timerDisplay.textContent = testDuration.toFixed(1);
+        }
+        
+        if (clicksDisplay) {
+            clicksDisplay.textContent = '0';
+        }
+        
+        // Hide results panels
+        if (userTestResults) {
+            userTestResults.style.display = 'none';
+        }
+        if (advancedStats) {
+            advancedStats.style.display = 'none';
+        }
+        if (techniqueRecommendation) {
+            techniqueRecommendation.style.display = 'none';
+        }
+        if (saveBtn) {
+            saveBtn.style.display = 'none';
+        }
+        if (cleanDivider) {
+            cleanDivider.style.display = 'none';
+        }
+        
+        // Reset any ongoing animations or feedback elements
+        if (testArea) {
+            const feedbackElements = testArea.querySelectorAll('.click-feedback');
+            feedbackElements.forEach(el => {
+                if (el.parentNode) {
+                    el.remove();
+                }
+            });
+        }
+        
+        // Remove any achievement overlays
+        const overlays = document.querySelectorAll('.achievement-overlay');
+        overlays.forEach(el => {
+            el.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => {
+                if (el.parentNode) {
+                    el.remove();
+                }
+            }, 300);
+        });
+        
+        console.log('Test fully reset to idle state');
     }
     
     // Save score to database
@@ -442,7 +620,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.status === 'success') {
                 console.log('Score saved successfully');
                 // Update user position display
-                userPosition.textContent = '#' + data.user_rank;
+                if (userPosition) {
+                    userPosition.textContent = '#' + data.user_rank;
+                }
                 
                 // Check if user achieved a special rank and show appropriate animation
                 if (data.user_rank <= 10) {
@@ -470,6 +650,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Show achievement animation based on rank
     function showAchievementAnimation(rank, score, clicks) {
+        // Don't show if test was reset
+        if (testState !== 'ended' && testState !== 'cooldown') {
+            return;
+        }
+        
         // Create overlay
         const overlay = document.createElement('div');
         overlay.className = 'achievement-overlay';
@@ -479,23 +664,23 @@ document.addEventListener('DOMContentLoaded', function() {
         if (rank === 1) {
             icon = '👑';
             title = 'WORLD CHAMPION!';
-            message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS! Your clicking skills are unmatched.`;
+            message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS over 15 seconds! Your endurance and speed are unmatched.`;
         } else if (rank === 2) {
             icon = '🥈';
             title = 'SILVER MEDALIST!';
-            message = `Amazing performance! You're the 2nd best clicker worldwide with ${score.toFixed(1)} CPS.`;
+            message = `Amazing endurance! You're the 2nd best 15-second clicker worldwide with ${score.toFixed(1)} CPS.`;
         } else if (rank === 3) {
             icon = '🥉';
             title = 'BRONZE MEDALIST!';
-            message = `Outstanding! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
+            message = `Outstanding stamina! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
         } else if (rank <= 4) {
             icon = '⭐';
             title = 'TOP 4 ELITE!';
-            message = `Incredible! You're among the top 4 clickers worldwide with ${score.toFixed(1)} CPS.`;
+            message = `Incredible endurance! You're among the top 4 15-second clickers worldwide with ${score.toFixed(1)} CPS.`;
         } else if (rank <= 10) {
             icon = '🏆';
             title = 'TOP 10 MASTER!';
-            message = `Excellent! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
+            message = `Excellent stamina! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
         }
         
         overlay.innerHTML = `
@@ -503,7 +688,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="achievement-icon">${icon}</div>
                 <h2 class="achievement-title">${title}</h2>
                 <p class="achievement-message">${message}</p>
-                <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clicks}</div>
+                <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clicks} | Duration: 15s</div>
                 <button class="achievement-close">Continue</button>
             </div>
         `;
@@ -514,7 +699,9 @@ document.addEventListener('DOMContentLoaded', function() {
         overlay.querySelector('.achievement-close').addEventListener('click', () => {
             overlay.style.animation = 'fadeOut 0.5s ease forwards';
             setTimeout(() => {
-                overlay.remove();
+                if (overlay.parentNode) {
+                    overlay.remove();
+                }
             }, 500);
         });
     }
@@ -522,14 +709,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update top player stats
     function updateTopPlayerStats(stats) {
         if (stats) {
-            document.getElementById('top-player-name').textContent = stats.name || '--';
-            document.getElementById('top-player-cps').textContent = (stats.score ? stats.score.toFixed(1) : '--') + ' CPS';
-            document.getElementById('top-player-clicks').textContent = stats.clicks || '--';
+            const topPlayerName = document.getElementById('top-player-name');
+            const topPlayerCps = document.getElementById('top-player-cps');
+            const topPlayerClicks = document.getElementById('top-player-clicks');
+            
+            if (topPlayerName) topPlayerName.textContent = stats.name || '--';
+            if (topPlayerCps) topPlayerCps.textContent = (stats.score ? stats.score.toFixed(1) : '--') + ' CPS';
+            if (topPlayerClicks) topPlayerClicks.textContent = stats.clicks || '--';
         }
     }
     
     // Update leaderboard with latest data
     function updateLeaderboard() {
+        if (!leaderboardContent) return;
+        
         fetch('/get-15second-cps-leaderboard/')
         .then(response => response.json())
         .then(data => {
@@ -547,6 +740,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Render leaderboard data
     function renderLeaderboard(leaderboardData) {
+        if (!leaderboardContent) return;
+        
         let leaderboardHTML = '';
         
         if (leaderboardData.length === 0) {
@@ -599,7 +794,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             notification.classList.add('fade-out');
             setTimeout(() => {
-                notification.remove();
+                if (notification.parentNode) {
+                    notification.remove();
+                }
             }, 300);
         }, 5000);
         
@@ -607,7 +804,9 @@ document.addEventListener('DOMContentLoaded', function() {
         notification.querySelector('.notification-close').addEventListener('click', () => {
             notification.classList.add('fade-out');
             setTimeout(() => {
-                notification.remove();
+                if (notification.parentNode) {
+                    notification.remove();
+                }
             }, 300);
         });
     }
@@ -630,6 +829,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize
     resetTest();
-        // Load leaderboard on page load
-    updateLeaderboard();
 });
