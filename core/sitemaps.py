@@ -19,6 +19,7 @@ class StaticViewSitemap(Sitemap):
             '5_seconds_mouse_cps_test',
             '10_seconds_mouse_cps_test',
             '15_seconds_mouse_cps_test',
+            '20_seconds_mouse_cps_test',
         ]
 
     def location(self, item):
