@@ -56,4 +56,28 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const yourScoreBox = document.getElementById('yourScoreBox');
+    const userTestResults = document.getElementById('user-test-results');
 
+    // Exit safely if page doesn't have CPS test
+    if (!yourScoreBox || !userTestResults) return;
+
+    // Always start hidden
+    yourScoreBox.style.display = 'none';
+
+    // Watch for display changes on results grid
+    const observer = new MutationObserver(() => {
+        const isVisible =
+            userTestResults.style.display === 'grid' ||
+            userTestResults.style.display === 'flex' ||
+            userTestResults.offsetParent !== null;
+
+        yourScoreBox.style.display = isVisible ? 'inline-flex' : 'none';
+    });
+
+    observer.observe(userTestResults, {
+        attributes: true,
+        attributeFilter: ['style', 'class']
+    });
+});

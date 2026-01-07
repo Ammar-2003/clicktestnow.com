@@ -1,4 +1,110 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // =============== LOGIN MODAL CODE ===============
+    // DOM elements for login modal
+    const loginModalOverlay = document.getElementById('loginModalOverlay');
+    const loginModal = document.getElementById('loginModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalSkipBtn = document.getElementById('modalSkipBtn');
+    
+    // Session storage keys
+    const SESSION_SHOWN_KEY = 'loginPromptShownThisSession_20s';
+    const LAST_TEST_SCORE_KEY = 'last20sCpsTestScore';
+    const LAST_TEST_CLICKS_KEY = 'last20sCpsTestClicks';
+    
+    // Check if popup was already shown in this session
+    function hasPopupBeenShownThisSession() {
+        return sessionStorage.getItem(SESSION_SHOWN_KEY) === 'true';
+    }
+    
+    // Mark popup as shown for this session
+    function markPopupAsShown() {
+        sessionStorage.setItem(SESSION_SHOWN_KEY, 'true');
+    }
+    
+    // Store test results for potential saving after login
+    function storeTestResults(score, clicks) {
+        sessionStorage.setItem(LAST_TEST_SCORE_KEY, score);
+        sessionStorage.setItem(LAST_TEST_CLICKS_KEY, clicks);
+    }
+    
+    // Clear stored test results
+    function clearStoredTestResults() {
+        sessionStorage.removeItem(LAST_TEST_SCORE_KEY);
+        sessionStorage.removeItem(LAST_TEST_CLICKS_KEY);
+    }
+    
+    // Show the modal with test results
+    function showLoginModalWithResults(score, clicks) {
+        // Don't show if already shown in this session
+        if (hasPopupBeenShownThisSession()) {
+            return;
+        }
+        
+        // Store the test results
+        storeTestResults(score, clicks);
+        
+        // Remove hidden class and add active class with a small delay
+        if (loginModalOverlay) {
+            loginModalOverlay.classList.remove('hidden');
+            
+            // Trigger reflow to ensure CSS transition works
+            void loginModalOverlay.offsetWidth;
+            
+            // Add active class to trigger animations
+            setTimeout(() => {
+                loginModalOverlay.classList.add('active');
+                if (loginModal) loginModal.classList.add('active');
+            }, 10);
+            
+            // Mark as shown
+            markPopupAsShown();
+            
+            // Add event listener to close when clicking outside the modal
+            loginModalOverlay.addEventListener('click', closeOnOverlayClick);
+        }
+    }
+    
+    // Hide the modal
+    function hideLoginModal() {
+        if (!loginModalOverlay) return;
+        
+        // Remove active classes to trigger fade-out animation
+        loginModalOverlay.classList.remove('active');
+        if (loginModal) loginModal.classList.remove('active');
+        
+        // After animation completes, add hidden class
+        setTimeout(() => {
+            loginModalOverlay.classList.add('hidden');
+        }, 400);
+        
+        // Remove the overlay click listener
+        loginModalOverlay.removeEventListener('click', closeOnOverlayClick);
+    }
+    
+    // Close modal when clicking outside the modal content
+    function closeOnOverlayClick(e) {
+        if (e.target === loginModalOverlay) {
+            hideLoginModal();
+        }
+    }
+    
+    // Event listeners for login modal
+    if (modalClose) {
+        modalClose.addEventListener('click', hideLoginModal);
+    }
+    
+    if (modalSkipBtn) {
+        modalSkipBtn.addEventListener('click', hideLoginModal);
+    }
+    
+    // Optional: Add keyboard support (ESC key to close)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && loginModalOverlay && !loginModalOverlay.classList.contains('hidden')) {
+            hideLoginModal();
+        }
+    });
+    
+    // =============== 20-SECOND CPS TEST CODE ===============
     // Elements
     const testArea = document.getElementById('cps-test-area');
     const statusDisplay = document.getElementById('cps-status');
@@ -14,68 +120,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const advancedStats = document.getElementById('advanced-stats');
     const techniqueRecommendation = document.getElementById('technique-recommendation');
     const improvementTip = document.getElementById('improvement-tip');
-    const reactionTimeEl = document.getElementById('reaction-time');
-    const staminaScoreEl = document.getElementById('stamina-score');
+    const peakCpsEl = document.getElementById('peak-cps');
+    const enduranceScoreEl = document.getElementById('endurance-score');
     const clickTechniqueEl = document.getElementById('click-technique');
     const techniqueTagsEl = document.getElementById('technique-tags');
     const leaderboardContent = document.getElementById('leaderboard-content');
     const cleanDivider = document.querySelector('.clean-divider');
+    const loginPrompt = document.getElementById('loginPrompt');
 
-    // Load leaderboard on page load
-    if (leaderboardContent) {
-        fetch("/get-20-second-cps-leaderboard/")
-            .then(res => res.json())
-            .then(data => {
-                leaderboardContent.innerHTML = "";
-
-                if (data.status === "success" && data.leaderboard.length > 0) {
-                    data.leaderboard.forEach((item, index) => {
-                        const date = new Date(item.created_at);
-                        const formattedDate = date.toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric"
-                        });
-
-                        const rankClass = index === 0 ? "rank-1" : 
-                                         index === 1 ? "rank-2" : 
-                                         index === 2 ? "rank-3" : "other";
-
-                        leaderboardContent.innerHTML += `
-                            <tr class="leaderboard-item ${rankClass}">
-                                <td class="leaderboard-rank">#${index + 1}</td>
-                                <td class="leaderboard-player">${item.username}</td>
-                                <td class="leaderboard-score">${item.score.toFixed(1)} CPS</td>
-                                <td class="leaderboard-date">${formattedDate}</td>
-                            </tr>
-                        `;
-                    });
-                    
-                    // Update top player stats from API response
-                    if (data.top_player_stats) {
-                        updateTopPlayerStats(data.top_player_stats);
-                    }
-                } else {
-                    leaderboardContent.innerHTML = `
-                        <tr>
-                            <td colspan="4" class="no-records">No records yet. Be the first!</td>
-                        </tr>
-                    `;
-                }
-            })
-            .catch(() => {
-                leaderboardContent.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="no-records" style="color: var(--danger);">
-                            Failed to load leaderboard
-                        </td>
-                    </tr>
-                `;
-            });
-    }
-
-    // Test variables - set to 20 seconds for 20-second CPS test
-    let testDuration = 20;
+    // Global state
+    let testDuration = 20; // Changed from 30 to 20 seconds
     let timeRemaining = testDuration;
     let clickCount = 0;
     let testState = 'idle'; // 'idle', 'countdown', 'active', 'ended', 'cooldown'
@@ -85,12 +139,93 @@ document.addEventListener('DOMContentLoaded', function() {
     let startTime;
     let clickTimes = [];
     let testHistory = [];
-    let userStats = {
-        totalTests: 0,
-        bestScore: 0,
-        averageScore: 0,
-        consistency: 0
-    };
+    
+    // User authentication status
+    let isUserAuthenticated = false;
+    
+    // Check authentication status via API
+    function checkAuthentication() {
+        return fetch('/check-authentication/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                isUserAuthenticated = data.authenticated;
+                return isUserAuthenticated;
+            })
+            .catch(error => {
+                console.error('Error checking authentication:', error);
+                return false; // Default to false on error
+            });
+    }
+    
+    // Initialize - check authentication on load
+    checkAuthentication().then(isAuth => {
+        isUserAuthenticated = isAuth;
+        // Only auto-load leaderboard if user is authenticated
+        if (isAuth && leaderboardContent) {
+            loadLeaderboard();
+        }
+    });
+    
+    // Load leaderboard
+    function loadLeaderboard() {
+        fetch("/get-20-second-cps-leaderboard/")
+            .then(res => res.json())
+            .then(data => {
+                if (leaderboardContent) {
+                    leaderboardContent.innerHTML = "";
+
+                    if (data.status === "success" && data.leaderboard.length > 0) {
+                        data.leaderboard.forEach((item, index) => {
+                            const date = new Date(item.created_at);
+                            const formattedDate = date.toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            });
+
+                            const rankClass = index === 0 ? "rank-1" : 
+                                             index === 1 ? "rank-2" : 
+                                             index === 2 ? "rank-3" : "other";
+
+                            leaderboardContent.innerHTML += `
+                                <tr class="leaderboard-item ${rankClass}">
+                                    <td class="leaderboard-rank">#${index + 1}</td>
+                                    <td class="leaderboard-player">${item.username}</td>
+                                    <td class="leaderboard-score">${item.score.toFixed(1)} CPS</td>
+                                    <td class="leaderboard-date">${formattedDate}</td>
+                                </tr>
+                            `;
+                        });
+                        
+                        if (data.top_player_stats) {
+                            updateTopPlayerStats(data.top_player_stats);
+                        }
+                    } else {
+                        leaderboardContent.innerHTML = `
+                            <tr>
+                                <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                            </tr>
+                        `;
+                    }
+                }
+            })
+            .catch(() => {
+                if (leaderboardContent) {
+                    leaderboardContent.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="no-records" style="color: var(--danger);">
+                                Failed to load leaderboard
+                            </td>
+                        </tr>
+                    `;
+                }
+            });
+    }
     
     // Initialize preset buttons
     if (presetButtons) {
@@ -113,27 +248,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Auth logic for test area
+    // Test area click handler - Allow anyone to start test
     if (testArea) {
         testArea.addEventListener('click', function(e) {
-            if ((testState === 'idle' || testState === 'ended') && !IS_AUTHENTICATED) {
-                e.preventDefault();
-
-                const prompt = document.getElementById("loginPrompt");
-                if (prompt) {
-                    prompt.classList.remove("hidden");
-
-                    // Trigger animation smoothly
-                    requestAnimationFrame(() => {
-                        prompt.classList.add("show");
-                    });
-                }
-
-                return;
-            }
-
-            // ✅ START TEST
+            // ✅ START TEST (allowed for everyone)
             if (testState === 'idle' || testState === 'ended') {
+                // Don't show login prompt on click - allow test to start
+                if (loginPrompt && !isUserAuthenticated) {
+                    loginPrompt.classList.add("hidden");
+                }
                 startTest();
                 return;
             }
@@ -143,6 +266,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 registerClick(e);
             }
         });
+    }
+    
+    // Hide save button completely since we're auto-saving
+    if (saveBtn) {
+        saveBtn.style.display = 'none';
     }
     
     // Start the test
@@ -168,14 +296,12 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }
 
-        // Clear any existing interval first
         if (countdownInterval) {
             clearInterval(countdownInterval);
             countdownInterval = null;
         }
         
         countdownInterval = setInterval(() => {
-            // Check if test was reset during countdown
             if (testState !== 'countdown') {
                 clearInterval(countdownInterval);
                 countdownInterval = null;
@@ -192,7 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(countdownInterval);
                 countdownInterval = null;
                 
-                // Check again if test wasn't reset during the last interval
                 if (testState === 'countdown') {
                     testState = 'active';
                     if (testArea) {
@@ -210,8 +335,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     startTime = Date.now();
-                    
-                    // Start the test timer to update every 10 milliseconds
                     testInterval = setInterval(updateTimer, 10);
                 }
             }
@@ -220,7 +343,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update the timer and status display
     function updateTimer() {
-        // Check if test was reset
         if (testState !== 'active') {
             clearInterval(testInterval);
             testInterval = null;
@@ -235,15 +357,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Format time like 20.0, 19.9 ... 0.1, 0.0
         const formattedTime = Math.max(0, timeRemaining).toFixed(1);
 
-        // Update the global timer display
         if (timerDisplay) {
             timerDisplay.textContent = formattedTime;
         }
 
-        // Also update the timer shown inside the statusDisplay
         if (statusDisplay) {
             const statusTimer = statusDisplay.querySelector('.cps-timer');
             if (statusTimer) {
@@ -260,13 +379,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const clickTime = Date.now();
         clickTimes.push(clickTime);
         
-        // Update clicks display
         const clickCounter = document.querySelector('.cps-click-counter');
         if (clickCounter) {
             clickCounter.textContent = `Clicks: ${clickCount}`;
         }
         
-        // Create visual feedback
         if (testArea) {
             const feedback = document.createElement('div');
             feedback.className = 'click-feedback';
@@ -275,7 +392,6 @@ document.addEventListener('DOMContentLoaded', function() {
             feedback.style.top = `${e.offsetY}px`;
             testArea.appendChild(feedback);
             
-            // Remove feedback after animation
             setTimeout(() => {
                 if (feedback.parentNode) {
                     feedback.remove();
@@ -285,12 +401,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // End the test
-    function endTest() {
-        // Clear intervals
+    async function endTest() {
         clearInterval(testInterval);
         testInterval = null;
         
-        // Check if test wasn't reset
         if (testState !== 'active') {
             return;
         }
@@ -304,13 +418,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalTime = testDuration;
         const cps = clickCount / totalTime;
         
-        // Calculate additional metrics
-        let maxCpsValue = 0;
-        let consistencyValue = 100;
-        let reactionTimeValue = 0;
+        // Calculate additional metrics for 20-second test
+        let peakCpsValue = 0;
+        let enduranceValue = 100;
         
         if (clickTimes.length > 1) {
-            // Calculate max CPS in any 1-second window
             const oneSecond = 1000;
             let startIdx = 0;
             
@@ -318,31 +430,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 while (clickTimes[i] - clickTimes[startIdx] > oneSecond) {
                     startIdx++;
                 }
-                maxCpsValue = Math.max(maxCpsValue, i - startIdx + 1);
+                peakCpsValue = Math.max(peakCpsValue, i - startIdx + 1);
             }
             
-            // Calculate consistency (lower std dev = higher consistency)
-            const intervals = [];
-            for (let i = 1; i < clickTimes.length; i++) {
-                intervals.push(clickTimes[i] - clickTimes[i-1]);
+            // Calculate endurance (consistency over time)
+            // Split into 4 segments of 5 seconds each for 20-second test
+            const segmentCount = 4;
+            const segmentDuration = 5000; // 5 seconds in ms
+            const segmentClicks = [];
+            
+            for (let i = 0; i < segmentCount; i++) {
+                const segmentStart = startTime + (i * segmentDuration);
+                const segmentEnd = segmentStart + segmentDuration;
+                
+                const clicksInSegment = clickTimes.filter(time => 
+                    time >= segmentStart && time < segmentEnd
+                ).length;
+                
+                segmentClicks.push(clicksInSegment);
             }
             
-            if (intervals.length > 0) {
-                const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-                const variance = intervals.reduce((a, b) => a + Math.pow(b - avgInterval, 2), 0) / intervals.length;
-                const stdDev = Math.sqrt(variance);
-                consistencyValue = Math.max(0, 100 - (stdDev / avgInterval * 100));
-            }
-            
-            // Calculate click frequency (average of first few clicks)
-            const firstClicks = Math.min(5, clickTimes.length);
-            reactionTimeValue = 1000 / ((clickTimes[firstClicks - 1] - startTime) / firstClicks);
+            // Calculate variance between segments
+            const avgSegmentClicks = segmentClicks.reduce((a, b) => a + b, 0) / segmentCount;
+            const variance = segmentClicks.reduce((a, b) => a + Math.pow(b - avgSegmentClicks, 2), 0) / segmentCount;
+            const stdDev = Math.sqrt(variance);
+            enduranceValue = Math.max(0, 100 - (stdDev / avgSegmentClicks * 100));
         }
         
-        // For 20-second CPS test, stamina is calculated differently
-        const staminaScoreValue = Math.min(100, consistencyValue * 0.7 + (clickCount > 150 ? 30 : 0));
-        
-        // Determine click technique
+        // Determine click technique based on pattern for 20-second test
         let technique = "Standard Clicking";
         let techniqueTags = "";
         
@@ -355,14 +470,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
             const cpsRate = 1000 / avgInterval;
             
-            if (cpsRate > 12) {
-                technique = "Jitter Clicking";
-                techniqueTags = '<span class="technique-tag">High Frequency</span><span class="technique-tag">Arm Vibration</span>';
-            } else if (cpsRate > 8) {
+            if (cpsRate > 12 && enduranceValue > 85) {
                 technique = "Butterfly Clicking";
                 techniqueTags = '<span class="technique-tag">Two Fingers</span><span class="technique-tag">Alternating</span>';
-            } else if (cpsRate > 5) {
-                technique = "Fast Regular Clicking";
+            } else if (cpsRate > 10 && peakCpsValue > 14) {
+                technique = "Jitter Clicking";
+                techniqueTags = '<span class="technique-tag">Arm Vibration</span><span class="technique-tag">High Frequency</span>';
+            } else if (cpsRate > 8) {
+                technique = "Rapid Clicking";
                 techniqueTags = '<span class="technique-tag">Single Finger</span><span class="technique-tag">Fast</span>';
             } else {
                 technique = "Standard Clicking";
@@ -373,17 +488,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Generate improvement tip for 20-second test
         let tip = "";
         if (cps < 6) {
-            tip = "Focus on maintaining a consistent rhythm rather than trying to click as fast as possible in short bursts. Build endurance first.";
+            tip = "Focus on developing a consistent rhythm. Try different clicking techniques to find what works best for you over 20 seconds.";
         } else if (cps < 8) {
-            tip = "Try to relax your hand and arm more. Tension can reduce your clicking speed and endurance over 20 seconds.";
+            tip = "Your clicking speed is good. Work on maintaining consistency throughout the entire 20 seconds. Consider alternating fingers for better endurance.";
         } else if (cps < 10) {
-            tip = "Work on building stamina to maintain your clicking speed for the full 20 seconds. Consider alternating fingers.";
+            tip = "Excellent speed! For 20-second tests, focus on pacing yourself. Try to maintain 80% of your peak speed throughout.";
         } else if (cps < 12) {
-            tip = "Your clicking technique is good. Experiment with different techniques to find what works best for extended periods.";
-        } else if (cps < 15) {
-            tip = "You're an expert clicker! Focus on consistency to reach the next level. The 20-second test is about endurance.";
+            tip = "You're an elite clicker! Focus on endurance training to maintain your high speed for the full 20 seconds.";
         } else {
-            tip = "You're at an elite clicking level! Your 20-second endurance is exceptional. Maintain this performance consistently.";
+            tip = "You're at a professional level! Your 20-second endurance is exceptional. Share your techniques and consider competing in click speed tournaments.";
         }
         
         // Update user test results
@@ -391,19 +504,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userCpsScore) userCpsScore.textContent = cps.toFixed(1);
         if (userTotalClicks) userTotalClicks.textContent = clickCount;
         
-        // Show user test results
         if (userTestResults) {
             userTestResults.style.display = 'grid';
         }
         
-        // Update other results
-        if (reactionTimeEl) reactionTimeEl.textContent = reactionTimeValue.toFixed(1) + ' Hz';
-        if (staminaScoreEl) staminaScoreEl.textContent = Math.round(staminaScoreValue);
+        // Update other results (using existing element IDs from your HTML)
+        if (peakCpsEl) peakCpsEl.textContent = peakCpsValue.toFixed(1) + ' CPS';
+        if (enduranceScoreEl) enduranceScoreEl.textContent = Math.round(enduranceValue);
         if (clickTechniqueEl) clickTechniqueEl.textContent = technique;
         if (techniqueTagsEl) techniqueTagsEl.innerHTML = techniqueTags;
         if (improvementTip) improvementTip.textContent = tip;
         
-        // Show detailed results and advanced stats
         if (advancedStats) {
             advancedStats.style.display = 'grid';
         }
@@ -411,13 +522,38 @@ document.addEventListener('DOMContentLoaded', function() {
             techniqueRecommendation.style.display = 'block';
         }
         
-        // Update status
-        if (statusDisplay) {
-            statusDisplay.innerHTML = `
-                <div class="cps-timer">${cps.toFixed(1)}</div>
-                <div>Final CPS Score</div>
-                <div>Test area will be available in 3 seconds</div>
-            `;
+        // Check authentication status after test completion
+        const authenticated = await checkAuthentication();
+        
+        // AUTO-SAVE if user is authenticated
+        if (authenticated) {
+            saveScoreToDatabase(cps, clickCount, peakCpsValue, Math.round(enduranceValue));
+            
+            if (statusDisplay) {
+                statusDisplay.innerHTML = `
+                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div>Final CPS Score</div>
+                    <div style="margin-top: 10px; color: #4CAF50;">
+                        <i class="fas fa-spinner fa-spin"></i> Saving to leaderboard...
+                    </div>
+                `;
+            }
+        } else {
+            // User is not authenticated - show login popup after delay
+            if (statusDisplay) {
+                statusDisplay.innerHTML = `
+                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div>Final CPS Score</div>
+                    <div style="margin-top: 10px; color: #FFD700;">
+                        <i class="fas fa-info-circle"></i> Login to save your score to the global leaderboard!
+                    </div>
+                `;
+            }
+            
+            // Show login modal with test results after 1.5 seconds
+            setTimeout(() => {
+                showLoginModalWithResults(cps, clickCount);
+            }, 1500);
         }
         
         if (cleanDivider) {
@@ -430,40 +566,27 @@ document.addEventListener('DOMContentLoaded', function() {
             duration: testDuration,
             clicks: clickCount,
             cps: cps,
-            maxCps: maxCpsValue,
-            consistency: consistencyValue,
-            clickFrequency: reactionTimeValue,
-            stamina: Math.round(staminaScoreValue),
+            peakCps: peakCpsValue,
+            endurance: Math.round(enduranceValue),
             technique: technique
         };
         
         testHistory.unshift(testResult);
         
-        // Keep only last 10 tests
         if (testHistory.length > 10) {
             testHistory.pop();
-        }
-        
-        // Update user stats
-        updateUserStats(testResult);
-        
-        // Save the score to the database if user is authenticated
-        if (IS_AUTHENTICATED) {
-            saveScoreToDatabase(cps, clickCount);
         }
         
         // Set 3-second cooldown before allowing another test
         testState = 'cooldown';
         let cooldownTime = 3;
         
-        // Clear any existing cooldown interval
         if (cooldownInterval) {
             clearInterval(cooldownInterval);
             cooldownInterval = null;
         }
         
         cooldownInterval = setInterval(() => {
-            // Check if test was reset during cooldown
             if (testState !== 'cooldown') {
                 clearInterval(cooldownInterval);
                 cooldownInterval = null;
@@ -476,11 +599,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(cooldownInterval);
                 cooldownInterval = null;
                 testState = 'ended';
-                if (statusDisplay) {
+                if (statusDisplay && authenticated) {
                     statusDisplay.innerHTML = `
                         <div class="cps-timer">${cps.toFixed(1)}</div>
                         <div>Final CPS Score</div>
                         <div>Click to test again</div>
+                    `;
+                } else if (statusDisplay) {
+                    statusDisplay.innerHTML = `
+                        <div class="cps-timer">${cps.toFixed(1)}</div>
+                        <div>Final CPS Score</div>
+                        <div>Click to test again | <span style="color: #FFD700;">Login to save score & compete globally</span></div>
                     `;
                 }
             } else if (statusDisplay) {
@@ -493,53 +622,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     }
     
-    // Update user statistics
-    function updateUserStats(testResult) {
-        userStats.totalTests++;
-        
-        if (testResult.cps > userStats.bestScore) {
-            userStats.bestScore = testResult.cps;
-        }
-        
-        // Update average score
-        userStats.averageScore = ((userStats.averageScore * (userStats.totalTests - 1)) + testResult.cps) / userStats.totalTests;
-        
-        // Update consistency
-        userStats.consistency = ((userStats.consistency * (userStats.totalTests - 1)) + testResult.consistency) / userStats.totalTests;
-    }
-    
     // Reset the test
     function resetTest() {
-        console.log('Resetting test from state:', testState);
-        
-        // Immediately set state to idle to prevent any further actions
         testState = 'idle';
         
-        // Clear ALL intervals with null checks
         if (countdownInterval) {
             clearInterval(countdownInterval);
             countdownInterval = null;
-            console.log('Cleared countdownInterval');
         }
         
         if (testInterval) {
             clearInterval(testInterval);
             testInterval = null;
-            console.log('Cleared testInterval');
         }
         
         if (cooldownInterval) {
             clearInterval(cooldownInterval);
             cooldownInterval = null;
-            console.log('Cleared cooldownInterval');
         }
         
-        // Reset all test variables
         timeRemaining = testDuration;
         clickCount = 0;
         clickTimes = [];
         
-        // Reset UI elements immediately
         if (testArea) {
             testArea.className = 'cps-test-area idle';
         }
@@ -552,7 +657,6 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }
         
-        // Reset timer display
         if (timerDisplay) {
             timerDisplay.textContent = testDuration.toFixed(1);
         }
@@ -561,7 +665,6 @@ document.addEventListener('DOMContentLoaded', function() {
             clicksDisplay.textContent = '0';
         }
         
-        // Hide results panels
         if (userTestResults) {
             userTestResults.style.display = 'none';
         }
@@ -571,14 +674,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (techniqueRecommendation) {
             techniqueRecommendation.style.display = 'none';
         }
-        if (saveBtn) {
-            saveBtn.style.display = 'none';
-        }
         if (cleanDivider) {
             cleanDivider.style.display = 'none';
         }
         
-        // Reset any ongoing animations or feedback elements
         if (testArea) {
             const feedbackElements = testArea.querySelectorAll('.click-feedback');
             feedbackElements.forEach(el => {
@@ -588,7 +687,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Remove any achievement overlays
         const overlays = document.querySelectorAll('.achievement-overlay');
         overlays.forEach(el => {
             el.style.animation = 'fadeOut 0.3s ease forwards';
@@ -598,12 +696,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 300);
         });
-        
-        console.log('Test fully reset to idle state');
     }
     
-    // Save score to database
-    function saveScoreToDatabase(score, clicks) {
+    // Save score to database for 20-second test
+    function saveScoreToDatabase(score, clicks, peakCps, endurance) {
         fetch('/save-20-second-cps-score/', {
             method: 'POST',
             headers: {
@@ -612,50 +708,58 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 score: score,
-                clicks: clicks
+                clicks: clicks,
+                peak_cps: peakCps,
+                endurance: endurance
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log('Score saved successfully');
-                // Update user position display
+                console.log('20-second score saved successfully');
                 if (userPosition) {
                     userPosition.textContent = '#' + data.user_rank;
                 }
                 
-                // Check if user achieved a special rank and show appropriate animation
+                if (statusDisplay) {
+                    statusDisplay.innerHTML = `
+                        <div class="cps-timer">${score.toFixed(1)}</div>
+                        <div>Final CPS Score</div>
+                        <div style="margin-top: 10px; color: #4CAF50;">
+                            <i class="fas fa-check-circle"></i> Score saved to leaderboard! Rank: #${data.user_rank}
+                        </div>
+                    `;
+                }
+                
                 if (data.user_rank <= 10) {
                     showAchievementAnimation(data.user_rank, score, clicks);
                 }
                 
-                // Update leaderboard with new data
                 updateLeaderboard();
                 
-                // Update top player stats if they changed
                 if (data.top_player_stats) {
                     updateTopPlayerStats(data.top_player_stats);
                 }
                 
-                // Check if this is a new world record
                 if (data.is_new_record) {
                     showNotification('🎉 New World Record! 🎉', 'success');
                 }
+            } else {
+                showNotification('Failed to save score: ' + (data.message || 'Unknown error'), 'error');
             }
         })
         .catch(error => {
-            console.error('Error saving score:', error);
+            console.error('Error saving 20-second score:', error);
+            showNotification('Failed to save score. Please try again.', 'error');
         });
     }
     
-    // Show achievement animation based on rank
+    // Show achievement animation for 20-second test
     function showAchievementAnimation(rank, score, clicks) {
-        // Don't show if test was reset
         if (testState !== 'ended' && testState !== 'cooldown') {
             return;
         }
         
-        // Create overlay
         const overlay = document.createElement('div');
         overlay.className = 'achievement-overlay';
         
@@ -664,15 +768,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (rank === 1) {
             icon = '👑';
             title = 'WORLD CHAMPION!';
-            message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS over 20 seconds! Your endurance and speed are unmatched.`;
+            message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS over 20 seconds! Your speed is unmatched.`;
         } else if (rank === 2) {
             icon = '🥈';
             title = 'SILVER MEDALIST!';
-            message = `Amazing 20-second endurance! You're the 2nd best clicker worldwide with ${score.toFixed(1)} CPS.`;
+            message = `Amazing 20-second performance! You're the 2nd best clicker worldwide with ${score.toFixed(1)} CPS.`;
         } else if (rank === 3) {
             icon = '🥉';
             title = 'BRONZE MEDALIST!';
-            message = `Outstanding stamina! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
+            message = `Outstanding speed! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
         } else if (rank <= 4) {
             icon = '⭐';
             title = 'TOP 4 ELITE!';
@@ -680,7 +784,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (rank <= 10) {
             icon = '🏆';
             title = 'TOP 10 MASTER!';
-            message = `Excellent endurance! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
+            message = `Excellent speed! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
         }
         
         overlay.innerHTML = `
@@ -695,7 +799,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(overlay);
         
-        // Close button functionality
         overlay.querySelector('.achievement-close').addEventListener('click', () => {
             overlay.style.animation = 'fadeOut 0.5s ease forwards';
             setTimeout(() => {
@@ -790,7 +893,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(notification);
         
-        // Auto-remove after 5 seconds
         setTimeout(() => {
             notification.classList.add('fade-out');
             setTimeout(() => {
@@ -800,7 +902,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 5000);
         
-        // Close button functionality
         notification.querySelector('.notification-close').addEventListener('click', () => {
             notification.classList.add('fade-out');
             setTimeout(() => {

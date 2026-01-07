@@ -467,7 +467,6 @@ body {
     align-items: center;
     gap: 10px;
     background: var(--dark-card);
-    padding: 15px;
     border-radius: 12px;
 }
 

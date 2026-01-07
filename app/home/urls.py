@@ -50,11 +50,12 @@ urlpatterns = [
     path('save-20-second-cps-score/', views.save_twenty_second_cps_score, name='save_twenty_second_cps_score'),
     path('get-20-second-cps-leaderboard/', views.get_twenty_second_cps_leaderboard, name='get_twenty_second_cps_leaderboard'),
     path('get-twenty-second-cps-global-top-player/', views.get_twenty_second_cps_global_top_player, name='get_twenty_second_cps_global_top_player'),
-    #30-second-cps-test
+    # 30-second CPS Test URLs
     path('30-second-cps-test/', views.thirty_second_cps_test, name='30_seconds_mouse_cps_test'),
     path('save-30-second-cps-score/', views.save_thirty_second_cps_score, name='save_thirty_second_cps_score'),
-    path('get-30-seocnd-cps-leaderboard/', views.get_thirty_second_cps_leaderboard, name='get_thirty_second_cps_leaderboard'),
-    path('get-30-seocnd-cps-global-top-player/', views.get_thirty_second_cps_global_top_player, name='get_thirty_second_cps_global_top_player'),
+    path('get-30-second-cps-leaderboard/', views.get_thirty_second_cps_leaderboard, name='get_thirty_second_cps_leaderboard'),
+    path('get-30-second-cps-global-top-player/', views.get_thirty_second_cps_global_top_player, name='get_thirty_second_cps_global_top_player'),
+    path('check-authentication/', views.check_authentication, name='check_authentication'),
     #60-second-cps-test
     path('60-second-cps-test/', views.sixty_second_cps_test, name='60_seconds_mouse_cps_test'),
     path('save-60-second-cps-score/', views.save_sixty_second_cps_score, name='save_sixty_second_cps_score'),

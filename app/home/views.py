@@ -1073,7 +1073,7 @@ def get_twenty_second_cps_global_top_player(request):
             'message': 'No top player found'
         })
 
-#30-second-cps-test
+# 30-second CPS Test Views
 
 def thirty_second_cps_test(request):
     # Get global high score
@@ -1200,6 +1200,14 @@ def get_thirty_second_cps_global_top_player(request):
             'status': 'error',
             'message': 'No top player found'
         })
+
+
+def check_authentication(request):
+    """Check if user is authenticated via AJAX"""
+    return JsonResponse({
+        'authenticated': request.user.is_authenticated,
+        'username': request.user.username if request.user.is_authenticated else None
+    })
     
 #60-second-cps-test
 def sixty_second_cps_test(request):

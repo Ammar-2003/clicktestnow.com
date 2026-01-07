@@ -14,6 +14,10 @@
     <script src="{% static 'js/base.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <script src="{% static 'js/notifications.js' %}"></script>
+    <script>
+        let isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
+        const LOGIN_URL = "{% url 'login' %}?next={{ request.path }}";
+    </script>
     {% block extra_head %}
     {% endblock %}
 </head>
@@ -193,6 +197,45 @@
         {% block content %}
         {% endblock %}
     </main>
+        <!-- Your existing HTML (unchanged) -->
+    <div id="loginPrompt" class="login-prompt hidden">
+        <h4>🔐 Login to Save Your Performance</h4>
+        <p>
+            Your score will be saved and displayed on the
+            <strong>global leaderboard</strong>, where players from around the world
+            compare their performance.
+        </p>
+        <p>
+            Login to record your score, track your progress, and compete globally.
+        </p>
+        <a href="{% url 'login' %}?next={{ request.path }}" class="login-btn">
+            Login to Continue
+        </a>
+    </div>
+
+    <!-- New modal HTML structure -->
+    <div id="loginModalOverlay" class="login-modal-overlay hidden">
+        <div id="loginModal" class="login-modal">
+            <button class="modal-close" id="modalClose">×</button>
+            <h4>Login to Save Your Performance</h4>
+            <p>
+                Your score will be saved and displayed on the
+                <strong>global leaderboard</strong>, where players from around the world
+                compare their performance.
+            </p>
+            <p>
+                Login to record your score, track your progress, and compete globally.
+            </p>
+            <div class="modal-buttons">
+                <a href="{% url 'login' %}?next={{ request.path }}" class="modal-login-btn" id="modalLoginBtn">
+                    Login
+                </a>
+                <button class="modal-skip-btn" id="modalSkipBtn">
+                    Skip For Now
+                </button>
+            </div>
+        </div>
+    </div>
     <!-- Footer (kept exactly as it was) -->
     <footer>
         <div class="footer-container">

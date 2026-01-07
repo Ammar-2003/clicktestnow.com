@@ -9,15 +9,15 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ClickTestNow">
     <link rel="canonical" href="https://clicktestnow.com/2-second-cps-test/" />
-    <meta property="og:image" content="{% static 'Vguides/2-second-cps-test.jpg' %}">
+    <meta property="og:image" content="{% static 'Vguides/2-second-cps-test.jpeg' %}">
     <meta property="og:image:alt" content="2 Second CPS Test interface">
     <meta property="og:image:width" content="1280">
-    <meta property="og:image:height" content="720">
+    <meta property="og:image:height" content="800">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{% static 'Vguides/2-second-cps-test.jpg' %}">
+    <meta name="twitter:image" content="{% static 'Vguides/2-second-cps-test.jpeg' %}">
     <meta name="twitter:image:alt" content="2 Second CPS Test interface">
-    <meta itemprop="image" content="{% static 'Vguides/2-second-cps-test.jpg' %}">
-    <meta name="featured-image" content="{% static 'Vguides/2-second-cps-test.jpg' %}">
+    <meta itemprop="image" content="{% static 'Vguides/2-second-cps-test.jpeg' %}">
+    <meta name="featured-image" content="{% static 'Vguides/2-second-cps-test.jpeg' %}">
     <meta name="robots" content="index, follow">
 {% endblock %}
 
@@ -25,10 +25,6 @@
     <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
     <link rel="stylesheet" href="{% static 'css/cps/2second.css' %}">
     <script src="{% static 'js/cps/2second.js' %}" defer></script>
-    <script>
-        const IS_AUTHENTICATED = {{ user.is_authenticated|yesno:"true,false" }};
-        const LOGIN_URL = "{% url 'login' %}?next={{ request.path }}";
-    </script>
     
     <script type="application/ld+json">
     {
@@ -61,9 +57,9 @@
         ],
         "screenshot": {
             "@type": "ImageObject",
-            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/2-second-cps-test.jpg' %}",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/2-second-cps-test.jpeg' %}",
             "width": 1280,
-            "height": 720,
+            "height": 800,
             "caption": "2 Second CPS Test interface showing burst speed measurement"
         },
         "downloadUrl": "{{ request.build_absolute_uri }}",
@@ -116,9 +112,9 @@
         },
         "image": {
             "@type": "ImageObject",
-            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/2-second-cps-test.jpg' %}",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/2-second-cps-test.jpeg' %}",
             "width": 1280,
-            "height": 720,
+            "height": 800,
             "caption": "2 Second CPS Test - Burst speed measurement and technique guide"
         },
         "wordCount": "1500",
@@ -184,9 +180,9 @@
         "description": "Learn how to properly test your burst clicking speed and maximize your CPS in just 2 seconds.",
         "image": {
             "@type": "ImageObject",
-            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/2-second-cps-test.jpg' %}",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/2-second-cps-test.jpeg' %}",
             "width": 1280,
-            "height": 720,
+            "height": 800,
             "caption": "Step-by-step 2 second CPS testing guide showing proper technique"
         },
         "step": [
@@ -283,20 +279,6 @@
                     <a href="{% url '100_seconds_mouse_cps_test' %}" class="time-link">100s</a>
                 </div>
                 <div class="measurement-area-container">
-                                    <div id="loginPrompt" class="login-prompt hidden">
-                    <h4>🔐 Login Required to Save Your Performance</h4>
-                    <p>
-                        Your score will be saved and displayed on the
-                        <strong>global leaderboard</strong>, where players from around the world
-                        compare their performance.
-                    </p>
-                    <p>
-                        Login to record your score, track your progress, and compete globally.
-                    </p>
-                    <a href="{% url 'login' %}?next={{ request.path }}" class="login-btn">
-                        Login to Continue
-                    </a>
-                </div>
                     <div class="cps-test-area idle" id="cps-test-area">
                         <div class="cps-status" id="cps-status">
                             <div class="cps-timer" id="cps-timer">2.0</div>
@@ -304,7 +286,9 @@
                             <div>Click to start test</div>
                         </div>
                     </div>
-
+                                <div class="score-box">
+  <strong class="top-player-score">🏆 Top Player's Score</strong>
+  </div>
                 <!-- Global Top Player Stats -->
                 <div class="stats-grid" id="global-top-player-stats">
                     <div class="stat-card">
@@ -329,9 +313,11 @@
                         <div class="stat-label">Total Clicks in 2 Seconds</div>
                     </div>
                 </div>
-
-                <div class="clean-divider" style="display: none;"></div>
+     <div class="score-box">
+  <strong class="your-score" id="yourScoreBox" style="display:none;">👉 Your Score</strong>
+  </div>
                 <div class="stats-grid" id="user-test-results" style="display: none;">
+
                     <div class="stat-card">
                         <h3><i class="fas fa-user"></i> Your Position</h3>
                         <div class="stat-value" id="user-position">--</div>
@@ -346,30 +332,6 @@
                         <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
                         <div class="stat-value" id="user-total-clicks">--</div>
                         <div class="stat-label">All registered burst clicks</div>
-                    </div>
-                </div>
-
-                <div class="stats-grid" id="advanced-stats" style="display: none;">
-                    <div class="stat-card">
-                        <h3><i class="fas fa-bolt"></i> Click Frequency</h3>
-                        <div class="stat-value" id="reaction-time">-- Hz</div>
-                        <div class="stat-label">
-                            <i class="fas fa-globe-americas"></i>
-                            <span>Avg: 8-12 Hz</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <h3><i class="fas fa-running"></i> Click Stamina</h3>
-                        <div class="stat-value" id="stamina-score">--</div>
-                        <div class="stat-label">
-                            <i class="fas fa-globe-americas"></i>
-                            <span>Top 25%: 85+</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <h3><i class="fas fa-mouse"></i> Click Technique</h3>
-                        <div class="stat-value" id="click-technique">--</div>
-                        <div class="stat-label" id="technique-tags"></div>
                     </div>
                 </div>
 
@@ -447,7 +409,7 @@
                     <p>The 2-second CPS test is a simple way to see how fast clicking really works in the time frame of 2 seconds, where a user can make many clicks just in this short setup measures ability and speed rather than long endurance. It emphasizes burst action with sharp reflexes, showing peak ability in a very limited time frame, making the setup ideal for quick comparisons because it highlights how clicking feels when every moment counts, focuses on what a user can do given the purpose of raw clicking speed, and shows what matters most, why fast response is important for real-time performance.</p>
                     
                     <div class="featured-image-container">
-                        <img src="{% static 'Vguides/2-second-cps-test.jpg' %}" 
+                        <img src="{% static 'Vguides/2-second-cps-test.jpeg' %}" 
                              alt="2 Second CPS Test"
                              title="2 Second CPS Test Interface"
                              class="featured-image"
