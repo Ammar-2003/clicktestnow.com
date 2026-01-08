@@ -400,7 +400,9 @@ def save_one_second_cps_score(request):
                 'new_record_score': score,
                 'user_rank': user_rank,
                 'top_player_stats': top_player_stats,
-                'congrats_message': congrats_message  # 👈 send to frontend for instant display
+                'congrats_message': congrats_message,
+                'clicks': clicks,
+
             })
             
         except (ValueError, TypeError):
