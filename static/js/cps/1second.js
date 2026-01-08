@@ -520,6 +520,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authenticated) {
             saveScoreToDatabase(cps, clickCount, peakCpsValue, Math.round(enduranceValue));
             
+            if (statusDisplay) {
+                statusDisplay.innerHTML = `
+                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div>Final CPS Score</div>
+                    <div style="margin-top: 10px; color: #4CAF50;">
+                        <i class="fas fa-spinner fa-spin"></i> Saving to leaderboard...
+                    </div>
+                `;
+            }
         } else {
             // User is not authenticated - show login popup after delay
             if (statusDisplay) {
@@ -680,110 +689,129 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-// Save score to database for 1-second test
-function saveScoreToDatabase(score, clicks, peakCps, endurance) {
-    fetch('/save-one-second-cps-score/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({
-            score: score,
-            clicks: clickCount,
-            peak_cps: peakCps,
-            endurance: endurance
+    // Save score to database for 1-second test
+    function saveScoreToDatabase(score, clicks, peakCps, endurance) {
+        fetch('/save-one-second-cps-score/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                score: score,
+                clicks: clicks,
+                peak_cps: peakCps,
+                endurance: endurance
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            console.log('1-second score saved successfully');
-            
-            // Update user position display if element exists
-            if (document.getElementById('user-position')) {
-                document.getElementById('user-position').textContent = '#' + data.user_rank;
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('1-second score saved successfully');
+                if (userPosition) {
+                    userPosition.textContent = '#' + data.user_rank;
+                }
+                
+                if (statusDisplay) {
+                    statusDisplay.innerHTML = `
+                        <div class="cps-timer">${score.toFixed(1)}</div>
+                        <div>Final CPS Score</div>
+                        <div style="margin-top: 10px; color: #4CAF50;">
+                            <i class="fas fa-check-circle"></i> Score saved to leaderboard! Rank: #${data.user_rank}
+                        </div>
+                    `;
+                }
+                
+                if (data.user_rank <= 10) {
+                    showAchievementAnimation(data.user_rank, score, clicks);
+                }
+                
+                updateLeaderboard();
+                
+                if (data.top_player_stats) {
+                    updateTopPlayerStats(data.top_player_stats);
+                }
+                
+                if (data.is_new_record) {
+                    showNotification('🎉 New World Record! 🎉', 'success');
+                }
+            } else {
+                showNotification('Failed to save score: ' + (data.message || 'Unknown error'), 'error');
             }
-            
-            // Check if user achieved a special rank and show appropriate animation
-            if (data.user_rank <= 10) {
-                showAchievementAnimation(data.user_rank, score, clicks);
-            }
-            
-            // Update leaderboard with new data
-            updateLeaderboard();
-            
-            // Update top player stats if they changed
-            if (data.top_player_stats) {
-                updateTopPlayerStats(data.top_player_stats);
-            }
-            
-            // Check if this is a new world record
-            if (data.is_new_record) {
-                showNotification('🎉 New World Record! 🎉', 'success');
-            }
+        })
+        .catch(error => {
+            console.error('Error saving 1-second score:', error);
+            showNotification('Failed to save score. Please try again.', 'error');
+        });
+    }
+    
+    // Show achievement animation for 1-second test
+    function showAchievementAnimation(rank, score, clicks) {
+        if (testState !== 'ended' && testState !== 'cooldown') {
+            return;
         }
-    })
-    .catch(error => {
-        console.error('Error saving 1-second score:', error);
-    });
-}
-
-// Show achievement animation for 1-second test
-function showAchievementAnimation(rank, score, clicks) {
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'achievement-overlay';
-    
-    let icon, title, message;
-    
-    if (rank === 1) {
-        icon = '👑';
-        title = 'WORLD CHAMPION!';
-        message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS! Your explosive speed is unmatched.`;
-    } else if (rank === 2) {
-        icon = '🥈';
-        title = 'SILVER MEDALIST!';
-        message = `Amazing performance! You're the 2nd best clicker worldwide with ${score.toFixed(1)} CPS.`;
-    } else if (rank === 3) {
-        icon = '🥉';
-        title = 'BRONZE MEDALIST!';
-        message = `Outstanding! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
-    } else if (rank <= 10) {
-        icon = '🏆';
-        title = 'TOP 10 MASTER!';
-        message = `Excellent! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'achievement-overlay';
+        
+        let icon, title, message;
+        
+        if (rank === 1) {
+            icon = '👑';
+            title = 'WORLD CHAMPION!';
+            message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS over 1 second! Your explosive speed is unmatched.`;
+        } else if (rank === 2) {
+            icon = '🥈';
+            title = 'SILVER MEDALIST!';
+            message = `Amazing 1-second performance! You're the 2nd best clicker worldwide with ${score.toFixed(1)} CPS.`;
+        } else if (rank === 3) {
+            icon = '🥉';
+            title = 'BRONZE MEDALIST!';
+            message = `Outstanding speed! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
+        } else if (rank <= 4) {
+            icon = '⭐';
+            title = 'TOP 4 ELITE!';
+            message = `Incredible 1-second performance! You're among the top 4 clickers worldwide with ${score.toFixed(1)} CPS.`;
+        } else if (rank <= 10) {
+            icon = '🏆';
+            title = 'TOP 10 MASTER!';
+            message = `Excellent speed! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
+        }
+        
+        overlay.innerHTML = `
+            <div class="achievement-content">
+                <div class="achievement-icon">${icon}</div>
+                <h2 class="achievement-title">${title}</h2>
+                <p class="achievement-message">${message}</p>
+                <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clicks} | Duration: 1s</div>
+                <button class="achievement-close">Continue</button>
+            </div>
+        `;
+        
+        document.body.appendChild(overlay);
+        
+        overlay.querySelector('.achievement-close').addEventListener('click', () => {
+            overlay.style.animation = 'fadeOut 0.5s ease forwards';
+            setTimeout(() => {
+                if (overlay.parentNode) {
+                    overlay.remove();
+                }
+            }, 500);
+        });
     }
     
-    overlay.innerHTML = `
-        <div class="achievement-content">
-            <div class="achievement-icon">${icon}</div>
-            <h2 class="achievement-title">${title}</h2>
-            <p class="achievement-message">${message}</p>
-            <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clicks} | Duration: 1s</div>
-            <button class="achievement-close">Continue</button>
-        </div>
-    `;
-    
-    document.body.appendChild(overlay);
-    
-    // Close button functionality
-    overlay.querySelector('.achievement-close').addEventListener('click', () => {
-        overlay.style.animation = 'fadeOut 0.5s ease forwards';
-        setTimeout(() => {
-            overlay.remove();
-        }, 500);
-    });
-}
-
-// Update top player stats
-function updateTopPlayerStats(stats) {
-    if (stats) {
-        document.getElementById('top-player-name').textContent = stats.name || '--';
-        document.getElementById('top-player-cps').textContent = (stats.score ? stats.score.toFixed(1) : '--') + ' CPS';
-        document.getElementById('top-player-clicks').textContent = stats.clicks || '--';
+    // Update top player stats
+    function updateTopPlayerStats(stats) {
+        if (stats) {
+            const topPlayerName = document.getElementById('top-player-name');
+            const topPlayerCps = document.getElementById('top-player-cps');
+            const topPlayerClicks = document.getElementById('top-player-clicks');
+            
+            if (topPlayerName) topPlayerName.textContent = stats.name || '--';
+            if (topPlayerCps) topPlayerCps.textContent = (stats.score ? stats.score.toFixed(1) : '--') + ' CPS';
+            if (topPlayerClicks) topPlayerClicks.textContent = stats.clicks || '--';
+        }
     }
-}
     
     // Update leaderboard with latest data
     function updateLeaderboard() {
