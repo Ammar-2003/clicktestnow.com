@@ -690,7 +690,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 score: score,
-                clicks: clicks,
+                clicks: clickCount,
                 peak_cps: peakCps,
                 endurance: endurance
             })
@@ -774,7 +774,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="achievement-icon">${icon}</div>
                 <h2 class="achievement-title">${title}</h2>
                 <p class="achievement-message">${message}</p>
-                <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clicks} | Duration: 1s</div>
+                <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clickCount} | Duration: 1s</div>
                 <button class="achievement-close">Continue</button>
             </div>
         `;
