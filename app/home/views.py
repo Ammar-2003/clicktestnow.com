@@ -393,8 +393,6 @@ def save_one_second_cps_score(request):
             # Get updated top player stats
             top_player_stats = OneSecondScore.get_top_player_stats()
             
-            print("CLICK RECEIVED:", clicks)
-
             return JsonResponse({
                 'status': 'success',
                 'is_new_record': is_new_record,
@@ -402,11 +400,9 @@ def save_one_second_cps_score(request):
                 'new_record_score': score,
                 'user_rank': user_rank,
                 'top_player_stats': top_player_stats,
-                'congrats_message': congrats_message,
-                'clicks': clicks,
-
+                'congrats_message': congrats_message  # 👈 send to frontend for instant display
             })
-      
+            
         except (ValueError, TypeError):
             return JsonResponse({'status': 'error', 'message': 'Invalid data'})
     

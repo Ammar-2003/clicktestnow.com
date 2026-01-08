@@ -416,7 +416,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const totalTime = testDuration;
-        const cps = clickCount / totalTime;
+        
+        // 🔧 STEP 1: FREEZE VARIABLES BEFORE ANY ASYNC WORK
+        const frozenClicks = clickCount;
+        const frozenCps = frozenClicks / totalTime;
         
         // Calculate additional metrics for 2-second test
         let peakCpsValue = 0;
@@ -478,22 +481,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Generate improvement tip for 2-second test
         let tip = "";
-        if (cps < 7) {
+        if (frozenCps < 7) {
             tip = "Focus on explosive clicking power. For 2-second tests, you need maximum speed from the very first click.";
-        } else if (cps < 10) {
+        } else if (frozenCps < 10) {
             tip = "Your clicking speed is good. Work on starting strong from the very first click. Every millisecond counts in 2-second tests.";
-        } else if (cps < 13) {
+        } else if (frozenCps < 13) {
             tip = "Excellent speed! For 2-second tests, focus on maintaining your peak speed without any hesitation.";
-        } else if (cps < 16) {
+        } else if (frozenCps < 16) {
             tip = "You're an elite clicker! Focus on explosive clicking techniques for maximum speed in 2-second bursts.";
         } else {
             tip = "You're at a professional level! Your 2-second explosive speed is exceptional. This is perfect for competitive gaming scenarios.";
         }
         
-        // Update user test results
+        // 🔧 STEP 2: Update user test results with FROZEN values
         if (userPosition) userPosition.textContent = '--';
-        if (userCpsScore) userCpsScore.textContent = cps.toFixed(1);
-        if (userTotalClicks) userTotalClicks.textContent = clickCount;
+        if (userCpsScore) userCpsScore.textContent = frozenCps.toFixed(1);
+        if (userTotalClicks) userTotalClicks.textContent = frozenClicks;
         
         if (userTestResults) {
             userTestResults.style.display = 'grid';
@@ -518,11 +521,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // AUTO-SAVE if user is authenticated
         if (authenticated) {
-            saveScoreToDatabase(cps, clickCount, peakCpsValue, Math.round(enduranceValue));
+            // 🔧 STEP 3: AUTO-SAVE with FROZEN values (THIS IS THE MOST IMPORTANT FIX)
+            saveScoreToDatabase(
+                frozenCps,
+                frozenClicks,
+                peakCpsValue,
+                Math.round(enduranceValue)
+            );
             
             if (statusDisplay) {
                 statusDisplay.innerHTML = `
-                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                     <div>Final CPS Score</div>
                     <div style="margin-top: 10px; color: #4CAF50;">
                         <i class="fas fa-spinner fa-spin"></i> Saving to leaderboard...
@@ -533,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // User is not authenticated - show login popup after delay
             if (statusDisplay) {
                 statusDisplay.innerHTML = `
-                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                     <div>Final CPS Score</div>
                     <div style="margin-top: 10px; color: #FFD700;">
                         <i class="fas fa-info-circle"></i> Login to save your score to the global leaderboard!
@@ -541,9 +550,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             }
             
-            // Show login modal with test results after 1.5 seconds
+            // 🔧 STEP 4: Login modal with FROZEN values
             setTimeout(() => {
-                showLoginModalWithResults(cps, clickCount);
+                showLoginModalWithResults(frozenCps, frozenClicks);
             }, 1500);
         }
         
@@ -555,8 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const testResult = {
             date: new Date(),
             duration: testDuration,
-            clicks: clickCount,
-            cps: cps,
+            clicks: frozenClicks,
+            cps: frozenCps,
             peakCps: peakCpsValue,
             endurance: Math.round(enduranceValue),
             technique: technique
@@ -592,20 +601,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 testState = 'ended';
                 if (statusDisplay && authenticated) {
                     statusDisplay.innerHTML = `
-                        <div class="cps-timer">${cps.toFixed(1)}</div>
+                        <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                         <div>Final CPS Score</div>
                         <div>Click to test again</div>
                     `;
                 } else if (statusDisplay) {
                     statusDisplay.innerHTML = `
-                        <div class="cps-timer">${cps.toFixed(1)}</div>
+                        <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                         <div>Final CPS Score</div>
                         <div>Click to test again | <span style="color: #FFD700;">Login to save score</span></div>
                     `;
                 }
             } else if (statusDisplay) {
                 statusDisplay.innerHTML = `
-                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                     <div>Final CPS Score</div>
                     <div>Test area will be available in ${cooldownTime}s</div>
                 `;
@@ -723,6 +732,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 if (data.user_rank <= 10) {
+                    // 🔧 STEP 5: Achievement animation already receives frozen values
                     showAchievementAnimation(data.user_rank, score, clicks);
                 }
                 
