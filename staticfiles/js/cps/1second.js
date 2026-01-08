@@ -520,15 +520,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authenticated) {
             saveScoreToDatabase(cps, clickCount, peakCpsValue, Math.round(enduranceValue));
             
-            if (statusDisplay) {
-                statusDisplay.innerHTML = `
-                    <div class="cps-timer">${cps.toFixed(1)}</div>
-                    <div>Final CPS Score</div>
-                    <div style="margin-top: 10px; color: #4CAF50;">
-                        <i class="fas fa-spinner fa-spin"></i> Saving to leaderboard...
-                    </div>
-                `;
-            }
         } else {
             // User is not authenticated - show login popup after delay
             if (statusDisplay) {
