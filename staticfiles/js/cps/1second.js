@@ -416,10 +416,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const totalTime = testDuration;
-        const cps = clickCount / totalTime;
+        
+        // 🔧 STEP 1: FREEZE VARIABLES BEFORE ANY ASYNC WORK
+        const frozenClicks = clickCount;
+        const frozenCps = frozenClicks / totalTime;
         
         // Calculate additional metrics for 1-second test
-        let peakCpsValue = clickCount; // For 1-second test, peak CPS is the total clicks
+        let peakCpsValue = frozenClicks; // For 1-second test, peak CPS is the total clicks
         let enduranceValue = 100;
         
         if (clickTimes.length > 1) {
@@ -478,22 +481,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Generate improvement tip for 1-second test
         let tip = "";
-        if (cps < 7) {
+        if (frozenCps < 7) {
             tip = "Focus on explosive clicking from the very first moment. For 1-second tests, there's no time to warm up!";
-        } else if (cps < 10) {
+        } else if (frozenCps < 10) {
             tip = "Good speed! Work on reducing the gap between clicks. Every millisecond counts in 1-second tests.";
-        } else if (cps < 14) {
+        } else if (frozenCps < 14) {
             tip = "Excellent speed! This is perfect for gaming scenarios requiring quick bursts of clicking.";
-        } else if (cps < 18) {
+        } else if (frozenCps < 18) {
             tip = "You're an elite clicker! Your 1-second burst speed is exceptional for competitive gaming.";
         } else {
             tip = "You're at a professional level! Your 1-second explosive speed is world-class. Perfect for PvP combat scenarios.";
         }
         
-        // Update user test results
+        // 🔧 STEP 2: Update user test results with FROZEN values
         if (userPosition) userPosition.textContent = '--';
-        if (userCpsScore) userCpsScore.textContent = cps.toFixed(1);
-        if (userTotalClicks) userTotalClicks.textContent = clickCount;
+        if (userCpsScore) userCpsScore.textContent = frozenCps.toFixed(1);
+        if (userTotalClicks) userTotalClicks.textContent = frozenClicks;
         
         if (userTestResults) {
             userTestResults.style.display = 'grid';
@@ -518,13 +521,28 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // AUTO-SAVE if user is authenticated
         if (authenticated) {
-            saveScoreToDatabase(cps, clickCount, peakCpsValue, Math.round(enduranceValue));
+            // 🔧 STEP 3: AUTO-SAVE with FROZEN values (THIS IS THE MOST IMPORTANT FIX)
+            saveScoreToDatabase(
+                frozenCps,
+                frozenClicks,
+                peakCpsValue,
+                Math.round(enduranceValue)
+            );
             
+            if (statusDisplay) {
+                statusDisplay.innerHTML = `
+                    <div class="cps-timer">${frozenCps.toFixed(1)}</div>
+                    <div>Final CPS Score</div>
+                    <div style="margin-top: 10px; color: #4CAF50;">
+                        <i class="fas fa-spinner fa-spin"></i> Saving to leaderboard...
+                    </div>
+                `;
+            }
         } else {
             // User is not authenticated - show login popup after delay
             if (statusDisplay) {
                 statusDisplay.innerHTML = `
-                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                     <div>Final CPS Score</div>
                     <div style="margin-top: 10px; color: #FFD700;">
                         <i class="fas fa-info-circle"></i> Login to save your score to the global leaderboard!
@@ -532,9 +550,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             }
             
-            // Show login modal with test results after 1.5 seconds
+            // 🔧 STEP 4: Login modal with FROZEN values
             setTimeout(() => {
-                showLoginModalWithResults(cps, clickCount);
+                showLoginModalWithResults(frozenCps, frozenClicks);
             }, 1500);
         }
         
@@ -546,8 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const testResult = {
             date: new Date(),
             duration: testDuration,
-            clicks: clickCount,
-            cps: cps,
+            clicks: frozenClicks,
+            cps: frozenCps,
             peakCps: peakCpsValue,
             endurance: Math.round(enduranceValue),
             technique: technique
@@ -583,20 +601,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 testState = 'ended';
                 if (statusDisplay && authenticated) {
                     statusDisplay.innerHTML = `
-                        <div class="cps-timer">${cps.toFixed(1)}</div>
+                        <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                         <div>Final CPS Score</div>
                         <div>Click to test again</div>
                     `;
                 } else if (statusDisplay) {
                     statusDisplay.innerHTML = `
-                        <div class="cps-timer">${cps.toFixed(1)}</div>
+                        <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                         <div>Final CPS Score</div>
                         <div>Click to test again | <span style="color: #FFD700;">Login to save score</span></div>
                     `;
                 }
             } else if (statusDisplay) {
                 statusDisplay.innerHTML = `
-                    <div class="cps-timer">${cps.toFixed(1)}</div>
+                    <div class="cps-timer">${frozenCps.toFixed(1)}</div>
                     <div>Final CPS Score</div>
                     <div>Test area will be available in ${cooldownTime}s</div>
                 `;
@@ -680,110 +698,130 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-// Save score to database for 1-second test
-function saveScoreToDatabase(score, clicks, peakCps, endurance) {
-    fetch('/save-one-second-cps-score/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({
-            score: score,
-            clicks: clickCount,
-            peak_cps: peakCps,
-            endurance: endurance
+    // Save score to database for 1-second test
+    function saveScoreToDatabase(score, clicks, peakCps, endurance) {
+        fetch('/save-one-second-cps-score/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                score: score,
+                clicks: clicks,
+                peak_cps: peakCps,
+                endurance: endurance
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            console.log('1-second score saved successfully');
-            
-            // Update user position display if element exists
-            if (document.getElementById('user-position')) {
-                document.getElementById('user-position').textContent = '#' + data.user_rank;
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('1-second score saved successfully');
+                if (userPosition) {
+                    userPosition.textContent = '#' + data.user_rank;
+                }
+                
+                if (statusDisplay) {
+                    statusDisplay.innerHTML = `
+                        <div class="cps-timer">${score.toFixed(1)}</div>
+                        <div>Final CPS Score</div>
+                        <div style="margin-top: 10px; color: #4CAF50;">
+                            <i class="fas fa-check-circle"></i> Score saved to leaderboard! Rank: #${data.user_rank}
+                        </div>
+                    `;
+                }
+                
+                if (data.user_rank <= 10) {
+                    // 🔧 STEP 5: Achievement animation already receives frozen values
+                    showAchievementAnimation(data.user_rank, score, clicks);
+                }
+                
+                updateLeaderboard();
+                
+                if (data.top_player_stats) {
+                    updateTopPlayerStats(data.top_player_stats);
+                }
+                
+                if (data.is_new_record) {
+                    showNotification('🎉 New World Record! 🎉', 'success');
+                }
+            } else {
+                showNotification('Failed to save score: ' + (data.message || 'Unknown error'), 'error');
             }
-            
-            // Check if user achieved a special rank and show appropriate animation
-            if (data.user_rank <= 10) {
-                showAchievementAnimation(data.user_rank, score, clicks);
-            }
-            
-            // Update leaderboard with new data
-            updateLeaderboard();
-            
-            // Update top player stats if they changed
-            if (data.top_player_stats) {
-                updateTopPlayerStats(data.top_player_stats);
-            }
-            
-            // Check if this is a new world record
-            if (data.is_new_record) {
-                showNotification('🎉 New World Record! 🎉', 'success');
-            }
+        })
+        .catch(error => {
+            console.error('Error saving 1-second score:', error);
+            showNotification('Failed to save score. Please try again.', 'error');
+        });
+    }
+    
+    // Show achievement animation for 1-second test
+    function showAchievementAnimation(rank, score, clicks) {
+        if (testState !== 'ended' && testState !== 'cooldown') {
+            return;
         }
-    })
-    .catch(error => {
-        console.error('Error saving 1-second score:', error);
-    });
-}
-
-// Show achievement animation for 1-second test
-function showAchievementAnimation(rank, score, clicks) {
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'achievement-overlay';
-    
-    let icon, title, message;
-    
-    if (rank === 1) {
-        icon = '👑';
-        title = 'WORLD CHAMPION!';
-        message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS! Your explosive speed is unmatched.`;
-    } else if (rank === 2) {
-        icon = '🥈';
-        title = 'SILVER MEDALIST!';
-        message = `Amazing performance! You're the 2nd best clicker worldwide with ${score.toFixed(1)} CPS.`;
-    } else if (rank === 3) {
-        icon = '🥉';
-        title = 'BRONZE MEDALIST!';
-        message = `Outstanding! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
-    } else if (rank <= 10) {
-        icon = '🏆';
-        title = 'TOP 10 MASTER!';
-        message = `Excellent! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'achievement-overlay';
+        
+        let icon, title, message;
+        
+        if (rank === 1) {
+            icon = '👑';
+            title = 'WORLD CHAMPION!';
+            message = `You've achieved the #1 spot globally with ${score.toFixed(1)} CPS over 1 second! Your explosive speed is unmatched.`;
+        } else if (rank === 2) {
+            icon = '🥈';
+            title = 'SILVER MEDALIST!';
+            message = `Amazing 1-second performance! You're the 2nd best clicker worldwide with ${score.toFixed(1)} CPS.`;
+        } else if (rank === 3) {
+            icon = '🥉';
+            title = 'BRONZE MEDALIST!';
+            message = `Outstanding speed! You've secured the 3rd position globally with ${score.toFixed(1)} CPS.`;
+        } else if (rank <= 4) {
+            icon = '⭐';
+            title = 'TOP 4 ELITE!';
+            message = `Incredible 1-second performance! You're among the top 4 clickers worldwide with ${score.toFixed(1)} CPS.`;
+        } else if (rank <= 10) {
+            icon = '🏆';
+            title = 'TOP 10 MASTER!';
+            message = `Excellent speed! You've made it to the top 10 with ${score.toFixed(1)} CPS. Keep pushing for the top!`;
+        }
+        
+        overlay.innerHTML = `
+            <div class="achievement-content">
+                <div class="achievement-icon">${icon}</div>
+                <h2 class="achievement-title">${title}</h2>
+                <p class="achievement-message">${message}</p>
+                <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clicks} | Duration: 1s</div>
+                <button class="achievement-close">Continue</button>
+            </div>
+        `;
+        
+        document.body.appendChild(overlay);
+        
+        overlay.querySelector('.achievement-close').addEventListener('click', () => {
+            overlay.style.animation = 'fadeOut 0.5s ease forwards';
+            setTimeout(() => {
+                if (overlay.parentNode) {
+                    overlay.remove();
+                }
+            }, 500);
+        });
     }
     
-    overlay.innerHTML = `
-        <div class="achievement-content">
-            <div class="achievement-icon">${icon}</div>
-            <h2 class="achievement-title">${title}</h2>
-            <p class="achievement-message">${message}</p>
-            <div class="achievement-rank">Rank: #${rank} | Score: ${score.toFixed(1)} CPS | Clicks: ${clicks} | Duration: 1s</div>
-            <button class="achievement-close">Continue</button>
-        </div>
-    `;
-    
-    document.body.appendChild(overlay);
-    
-    // Close button functionality
-    overlay.querySelector('.achievement-close').addEventListener('click', () => {
-        overlay.style.animation = 'fadeOut 0.5s ease forwards';
-        setTimeout(() => {
-            overlay.remove();
-        }, 500);
-    });
-}
-
-// Update top player stats
-function updateTopPlayerStats(stats) {
-    if (stats) {
-        document.getElementById('top-player-name').textContent = stats.name || '--';
-        document.getElementById('top-player-cps').textContent = (stats.score ? stats.score.toFixed(1) : '--') + ' CPS';
-        document.getElementById('top-player-clicks').textContent = stats.clicks || '--';
+    // Update top player stats
+    function updateTopPlayerStats(stats) {
+        if (stats) {
+            const topPlayerName = document.getElementById('top-player-name');
+            const topPlayerCps = document.getElementById('top-player-cps');
+            const topPlayerClicks = document.getElementById('top-player-clicks');
+            
+            if (topPlayerName) topPlayerName.textContent = stats.name || '--';
+            if (topPlayerCps) topPlayerCps.textContent = (stats.score ? stats.score.toFixed(1) : '--') + ' CPS';
+            if (topPlayerClicks) topPlayerClicks.textContent = stats.clicks || '--';
+        }
     }
-}
     
     // Update leaderboard with latest data
     function updateLeaderboard() {
