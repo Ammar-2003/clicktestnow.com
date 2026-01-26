@@ -1,278 +1,614 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100 Second CPS Test | Ultimate Click Speed Endurance Challenge</title>
-    <meta name="description" content="Test your clicking endurance with our 100-second CPS challenge. Measure your click speed over an extended period and compare with global rankings.">
-    <meta name="keywords" content="100 second cps test, click endurance test, long duration cps test, clicks per second marathon, mouse stamina test, gaming endurance challenge">
-    <meta name="author" content="Precision CPS Analyzer">
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+{% block first_head %}
+    <title>100 Second CPS Test | Ultimate Click Endurance Challenge</title>
+    <meta name="description" content="Take the ultimate 100 second CPS test to challenge your clicking endurance. Test stamina, maintain consistency, and push your limits in this extreme clicking marathon.">
+    <meta name="author" content="ClickTestNow">
+    <meta property="og:title" content="100 Second CPS Test | Ultimate Click Endurance Challenge">
+    <meta property="og:description" content="Take the ultimate 100 second CPS test to challenge your clicking endurance. Test stamina, maintain consistency, and push your limits in this extreme clicking marathon.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ClickTestNow">
+    <link rel="canonical" href="https://clicktestnow.com/100-second-cps-test/">
+    <meta property="og:image" content="{% static 'Vguides/100-second-cps-test.jpeg' %}">
+    <meta property="og:image:alt" content="100 Second CPS Test interface">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="800">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% static 'Vguides/100-second-cps-test.jpeg' %}">
+    <meta name="twitter:image:alt" content="100 Second CPS Test interface">
+    <meta itemprop="image" content="{% static 'Vguides/100-second-cps-test.jpeg' %}">
+    <meta name="featured-image" content="{% static 'Vguides/100-second-cps-test.jpeg' %}">
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/cps/100second.css' %}">
     <script src="{% static 'js/cps/100second.js' %}" defer></script>
-</head>
-<body class="dark-mode">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "100 Second CPS Test - Ultimate Click Endurance Challenge",
+        "description": "Take the ultimate 100 second CPS test to challenge your clicking endurance. Test stamina, maintain consistency, and push your limits in this extreme clicking marathon.",
+        "url": "{{ request.build_absolute_uri }}",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-12-31"
+        },
+        "softwareVersion": "1.0",
+        "featureList": [
+            "Free 100 second click endurance test",
+            "Measure CPS (clicks per second)",
+            "Test stamina and consistency",
+            "Endurance performance tracking",
+            "Gaming technique guide",
+            "No installation required",
+            "Works in any browser",
+            "Compare with global averages",
+            "Practice mode available",
+            "Detailed results analysis",
+            "Leaderboard rankings",
+            "Mobile-friendly interface",
+            "Click stamina assessment",
+            "Real-time tracking",
+            "Progress monitoring",
+            "Performance analytics"
+        ],
+        "screenshot": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/100-second-cps-test.jpeg' %}",
+            "width": 1280,
+            "height": 800,
+            "caption": "100 Second CPS Test interface showing ultimate endurance click measurement"
+        },
+        "downloadUrl": "{{ request.build_absolute_uri }}",
+        "softwareRequirements": "Web browser with JavaScript enabled",
+        "releaseNotes": "Free online 100-second clicking endurance and stamina measurement tool for serious gamers",
+        "countriesSupported": "Worldwide",
+        "targetPlatform": "Web Browser",
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "datePublished": "2026-01-06T00:00:00+00:00",
+        "dateModified": "2026-01-06T00:00:00+00:00"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Complete Guide to 100 Second CPS Test: Ultimate Endurance Challenge",
+        "description": "Learn everything about 100-second clicking tests, from pacing strategies to advanced endurance methods. Includes how to perform 100 second CPS test, improve clicking stamina and consistency, and optimize long-duration performance.",
+        "articleBody": "This comprehensive guide covers 100-second clicking techniques used for extreme endurance challenges. Learn how to maximize your clicks per second over 100 seconds, measure your endurance performance accurately, and improve your stamina and consistency with targeted practice. Includes detailed instructions on pacing strategies, stamina optimization, and endurance training for optimal 100-second performance.",
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+                "width": 250,
+                "height": 250
+            }
+        },
+        "datePublished": "2026-01-06T00:00:00+00:00",
+        "dateModified": "2026-01-06T00:00:00+00:00",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ request.build_absolute_uri }}"
+        },
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/100-second-cps-test.jpeg' %}",
+            "width": 1280,
+            "height": 800,
+            "caption": "100 Second CPS Test - Ultimate endurance technique guide and stamina measurement"
+        },
+        "wordCount": "2500",
+        "timeRequired": "PT15M",
+        "keywords": "100 second cps test, click endurance test, cps test 100 second, mouse stamina test, gaming endurance challenge, marathon clicking test, 100 second click challenge, ultimate endurance test"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why do my CPS numbers drop halfway through the test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Because muscle fatigue sets in. The 100-second test exposes endurance limits, not just raw speed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is consistency more critical than peak speed in this mode?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. A consistent rate of clicking usually generates a higher total score than short bursts of very fast clicking."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is my hand stiff after finishing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Prolonged sessions lead to repeated micro-movements that tighten the muscles, while stretching afterwards helps reduce stiffness."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Should I be changing clicking techniques during the test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Only when your present method becomes uncomfortable. Too much switching gets rid of the rhythm."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is it that short CPS tests are less challenging than this one?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Short tests promote speediness. The 100-second test favors controlled perseverance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Would warming up help improve my score?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The response of warm muscles can be faster, and fatigue can be resisted."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do scores vary day by day?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sleep, hydration, stress, and hand condition affect click endurance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is it normal to plateau at a certain CPS?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Plateaus often occur and usually can be overcome by improving the schedule and recovery."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Perform a 100 Second CPS Test - Ultimate Endurance Guide",
+        "description": "Learn how to properly test your clicking endurance in 100 seconds and maximize your CPS stamina performance.",
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/100-second-cps-test.jpeg' %}",
+            "width": 1280,
+            "height": 800,
+            "caption": "Step-by-step 100 second CPS testing guide showing ultimate endurance technique"
+        },
+        "step": [
+            {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Select the 100-Second Test",
+                "text": "Access the ClickTestNow website and select the 100 Second CPS Test from the time duration options or preset buttons.",
+                "url": "{{ request.build_absolute_uri }}#step1"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Prepare Your Endurance Setup",
+                "text": "Ensure you have a comfortable gaming mouse, ergonomic seating, and proper hydration. The test requires 100 seconds of sustained clicking, so endurance preparation is crucial.",
+                "url": "{{ request.build_absolute_uri }}#step2"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Start the Endurance Challenge",
+                "text": "Click the large test area to begin the 100-second countdown timer immediately. The test measures both peak speed and long-term endurance capacity.",
+                "url": "{{ request.build_absolute_uri }}#step3"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Click with Pacing and Consistency",
+                "text": "Click with a sustainable rhythm for the full 100 seconds. Focus on pacing, stamina, and consistency rather than maximum speed bursts.",
+                "url": "{{ request.build_absolute_uri }}#step4"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 5,
+                "name": "Analyze Your Endurance Performance",
+                "text": "View your detailed results showing CPS, total clicks, endurance score, and stamina metrics. Compare with global endurance rankings and track your stamina progress over time.",
+                "url": "{{ request.build_absolute_uri }}#step5"
+            }
+        ],
+        "totalTime": "PT8M",
+        "supply": ["Computer", "Gaming Mouse", "Water"],
+        "tool": ["Web Browser", "100 Second CPS Test Tool"],
+        "estimatedCost": {
+            "@type": "MonetaryAmount",
+            "currency": "USD",
+            "value": "0"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "{{ request.scheme }}://{{ request.get_host }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "100 Second CPS Test",
+                "item": "{{ request.build_absolute_uri }}"
+            }
+        ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
     <div class="container">
         <header class="header">
-            <h1 style="color: var(--primary)">100 Second CPS Test</h1>
-            <p>Ultimate endurance challenge to test your clicking stamina over 100 seconds</p>
+            <h1>100 Second CPS Test | Ultimate Endurance Challenge</h1>
+            <p>Challenge your clicking stamina with the ultimate 100-second endurance test. Push your limits and measure your consistency over the longest CPS challenge.</p>
         </header>
-
-        <main>
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-hourglass-half"></i> Click Endurance Test</h2>
+        <div class="card">
+            <div class="card-header">
+                <h2>100 Second Click Endurance Test</h2>
+            </div>
+            <div class="card-body">
+                <div class="time-links">
+                    <a href="{% url '1_second_mouse_cps_test' %}" class="time-link">1s</a>
+                    <a href="{% url '2_seconds_mouse_cps_test' %}" class="time-link">2s</a>
+                    <a href="{% url '5_seconds_mouse_cps_test' %}" class="time-link">5s</a>
+                    <a href="{% url '10_seconds_mouse_cps_test' %}" class="time-link">10s</a>
+                    <a href="{% url '15_seconds_mouse_cps_test' %}" class="time-link">15s</a>
+                    <a href="{% url '20_seconds_mouse_cps_test' %}" class="time-link">20s</a>
+                    <a href="{% url '30_seconds_mouse_cps_test' %}" class="time-link">30s</a>
+                    <a href="{% url '60_seconds_mouse_cps_test' %}" class="time-link">60s</a>
+                    <a href="{% url '100_seconds_mouse_cps_test' %}" class="time-link active">100s</a>
                 </div>
-                <div class="card-body">
-                                                            <div class="time-links">
-    <a href="{% url '1_second_mouse_cps_test' %}" class="time-link">1s</a>
-    <a href="{% url '2_seconds_mouse_cps_test' %}" class="time-link">2s</a>
-    <a href="{% url '5_seconds_mouse_cps_test' %}" class="time-link">5s</a>
-    <a href="{% url '10_seconds_mouse_cps_test' %}" class="time-link">10s</a>
-    <a href="{% url '15_seconds_mouse_cps_test' %}" class="time-link">15s</a>
-    <a href="{% url '20_seconds_mouse_cps_test' %}" class="time-link">20s</a>
-    <a href="{% url '30_seconds_mouse_cps_test' %}" class="time-link">30s</a>
-    <a href="{% url '60_seconds_mouse_cps_test' %}" class="time-link">60s</a>
-    <a href="{% url '100_seconds_mouse_cps_test' %}" class="time-link active">100s</a>
-</div>
-                    <div class="alert alert-info">
-                        <div class="alert-icon">💡</div>
-                        <div>
-                            <strong style="color: white;">How to Use This 100-Second CPS Test:</strong>
-                            <ol class="instruction-list">
-                                <li>Click the test area to begin the 100-second challenge</li>
-                                <li>Click as fast as you can for the full duration</li>
-                                <li>Monitor your progress with the progress bar and timer</li>
-                                <li>Try to maintain a consistent click rate throughout</li>
-                                <li>View your detailed results and compare with global rankings</li>
-                            </ol>
+                <div class="measurement-area-container">
+                    <div class="cps-test-area idle" id="cps-test-area">
+                        <div class="cps-status" id="cps-status">
+                            <div class="cps-timer" id="cps-timer">100.0</div>
+                            <div class="cps-click-counter" id="cps-clicks">Clicks: 0</div>
+                            <div>Click to start endurance test</div>
                         </div>
                     </div>
+                </div>
+                
+                <div class="score-box">
+                    <strong class="top-player-score">🏆 Top Player's Score</strong>
+                </div>
+                
+                <!-- Global Top Player Stats -->
+                <div class="stats-grid" id="global-top-player-stats">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-crown"></i> Top Player</h3>
+                        <div class="stat-value" id="top-player-name">
+                            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Global #1 Endurance Clicker</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-tachometer-alt"></i> Top CPS Score</h3>
+                        <div class="stat-value" id="top-player-cps">
+                            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} CPS{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Best Endurance Performance</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-mouse-pointer"></i> Top Player Clicks</h3>
+                        <div class="stat-value" id="top-player-clicks">
+                            {% if top_player_stats %}{{ top_player_stats.clicks }}{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Total Clicks in 100 Seconds</div>
+                    </div>
+                </div>
 
-                    <div class="measurement-area-container">
-                        <div class="cps-test-area idle" id="cps-test-area">
-                            <div class="cps-status" id="cps-status">
-                                <div class="cps-timer" id="cps-timer">100.0</div>
-                                <div class="cps-click-counter" id="cps-clicks">Clicks: 0</div>
-                                <div>Click to start endurance test</div>
+                <div class="score-box">
+                    <strong class="your-score" id="yourScoreBox" style="display:none;">👉 Your Score</strong>
+                </div>
+                
+                <div class="stats-grid" id="user-test-results" style="display: none;">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-user"></i> Your Position</h3>
+                        <div class="stat-value" id="user-position">--</div>
+                        <div class="stat-label">Global Ranking</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-tachometer-alt"></i> Your CPS Score</h3>
+                        <div class="stat-value" id="user-cps-score">--</div>
+                        <div class="stat-label">Clicks Per Second</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
+                        <div class="stat-value" id="user-total-clicks">--</div>
+                        <div class="stat-label">All registered clicks</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid" id="advanced-stats" style="display: none;">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-bolt"></i> Peak CPS</h3>
+                        <div class="stat-value" id="peak-cps">--</div>
+                        <div class="stat-label">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>Highest 1-second rate</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-running"></i> Endurance Score</h3>
+                        <div class="stat-value" id="endurance-score">--</div>
+                        <div class="stat-label">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>Consistency over 100s</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-mouse"></i> Stamina Rating</h3>
+                        <div class="stat-value" id="stamina-rating">--</div>
+                        <div class="stat-label" id="stamina-tags"></div>
+                    </div>
+                </div>
+
+                <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                    <h4><i class="fas fa-lightbulb"></i> Endurance Tip</h4>
+                    <p id="improvement-tip">Based on your clicking pattern, we recommend focusing on maintaining a steady pace to improve your endurance score.</p>
+                </div>
+
+                <div class="button-group">
+                    <button id="cps-reset-btn">
+                        <i class="fas fa-redo"></i> Reset Test
+                    </button>
+                    <button id="save-btn" class="btn btn-primary" style="display: none;">
+                        <i class="fas fa-save"></i> Save Results
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-trophy"></i> 100 Second CPS Leaderboard</h2>
+            </div>
+            <div class="card-body">
+                <div class="leaderboard-container">
+                    <table class="leaderboard">
+                        <thead class="leaderboard-header">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>CPS</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-content">
+                            {% for score in top_scores %}
+                            <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                <td class="leaderboard-player">{{ score.user.username }}</td>
+                                <td class="leaderboard-score">{{ score.score|floatformat:1 }} CPS</td>
+                                <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    {% if user.is_authenticated and user_best_score %}
+                    <div class="user-best-score">
+                        <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                        <div class="user-score">
+                            <span class="score-value">{{ user_best_score.score|floatformat:1 }} CPS</span>
+                            <span class="score-rank">
+                                {% if user_rank %}
+                                    <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                {% else %}
+                                    Not ranked
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="score-details">
+                            <small>{{ user_best_score.clicks }} clicks in 100 seconds</small>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="content-section">
+                    <h2>About the 100 Second Click Test</h2>
+                    <p>The 100 Second CPS Test comes as one of the most popular and hardest game modes designed particularly for users who wish to test their clicking speed in an efficient manner. This happens to be the most extreme test, designed particularly for game enthusiasts who are in search of an extreme test. Users are placed in a selected area, commonly designated as a gray blinking box, in order to participate in the game. The main idea of the game is simple, as users are able to see clicks in real-time.</p>
+                    
+                    <p>Within that hundred seconds, one has to click at their fastest possible speed until their time runs out. The speed at which one clicks within those seconds helps in becoming an actual test of mental limits. Each click counts so that you may even analyze your Clicks Per performance.</p>
+                    
+                    <div class="featured-image-container">
+                        <img src="{% static 'Vguides/100-second-cps-test.jpeg' %}" 
+                             alt="100 Second CPS Test"
+                             title="100 Second CPS Test Interface"
+                             class="featured-image"
+                             width="850"
+                             height="515"
+                             loading="lazy">
+                    </div>
+                    
+                    <h2>Steps to Use the CPS Test</h2>
+                    <ol>
+                        <li>Select your test time in seconds or press one of the preset buttons</li>
+                        <li>Click the plus button or use the spacebar until the timer reaches zero</li>
+                        <li>View your clicks per second (CPS) and clicks per minute (CPM) result values</li>
+                        <li>Use replay or the new test button to restart test</li>
+                        <li>Check your click test results in the history table</li>
+                    </ol>
+                    
+                    <h2>Benefits of Taking the CPS Test</h2>
+                    <p>There are multiple reasons why one should take the cps test, and they all reference a different way it can aid in clicking and general playing.</p>
+                    
+                    <h3>Enjoyable Practice Experience</h3>
+                    <p>The way the test functions is that it makes practicing enjoyable by making it a breeze to carry out the process of improving mouse speed and clicks. The test also remains engaging at all times and can be used to kill time.</p>
+                    
+                    <h3>Monitor your Improvement</h3>
+                    <p>Information regarding your CPS score will be made accessible so you may better understand it as well as improve it further with focused attention on your weaknesses.</p>
+                    
+                    <h3>Competitive Edge in Online Games</h3>
+                    <p>The CPS test is capable of conferring a benefit in allowing gamers to succeed competitively as they play various games online, especially clicker games like Flappy Bird and Minecraft, which depend on effective clicking speed to ensure success competitively.</p>
+                    
+                    <h3>Enhanced Overall Gameplay</h3>
+                    <p>Moreover, it improves gaming skills on a general level because many games require mouse clicking to be one of the most crucial game controls.</p>
+                    
+                    <h3>Faster Response Speed</h3>
+                    <p>A quicker rate for clicking the mouse increases the speed of one's reactions, hence improving the ability to act accordingly using the mouse.</p>
+                    
+                    <h2>Facing the Toughest 100-Second Challenge</h2>
+                    <p>When you begin playing every day, it may look quite easy at first, but it is a very long time for click speed games. Over a long time, it becomes extremely painful to play this particular game since you are supposed to continue snapping your fingers. It becomes extremely difficult to play this particular game; one may feel tired since it is continuous, but a difficult task like this one requires a lot of effort.</p>
+                    
+                    <p>The consequences are experienced when one tries to sustain that kind of clicking speed over a period of 100 seconds. It can result in discomfort, as well as fatigue, and in extreme cases, one fails to successfully complete playing the game in a comfortable way. While it involves quickness in clicking, it also involves control, since one can click as fast as they can but fails to control the game, and that in itself makes it challenging.</p>
+                    
+                    <h2>Smart Strategies for the 100-Second Challenge</h2>
+                    <p>The 100-Second Click Test challenges players to maintain fast clicking for a long period and achieve high scores. Consider the strategies that best balance technique with body readiness and mindset to keep a steady, maintainable clicking rate.</p>
+                    
+                    <h3>Master the Art of Clicking</h3>
+                    <ul>
+                        <li><strong>Jitter clicking:</strong> rapidly vibrate your finger on the mouse button</li>
+                        <li><strong>Butterfly clicking:</strong> quickly alternate with two fingers on the same button</li>
+                        <li><strong>Drag clicking:</strong> click and slide across to register multiple clicks</li>
+                    </ul>
+                    <p>Choose the method that feels comfortable and sustainable for the full 100 seconds.</p>
+                    
+                    <h3>Get Your Hands and Body Ready</h3>
+                    <ul>
+                        <li><strong>Hand exercises:</strong> warm up wrists before the test</li>
+                        <li><strong>Good ergonomics:</strong> to position your hand and arm, minimizing strain during play</li>
+                        <li><strong>Proper hydration:</strong> to ensure you stay well-hydrated for better performance of muscles</li>
+                    </ul>
+                    
+                    <h3>Build the Right Mindset</h3>
+                    <ul>
+                        <li><strong>Use pacing:</strong> and begin on a set speed, rather than going at maximum effort</li>
+                        <li><strong>Maintain focus:</strong> concentrate on a steady rhythm throughout</li>
+                        <li><strong>Take small breaks:</strong> with 'micro-pause' of some milliseconds, thus avoiding 'fatigue'</li>
+                    </ul>
+                    
+                    <h3>Choose the Right Gear</h3>
+                    <ul>
+                        <li>Careful mouse selection, preferably a gaming mouse designed for response</li>
+                        <li>Smooth Surface / MousePad with Appropriate Friction with Your Chosen Method of Clicking</li>
+                    </ul>
+                    
+                    <h3>Train and Track Your Progress</h3>
+                    <ul>
+                        <li><strong>Interval training:</strong> With small bursts, long intervals, etc.</li>
+                        <li><strong>Build endurance:</strong> by gradually increasing your practice duration to build stamina</li>
+                        <li><strong>Performance tracking:</strong> to monitor progress over time, areas to improve</li>
+                    </ul>
+                    <p>Remember that "consistency is key" and having regular practice with "proper technique" can improve performance!</p>
+                    
+                    <div class="faq-section">
+                        <h2>FAQs About 100 Second CPS Test</h2>
+                        
+                        <h3>Why do my CPS numbers drop halfway through the test?</h3>
+                        <p>Because muscle fatigue sets in. The 100-second test exposes endurance limits, not just raw speed.</p>
+                        
+                        <h3>Is consistency more critical than peak speed in this mode?</h3>
+                        <p>Yes. A consistent rate of clicking usually generates a higher total score than short bursts of very fast clicking.</p>
+                        
+                        <h3>Why is my hand stiff after finishing?</h3>
+                        <p>Prolonged sessions lead to repeated micro-movements that tighten the muscles, while stretching afterwards helps reduce stiffness.</p>
+                        
+                        <h3>Should I be changing clicking techniques during the test?</h3>
+                        <p>Only when your present method becomes uncomfortable. Too much switching gets rid of the rhythm.</p>
+                        
+                        <h3>Does clicking rhythm count?</h3>
+                        <p>Yes, a smooth rhythm reduces wasted motion and saves energy.</p>
+                        
+                        <h3>Why is it that short CPS tests are less challenging than this one?</h3>
+                        <p>Short tests promote speediness. The 100-second test favors controlled perseverance.</p>
+                        
+                        <h3>Would warming up help improve my score?</h3>
+                        <p>Yes. The response of warm muscles can be faster, and fatigue can be resisted.</p>
+                        
+                        <h3>Does hand size impact hand performance?</h3>
+                        <p>While the size of hands is irrelevant, how comfortable the grip is is not.</p>
+                        
+                        <h3>Why do scores vary day by day?</h3>
+                        <p>Sleep, hydration, stress, and hand condition affect click endure.</p>
+                        
+                        <h3>Is it normal to plateau at a certain CPS?</h3>
+                        <p>Yes. Plateaus often occur and usually can be overcome by improving the schedule and recovery.</p>
+                    </div>
+                    
+                    <!-- Related Tools Section -->
+                    <div class="related-tools-section">
+                        <strong>Related Click Testing Tools</strong>
+                        <p>Explore our other clicking and gaming tools to improve your performance:</p>
+                        
+                        <div class="tools-grid">
+                            <div class="tool-card">
+                                <a href="{% url 'butterfly_click_test' %}">Butterfly Click Test</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'polling_rate_tester' %}">Polling Rate Test</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'edpi_calculator' %}">eDPI Calculator</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'spacebar_counter' %}">Spacebar Counter</a>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Click rate display -->
-                    <div class="click-rate-display" id="click-rate-display">
-                        Current Rate: 0.0 CPS
-                    </div>
-
-
-<!-- Global Top Player Stats -->
-<div class="stats-grid" id="global-top-player-stats">
-    <div class="stat-card">
-        <h3><i class="fas fa-crown"></i> Top Player</h3>
-        <div class="stat-value" id="top-player-name">
-            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Global #1 Endurance Clicker</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-tachometer-alt"></i> Top CPS Score</h3>
-        <div class="stat-value" id="top-player-cps">
-            {% if top_player_stats %}{{ top_player_stats.score|floatformat:1 }} CPS{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Best Endurance Performance</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-mouse-pointer"></i> Top Player Clicks</h3>
-        <div class="stat-value" id="top-player-clicks">
-            {% if top_player_stats %}{{ top_player_stats.clicks }}{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Total Clicks in 100 Seconds</div>
-    </div>
-</div>
-
-<div class="clean-divider" style="display: none;"></div>
-<div class="stats-grid" id="user-test-results" style="display: none;">
-    <div class="stat-card">
-        <h3><i class="fas fa-user"></i> Your Position</h3>
-        <div class="stat-value" id="user-position">--</div>
-        <div class="stat-label">Global Ranking</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-tachometer-alt"></i> Your CPS Score</h3>
-        <div class="stat-value" id="user-cps-score">--</div>
-        <div class="stat-label">Clicks Per Second</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-mouse-pointer"></i> Your Total Clicks</h3>
-        <div class="stat-value" id="user-total-clicks">--</div>
-        <div class="stat-label">All registered clicks</div>
-    </div>
-</div>
-
-<div class="stats-grid" id="advanced-stats" style="display: none;">
-    <div class="stat-card">
-        <h3><i class="fas fa-chart-line"></i> Peak CPS</h3>
-        <div class="stat-value" id="peak-cps">--</div>
-        <div class="stat-label">
-            <i class="fas fa-globe-americas"></i>
-            <span>Highest 1-second rate</span>
-        </div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-running"></i> Endurance Score</h3>
-        <div class="stat-value" id="endurance-score">--</div>
-        <div class="stat-label">
-            <i class="fas fa-globe-americas"></i>
-            <span>Consistency rating</span>
-        </div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-battery-full"></i> Stamina Drop</h3>
-        <div class="stat-value" id="stamina-drop">--%</div>
-        <div class="stat-label">
-            <i class="fas fa-globe-americas"></i>
-            <span>Performance decrease</span>
-        </div>
-    </div>
-</div>
-
-                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
-                        <h4><i class="fas fa-lightbulb"></i> Endurance Improvement Tip</h4>
-                        <p id="improvement-tip">Based on your clicking pattern, we recommend focusing on maintaining a steady pace to improve your endurance score.</p>
-                    </div>
-
-                    <div class="button-group">
-<button id="cps-reset-btn"
-    style="background: linear-gradient(135deg, #e63946, #d90429);
-           color: #fff;
-           border: none;
-           padding: 10px 18px;
-           border-radius: 8px;
-           cursor: pointer;
-           font-size: 15px;
-           font-weight: 600;
-           display: inline-flex;
-           align-items: center;
-           gap: 6px;
-           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
-           transition: all 0.25s ease;"
-    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
-    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
-    onmousedown="this.style.transform='scale(0.96)';"
-    onmouseup="this.style.transform='scale(1)';"
->
-    <i class="fas fa-redo"></i> Reset Test
-</button>
-                    </div>
                 </div>
             </div>
-
-            <!-- Leaderboard Section -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-trophy"></i> 100-Second CPS Leaderboard</h2>
-                </div>
-                <div class="card-body">
-                    <div class="leaderboard-container">
-                        <table class="leaderboard">
-                            <thead class="leaderboard-header">
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Player</th>
-                                    <th>CPS</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leaderboard-content">
-                                {% for score in top_scores %}
-                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
-                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
-                                    <td class="leaderboard-player">{{ score.user.username }}</td>
-                                    <td class="leaderboard-score">{{ score.score|floatformat:1 }} CPS</td>
-                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        
-                        {% if user.is_authenticated and user_best_score %}
-                        <div class="user-best-score">
-                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
-                            <div class="user-score">
-                                <span class="score-value">{{ user_best_score.score|floatformat:1 }} CPS</span>
-                                <span class="score-rank">
-                                    {% if user_rank %}
-                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
-                                    {% else %}
-                                        Not ranked
-                                    {% endif %}
-                                </span>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="content-section">
-                        <h2><i class="fas fa-info-circle"></i> Understanding the 100-Second CPS Test</h2>
-                        <p>The 100-second CPS test is designed to measure not just your raw clicking speed, but also your endurance and consistency over an extended period. This test separates casual clickers from true endurance champions.</p>
-                        
-                        <p>Why 100 seconds is the ultimate test of clicking stamina:</p>
-                        <ul>
-                            <li><strong>Endurance Measurement:</strong> Tests your ability to maintain speed over time</li>
-                            <li><strong>Consistency Evaluation:</strong> Reveals how well you can sustain your performance</li>
-                            <li><strong>Stamina Assessment:</strong> Measures your physical and mental endurance</li>
-                            <li><strong>Real-world Application:</strong> Simulates extended gaming sessions or tasks requiring sustained clicking</li>
-                        </ul>
-                    </div>
-
-                    <div class="content-section">
-                        <h2><i class="fas fa-running"></i> Endurance Clicking Techniques</h2>
-                        <p>Success in the 100-second test requires a different approach than short burst tests. Here's how to maximize your endurance:</p>
-                        
-                        <ul>
-                            <li><strong>Pace Yourself:</strong> Don't start at maximum speed - find a sustainable rhythm</li>
-                            <li><strong>Hand Position:</strong> Keep your hand relaxed to prevent fatigue</li>
-                            <li><strong>Regular Breaks:</strong> Practice with shorter tests first and gradually increase duration</li>
-                            <li><strong>Ergonomics:</strong> Ensure your mouse and seating position are comfortable</li>
-                            <li><strong>Consistency:</strong> Focus on maintaining a steady click rate rather than peaks and valleys</li>
-                        </ul>
-                        
-                        <p>Remember that endurance clicking is a marathon, not a sprint. Regular practice will improve your stamina over time.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2><i class="fas fa-medal"></i> Scoring and Rankings</h2>
-                        <p>Your score is calculated as clicks per second (CPS) over the entire 100-second duration. The leaderboard ranks players based on this CPS value.</p>
-                        
-                        <p>What makes a good 100-second CPS score:</p>
-                        <ul>
-                            <li><strong>Elite:</strong> 8.0+ CPS (800+ total clicks) - Exceptional endurance and speed</li>
-                            <li><strong>Advanced:</strong> 6.0-7.9 CPS (600-799 clicks) - Strong performance with good stamina</li>
-                            <li><strong>Intermediate:</strong> 4.0-5.9 CPS (400-599 clicks) - Solid endurance capabilities</li>
-                            <li><strong>Beginner:</strong> 2.0-3.9 CPS (200-399 clicks) - Developing endurance</li>
-                            <li><strong>Novice:</strong> Below 2.0 CPS (under 200 clicks) - Needs practice building stamina</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
     </div>
-
-    <script>
-    const isUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
-    </script>
-</body>
-</html>
 {% endblock %}
