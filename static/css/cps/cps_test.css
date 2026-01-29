@@ -474,7 +474,6 @@ body {
     align-items: center;
     gap: 10px;
     background: var(--dark-card);
-    padding: 15px;
     border-radius: 12px;
 }
 
@@ -892,29 +891,10 @@ h1 {
 .content-section ul li {
     font-size: 17px;
     line-height: 1.6;
-    color: var(--text-secondary-dark);
 }
 
-.content-section ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
-}
 
-.content-section ul li {
-    position: relative;
-    padding-left: 25px;
-    margin-bottom: 10px;
-}
 
-.content-section ul li::before {
-    content: '\2022'; /* Unicode for a bullet point */
-    color: var(--primary-light);
-    font-size: 24px;
-    position: absolute;
-    left: 0;
-    top: -4px;
-}
 .clean-divider {
   width: 100%; /* Spans the full width of its container */
   height: 1px; /* A very thin line */
