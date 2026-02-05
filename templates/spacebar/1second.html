@@ -1,252 +1,555 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 Second Spacebar Counter | Test Your Spacebar Tapping Speed</title>
+{% block first_head %}
+    <title>1 Second Spacebar Counter | Test Your Tapping Speed</title>
     <meta name="description" content="Test your spacebar tapping speed with our 1 second spacebar counter. Measure how many times you can press the spacebar in one second.">
-    <meta name="keywords" content="spacebar counter, spacebar test, spacebar speed test, spacebar clicks per second, spacebar tapping test, keyboard spacebar test">
-    <meta name="author" content="Spacebar Speed Test">
-   <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <meta name="author" content="ClickTestNow">
+    <meta property="og:title" content="1 Second Spacebar Counter | Test Your Tapping Speed">
+    <meta property="og:description" content="Test your spacebar tapping speed with our 1 second spacebar counter. Measure how many times you can press the spacebar in one second.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ClickTestNow">
+    <link rel="canonical" href="https://clicktestnow.com/1-second-spacebar-counter/">
+    <meta property="og:image" content="{% static 'Vguides/1-second-spacebar-counter.jpg' %}">
+    <meta property="og:image:alt" content="1 Second Spacebar Counter interface">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="800">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% static 'Vguides/1-second-spacebar-counter.jpg' %}">
+    <meta name="twitter:image:alt" content="1 Second Spacebar Counter interface">
+    <meta itemprop="image" content="{% static 'Vguides/1-second-spacebar-counter.jpg' %}">
+    <meta name="featured-image" content="{% static 'Vguides/1-second-spacebar-counter.jpg' %}">
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/spacebar/1second.css' %}">
     <script src="{% static 'js/spacebar/1second.js' %}" defer></script>
-</head>
-<body class="dark-mode">
+    <link rel="stylesheet" href="{% static 'css/dpi_analyzer.css' %}">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "1 Second Spacebar Counter | Test Your Tapping Speed",
+        "description": "Test your spacebar tapping speed with our 1 second spacebar counter. Measure how many times you can press the spacebar in one second.",
+        "url": "{{ request.build_absolute_uri }}",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-12-31"
+        },
+        "softwareVersion": "1.0",
+        "featureList": [
+            "Free 1 second spacebar speed test",
+            "Measure spacebar presses per second",
+            "Test keyboard tapping speed",
+            "Performance tracking",
+            "Spacebar technique guide",
+            "No installation required",
+            "Works in any browser",
+            "Compare with global averages",
+            "Practice mode available",
+            "Detailed results analysis",
+            "Leaderboard rankings",
+            "Mobile-friendly interface",
+            "Spacebar speed assessment",
+            "Real-time tracking"
+        ],
+        "screenshot": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/1-second-spacebar-counter.jpg' %}",
+            "width": 1280,
+            "height": 800,
+            "caption": "1 Second Spacebar Counter interface showing spacebar tapping speed measurement"
+        },
+        "downloadUrl": "{{ request.build_absolute_uri }}",
+        "softwareRequirements": "Web browser with JavaScript enabled",
+        "releaseNotes": "Free online 1-second spacebar tapping speed measurement tool for gamers and typists",
+        "countriesSupported": "Worldwide",
+        "targetPlatform": "Web Browser",
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "datePublished": "2026-01-04T00:00:00+00:00",
+        "dateModified": "2026-02-04T00:00:00+00:00"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Complete Guide to 1 Second Spacebar Counter: Speed, Technique & Improvement",
+        "description": "Learn everything about 1-second spacebar testing, from basic techniques to advanced speed methods. Includes how to perform 1 second spacebar test, improve tapping speed, and optimize keyboard performance.",
+        "articleBody": "This comprehensive guide covers 1-second spacebar tapping techniques used in gaming and typing. Learn how to maximize your spacebar presses per second, measure your performance accurately, and improve your speed and accuracy with targeted practice. Includes detailed instructions on finger positioning, rhythm optimization, and keyboard selection for optimal 1-second performance.",
+        "author": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClickTestNow",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+                "width": 250,
+                "height": 250
+            }
+        },
+        "datePublished": "2026-01-04T00:00:00+00:00",
+        "dateModified": "2026-01-04T00:00:00+00:00",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ request.build_absolute_uri }}"
+        },
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/1-second-spacebar-counter.jpg' %}",
+            "width": 1280,
+            "height": 800,
+            "caption": "1 Second Spacebar Counter - Complete technique guide and speed measurement"
+        },
+        "wordCount": "2000",
+        "timeRequired": "PT10M",
+        "keywords": "1 second spacebar counter, spacebar speed test, spacebar test 1 second, keyboard tapping test, spacebar tapping speed, 1 second spacebar challenge, spacebar click test"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How quickly can gamers click the space bar?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The average gamer clicks 6 to 8 CPS. But experienced gamers can click 10 plus CPS."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is a spacebar test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A spacebar test is a test that measures how many times you can click the space bar in a certain amount of time. It can be used to determine clicking speed and reaction time."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I tap the space bar faster?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use proper finger position, stay relaxed and practice daily. Fast tapping techniques and rhythm training help increase speed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do I need to take the spacebar test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "It helps measure your clicking speed and improve gaming and typing performance. You can also track progress over time."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the counter tool work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The tool starts a timer and counts each spacebar press. When time ends, it displays your CPS score instantly."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I use this counter tool?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Select a time mode, start the test and press the spacebar as fast as possible. View your score and try to improve."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Perform a 1 Second Spacebar Test - Complete Guide",
+        "description": "Learn how to properly test your spacebar tapping speed in 1 second and maximize your presses per second performance.",
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'Vguides/1-second-spacebar-counter.jpg' %}",
+            "width": 1280,
+            "height": 800,
+            "caption": "Step-by-step 1 second spacebar testing guide showing tapping technique"
+        },
+        "step": [
+            {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Select the 1-Second Test",
+                "text": "Access the ClickTestNow website and select the 1 Second Spacebar Counter from the time duration options or preset buttons.",
+                "url": "{{ request.build_absolute_uri }}#step1"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Prepare Your Keyboard Setup",
+                "text": "Ensure you have a comfortable keyboard and proper finger positioning. The test requires maximum speed in just 1 second, so optimal setup is crucial.",
+                "url": "{{ request.build_absolute_uri }}#step2"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Start the Test",
+                "text": "Click the test area or press spacebar to begin the 1-second countdown timer immediately. The test measures pure tapping speed and reaction time.",
+                "url": "{{ request.build_absolute_uri }}#step3"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Tap with Maximum Speed",
+                "text": "Press the spacebar as fast as possible for the full 1 second. Focus on rhythm and consistency to achieve optimal results.",
+                "url": "{{ request.build_absolute_uri }}#step4"
+            },
+            {
+                "@type": "HowToStep",
+                "position": 5,
+                "name": "Analyze Your Performance",
+                "text": "View your detailed results showing presses per second, total presses, and speed metrics. Compare with global rankings and track your progress over time.",
+                "url": "{{ request.build_absolute_uri }}#step5"
+            }
+        ],
+        "totalTime": "PT2M",
+        "supply": ["Computer", "Keyboard"],
+        "tool": ["Web Browser", "1 Second Spacebar Counter Tool"],
+        "estimatedCost": {
+            "@type": "MonetaryAmount",
+            "currency": "USD",
+            "value": "0"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "{{ request.scheme }}://{{ request.get_host }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "1 Second Spacebar Counter",
+                "item": "{{ request.build_absolute_uri }}"
+            }
+        ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
     <div class="container">
         <header class="header">
-            <h1 style="color: var(--primary)">1 Second Spacebar Counter</h1>
-            <p>Test how many times you can press the spacebar in just one second</p>
+            <h1>1 Second Spacebar Counter</h1>
+            <p>Test your spacebar tapping speed with our 1 second spacebar counter. Measure how many times you can press the spacebar in one second.</p>
         </header>
-
-        <main>
-            <div class="card">
-                <div class="card-header">
-                    <h2></i>Spacebar Speed Test</h2>
+        <div class="card">
+            <div class="card-header">
+                <h2>1 Second Spacebar Speed Test</h2>
+            </div>
+            <div class="card-body">
+                <div class="time-links">
+                    <a href="{% url '1_second_spacebar_counter' %}" class="time-link active">1s</a>
+                    <a href="{% url '2_seconds_spacebar_counter' %}" class="time-link">2s</a>
+                    <a href="{% url '5_seconds_spacebar_counter' %}" class="time-link">5s</a>
+                    <a href="{% url '10_seconds_spacebar_counter' %}" class="time-link">10s</a>
+                    <a href="{% url '15_seconds_spacebar_counter' %}" class="time-link">15s</a>
+                    <a href="{% url '20_seconds_spacebar_counter' %}" class="time-link">20s</a>
+                    <a href="{% url '30_seconds_spacebar_counter' %}" class="time-link">30s</a>
+                    <a href="{% url '60_seconds_spacebar_counter' %}" class="time-link">60s</a>
+                    <a href="{% url '100_seconds_spacebar_counter' %}" class="time-link">100s</a>
                 </div>
-                <div class="card-body">
-                                        <div class="time-links">
-                        <a href="{% url '1_second_spacebar_counter' %}" class="time-link active">1s</a>
-                        <a href="{% url '2_seconds_spacebar_counter' %}" class="time-link ">2s</a>
-                        <a href="{% url '5_seconds_spacebar_counter' %}" class="time-link ">5s</a>
-                        <a href="{% url '10_seconds_spacebar_counter' %}" class="time-link ">10s</a>
-                        <a href="{% url '15_seconds_spacebar_counter' %}" class="time-link ">15s</a>
-                        <a href="{% url '20_seconds_spacebar_counter' %}" class="time-link ">20s</a>
-                        <a href="{% url '30_seconds_spacebar_counter' %}" class="time-link ">30s</a>
-                        <a href="{% url '60_seconds_spacebar_counter' %}" class="time-link ">60s</a>
-                        <a href="{% url '100_seconds_spacebar_counter' %}" class="time-link">100s</a>
-                    </div>
-                    <div class="alert alert-info">
-                        <div class="alert-icon">💡</div>
-                        <div>
-                            <strong style="color: white;">How to Use This Spacebar Counter:</strong>
-                            <ol class="instruction-list">
-                                <li>Click the test area or press spacebar to begin immediately</li>
-                                <li>Press the spacebar as many times as possible in 1 second</li>
-                                <li>Focus on consistent rhythm rather than just speed</li>
-                                <li>View your results and compare with spacebar tapping benchmarks</li>
-                                <li>Click the test area again to restart</li>
-                            </ol>
+                <div class="measurement-area-container">
+                    <div class="spacebar-test-area idle" id="spacebar-test-area">
+                        <div class="spacebar-status" id="spacebar-status">
+                            <div class="spacebar-timer" id="spacebar-timer">1.0</div>
+                            <div class="spacebar-press-counter" id="spacebar-presses">Presses: 0</div>
+                            <div>Click or press spacebar to start test</div>
+                            <div class="spacebar-key">SPACEBAR</div>
                         </div>
                     </div>
+                </div>
+                
+                <div class="score-box">
+                    <strong class="top-player-score">🏆 Top Player's Score</strong>
+                </div>
+                
+                <!-- Global Top Player Stats -->
+                <div class="stats-grid" id="global-top-player-stats">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-crown"></i> Top Player</h3>
+                        <div class="stat-value" id="top-player-name">
+                            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Global #1 Spacebar Tapper</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-tachometer-alt"></i> Top Score</h3>
+                        <div class="stat-value" id="top-player-score">
+                            {% if top_player_stats %}{{ top_player_stats.score }} presses{% else %}--{% endif %}
+                        </div>
+                        <div class="stat-label">Best Spacebar Performance</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-keyboard"></i> Average Score</h3>
+                        <div class="stat-value" id="average-score">12-15</div>
+                        <div class="stat-label">Typical 1-second performance</div>
+                    </div>
+                </div>
 
-                    <div class="measurement-area-container">
-                        <div class="spacebar-test-area idle" id="spacebar-test-area">
-                            <div class="spacebar-status" id="spacebar-status">
-                                <div class="spacebar-timer" id="spacebar-timer">1.0</div>
-                                <div class="spacebar-press-counter" id="spacebar-presses">Presses: 0</div>
-                                <div>Click or press spacebar to start test</div>
-                                <div class="spacebar-key">SPACEBAR</div>
+                <div class="score-box">
+                    <strong class="your-score" id="yourScoreBox" style="display:none;">👉 Your Score</strong>
+                </div>
+                
+                <div class="stats-grid" id="user-test-results" style="display: none;">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-user"></i> Your Position</h3>
+                        <div class="stat-value" id="user-position">--</div>
+                        <div class="stat-label">Global Ranking</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-tachometer-alt"></i> Your Score</h3>
+                        <div class="stat-value" id="user-score">--</div>
+                        <div class="stat-label">Spacebar Presses in 1 Second</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-percentage"></i> Percentile</h3>
+                        <div class="stat-value" id="user-percentile">--</div>
+                        <div class="stat-label">Better than X% of players</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid" id="advanced-stats" style="display: none;">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-bolt"></i> Peak Speed</h3>
+                        <div class="stat-value" id="peak-speed">--</div>
+                        <div class="stat-label">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>Highest press rate</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-clock"></i> Response Time</h3>
+                        <div class="stat-value" id="response-time">-- ms</div>
+                        <div class="stat-label">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>Initial reaction speed</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-hand-point-up"></i> Tapping Technique</h3>
+                        <div class="stat-value" id="tapping-technique">--</div>
+                        <div class="stat-label" id="technique-tags"></div>
+                    </div>
+                </div>
+
+                <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
+                    <h4><i class="fas fa-lightbulb"></i> Improvement Tip</h4>
+                    <p id="improvement-tip">Based on your spacebar tapping pattern, we recommend focusing on consistent rhythm to increase your speed.</p>
+                </div>
+
+                <div class="button-group">
+                    <button id="spacebar-reset-btn">
+                        <i class="fas fa-redo"></i> Reset Test
+                    </button>
+                    <button id="save-btn" class="btn btn-primary" style="display: none;">
+                        <i class="fas fa-save"></i> Save Results
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-trophy"></i> Spacebar Leaderboard</h2>
+            </div>
+            <div class="card-body">
+                <div class="leaderboard-container">
+                    <table class="leaderboard">
+                        <thead class="leaderboard-header">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Presses</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-content">
+                            {% for score in top_scores %}
+                            <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
+                                <td class="leaderboard-rank">#{{ forloop.counter }}</td>
+                                <td class="leaderboard-player">{{ score.user.username }}</td>
+                                <td class="leaderboard-score">{{ score.score }} presses</td>
+                                <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    {% if user.is_authenticated and user_best_score %}
+                    <div class="user-best-score">
+                        <h4><i class="fas fa-user"></i> Your Personal Best</h4>
+                        <div class="user-score">
+                            <span class="score-value">{{ user_best_score.score }} presses</span>
+                            <span class="score-rank">
+                                {% if user_rank %}
+                                    <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
+                                {% else %}
+                                    Not ranked
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="score-details">
+                            <small>In 1 second</small>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="content-section">
+                    <h2>1 Second Spacebar Counter</h2>
+                    <h3>Understanding the 1-Second Spacebar Counter</h3>
+                    <p>The 1 Second Spacebar Counter game is a fast-paced challenge that works as a spacebar test inside a 1-second play mode and simple mode, where you enter mode, start timer, and calculate total spacebar clicks per second, also known as CPS or click per second. This form of digital testing gives real-time feedback and shows results, score, and even rank, helping you measure speed, check performance, and understand your response time, input speed, and accuracy.</p>
+                    
+                    <p>This online tool is a free tool and easy to use, allowing you to press spacebar, tap spacebar, or hit the space key in one second or one second timeframe to see your testing experience in action. It supports speed improvement, quickness, precision, and a consistent rhythm, helping you save time while building better typing performance and gaming performance through focused practice and friendly challenge sessions.</p>
+                    
+                    <div class="featured-image-container">
+                        <img src="{% static 'Vguides/1-second-spacebar-counter.jpg' %}" 
+                             alt="1 Second Spacebar Counter"
+                             title="1 Second Spacebar Counter Interface"
+                             class="featured-image"
+                             width="850"
+                             height="515"
+                             loading="lazy">
+                    </div>
+                    
+                    <h3>Key Features of 1-Second Spacebar Counter</h3>
+                    <ul>
+                        <li>Designed for newbies and beginners with below-average cps or low cps to use try mode and develop skills through steady improvement and better performance.</li>
+                        <li>Provides a best in-performance case with high performance, creating a reliable and accurate testing environment.</li>
+                        <li>Works as a web tool that is fully browser based and online, allowing users to play game sessions without fear of lag or crash.</li>
+                        <li>Ensures strong stability, a smooth experience and consistent reliability for both casual users and gaming enthusiasts.</li>
+                        <li>Offers more challenges through a dedicated challenge mode by turning practice into a fun activity that adds more fun besides simple testing.</li>
+                        <li>Lets players share results easily by enabling sharing across different social media platforms.</li>
+                    </ul>
+                    
+                    <h2>Why Space Button Speed Is Important</h2>
+                    <p>The space bar key and space button are used constantly while operating laptops, especially during typing. After each word, we tap the longest button almost every second, which makes fast typing essential to save time. A quick and accurate keystroke directly improves keyboard usage, boosts response time, and increases overall efficiency, performance, speed, and accuracy when using the 1 Second Spacebar Counter.</p>
+                    
+                    <p>In gaming and playing games like Minecraft and Roblox, a higher tapping speed can help you win competition and perform better in any gaming contest. Many players use tool sessions to warm up their wrist before matches, sharpening reactions and building control. Faster space presses lead to smoother actions, stronger timing, and better results inside and outside the test.</p>
+                    
+                    <h2>How to Run the 1-Second Spacebar Test</h2>
+                    <ol>
+                        <li>Choose 1s from the preset time options.</li>
+                        <li>Click the test area / + button or press the spacebar to start instantly.</li>
+                        <li>Keep tapping the spacebar rapidly while the one-second timer is running.</li>
+                        <li>When time ends, view your CPS and CPM on the results screen.</li>
+                        <li>Use restart to try again and improve your score.</li>
+                        <li>Check the results history table (if available) to compare previous attempts and track progress.</li>
+                    </ol>
+                    
+                    <h2>How to Perform Better in the 1-Second Spacebar Test</h2>
+                    
+                    <h3>Choosing the Right Finger & Technique</h3>
+                    <p>To get better at the 1 Second Spacebar Test, always position your finger properly and choose the finger that lets you tap the fastest with a natural feel, such as the thumb or index finger. Take time to experiment and discover your optimal choice by trying the right technique and various pressing techniques like rapid tapping, light tapping, or a rolling finger motion. Each player builds a unique method in the Spacebar Clicker game that helps boost speed and strengthen spacebar pressing speed.</p>
+                    
+                    <h3>Building Speed Through Practice</h3>
+                    <p>You should practice regularly because consistent practice is essential for improving speed and helping you develop speed over time. Set daily practice time of around 15 minutes, every day, to build strong muscle memory and better control for the Spacebar Clicker challenge.</p>
+                    
+                    <h3>Relaxed Hands & Better Accuracy</h3>
+                    <p>Always stay relaxed and avoid tensing so your relaxed hand moves faster and more freely. Keeping loose fingers, good agility, and strong precision improves control. Make sure to focus on accuracy since it is important as speed. Inefficient presses and missed presses can cost time, so aim for precise hits and confident hits.</p>
+                    
+                    <h3>Reaction Speed & Keyboard Choice</h3>
+                    <p>Make an effort to increase reaction speed through simple exercises that promote quick reactions, provide an advantage start, and improve reflexes for improved reaction speed. A mechanical keyboard is a game-changer because it provides faster reaction times, requires less force, and promotes efficiency.</p>
+                    
+                    <h3>Focus, Position, and Posture</h3>
+                    <p>When typing the hands and fingers should be positioned correctly. Additionally the hands, shoulders and arms should all be relaxed. You should also choose a quiet place and concentrate on your work and also avoid distractions. Lastly, keeping the proper distance between the body and the keyboard should maximize distance.</p>
+                    
+                    <div class="faq-section">
+                        <h2>FAQs About 1 Second Spacebar Counter</h2>
+                        
+                        <h3>How quickly can gamers click the space bar?</h3>
+                        <p>The average gamer clicks 6 to 8 CPS. But experienced gamers can click 10 plus CPS.</p>
+                        
+                        <h3>What is a spacebar test?</h3>
+                        <p>A spacebar test is a test that measures how many times you can click the space bar in a certain amount of time. It can be used to determine clicking speed and reaction time.</p>
+                        
+                        <h3>How can I tap the space bar faster?</h3>
+                        <p>Use proper finger position, stay relaxed and practice daily. Fast tapping techniques and rhythm training help increase speed.</p>
+                        
+                        <h3>Why do I need to take the spacebar test?</h3>
+                        <p>It helps measure your clicking speed and improve gaming and typing performance. You can also track progress over time.</p>
+                        
+                        <h3>How does the counter tool work?</h3>
+                        <p>The tool starts a timer and counts each spacebar press. When time ends, it displays your CPS score instantly.</p>
+                        
+                        <h3>How can I use this counter tool?</h3>
+                        <p>Select a time mode, start the test and press the spacebar as fast as possible. View your score and try to improve.</p>
+                    </div>
+                    
+                    <!-- Related Tools Section -->
+                    <div class="related-tools-section">
+                        <strong>Related Keyboard Testing Tools</strong>
+                        <p>Explore our other keyboard and gaming tools to improve your performance:</p>
+                        
+                        <div class="tools-grid">
+                            <div class="tool-card">
+                                <a href="{% url 'cps_test' %}">CPS Test</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'keyboard_test' %}">Keyboard Test</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'mouse_dpi_analyzer' %}">Mouse DPI Analyzer</a>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <a href="{% url 'jitter_click_test' %}">Jitter Click Test</a>
                             </div>
                         </div>
                     </div>
-
-<!-- Global Top Player Stats -->
-<div class="stats-grid" id="global-top-player-stats">
-    <div class="stat-card">
-        <h3><i class="fas fa-crown"></i> Top Player</h3>
-        <div class="stat-value" id="top-player-name">
-            {% if top_player_stats %}{{ top_player_stats.name }}{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Global #1 Spacebar Tapper</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-tachometer-alt"></i> Top Score</h3>
-        <div class="stat-value" id="top-player-score">
-            {% if top_player_stats %}{{ top_player_stats.score }} presses{% else %}--{% endif %}
-        </div>
-        <div class="stat-label">Best Spacebar Performance</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-keyboard"></i> Average Score</h3>
-        <div class="stat-value" id="average-score">12-15</div>
-        <div class="stat-label">Typical 1-second performance</div>
-    </div>
-</div>
-
-<div class="clean-divider" style="display: none;"></div>
-<div class="stats-grid" id="user-test-results" style="display: none;">
-    <div class="stat-card">
-        <h3><i class="fas fa-user"></i> Your Position</h3>
-        <div class="stat-value" id="user-position">--</div>
-        <div class="stat-label">Global Ranking</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-tachometer-alt"></i> Your Score</h3>
-        <div class="stat-value" id="user-score">--</div>
-        <div class="stat-label">Spacebar Presses in 1 Second</div>
-    </div>
-    <div class="stat-card">
-        <h3><i class="fas fa-percentage"></i> Percentile</h3>
-        <div class="stat-value" id="user-percentile">--</div>
-        <div class="stat-label">Better than X% of players</div>
-    </div>
-</div>
-
-                    <div class="technique-recommendation" id="technique-recommendation" style="display: none;">
-                        <h4><i class="fas fa-lightbulb"></i> Improvement Tip</h4>
-                        <p id="improvement-tip">Based on your spacebar tapping pattern, we recommend focusing on consistent rhythm to increase your speed.</p>
-                    </div>
-
-                    <div class="button-group">
-<button id="spacebar-reset-btn"
-    style="background: linear-gradient(135deg, #e63946, #d90429);
-           color: #fff;
-           border: none;
-           padding: 10px 18px;
-           border-radius: 8px;
-           cursor: pointer;
-           font-size: 15px;
-           font-weight: 600;
-           display: inline-flex;
-           align-items: center;
-           gap: 6px;
-           box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
-           transition: all 0.25s ease;"
-    onmouseover="this.style.background='linear-gradient(135deg, #ff4d5a, #e63946)'; this.style.boxShadow='0 6px 14px rgba(230, 57, 70, 0.5)';"
-    onmouseout="this.style.background='linear-gradient(135deg, #e63946, #d90429)'; this.style.boxShadow='0 4px 10px rgba(217, 4, 41, 0.4)';"
-    onmousedown="this.style.transform='scale(0.96)';"
-    onmouseup="this.style.transform='scale(1)';"
->
-    <i class="fas fa-redo"></i> Reset Test
-</button>
-                        <button id="save-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i> Save Results</button>
-                    </div>
                 </div>
-            </div>
-
-            <!-- Leaderboard Section -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-trophy"></i> Spacebar Leaderboard</h2>
-                </div>
-                <div class="card-body">
-                    <div class="leaderboard-container">
-                        <table class="leaderboard">
-                            <thead class="leaderboard-header">
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Player</th>
-                                    <th>Presses</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leaderboard-content">
-                                {% for score in top_scores %}
-                                <tr class="leaderboard-item rank-{% if forloop.counter == 1 %}1{% elif forloop.counter == 2 %}2{% elif forloop.counter == 3 %}3{% else %}other{% endif %}">
-                                    <td class="leaderboard-rank">#{{ forloop.counter }}</td>
-                                    <td class="leaderboard-player">{{ score.user.username }}</td>
-                                    <td class="leaderboard-score">{{ score.score }} presses</td>
-                                    <td class="leaderboard-date">{{ score.created_at|date:"M d, Y" }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4" class="no-records">No records yet. Be the first!</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        
-                        {% if user.is_authenticated and user_best_score %}
-                        <div class="user-best-score">
-                            <h4><i class="fas fa-user"></i> Your Personal Best</h4>
-                            <div class="user-score">
-                                <span class="score-value">{{ user_best_score.score }} presses</span>
-                                <span class="score-rank">
-                                    {% if user_rank %}
-                                        <i class="fas fa-globe"></i> Global Rank: #{{ user_rank }}
-                                    {% else %}
-                                        Not ranked
-                                    {% endif %}
-                                </span>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="content-section">
-                        <h2> Understanding Spacebar Speed Test</h2>
-                        <p>The 1 Second Spacebar Counter measures how many times you can press the spacebar in exactly one second. This test evaluates your finger dexterity, reaction time, and rhythm consistency.</p>
-                        
-                        <p>The 1-second duration is ideal for spacebar testing because:</p>
-                        <ul>
-                            <li><strong>Quick Assessment:</strong> Provides instant feedback on your tapping speed</li>
-                            <li><strong>Minimal Fatigue:</strong> Short duration prevents finger strain</li>
-                            <li><strong>Precision Measurement:</strong> Eliminates stamina as a factor, focusing purely on speed</li>
-                            <li><strong>Repeatable:</strong> Easy to test multiple times for improvement tracking</li>
-                        </ul>
-                    </div>
-
-                    <div class="content-section">
-                        <h2> Spacebar Tapping Technique</h2>
-                        <p>Maximizing your spacebar tapping speed requires proper technique. Here's how to improve your score:</p>
-                        
-                        <ul>
-                            <li><strong>Finger Positioning:</strong> Use your dominant hand's index or middle finger</li>
-                            <li><strong>Relaxed Grip:</strong> Keep your hand relaxed but stable on the keyboard</li>
-                            <li><strong>Short Movements:</strong> Minimize the distance your finger travels</li>
-                            <li><strong>Consistent Rhythm:</strong> Focus on maintaining a steady pace rather than erratic bursts</li>
-                            <li><strong>Practice:</strong> Regular practice helps develop muscle memory</li>
-                        </ul>
-                        
-                        <p>Most people can achieve 10-15 presses per second with practice. Elite tappers can reach 20+ presses in one second.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2> Spacebar Counter Applications</h2>
-                        <p>Spacebar tapping speed is important for various activities:</p>
-                        
-                        <ul>
-                            <li><strong>Gaming:</strong> Many games use spacebar for critical actions like jumping or special moves</li>
-                            <li><strong>Data Entry:</strong> Rapid spacebar use can improve formatting efficiency</li>
-                            <li><strong>Accessibility:</strong> Testing alternative input methods for those with mobility challenges</li>
-                            <li><strong>Ergonomics:</strong> Assessing keyboard responsiveness and user comfort</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>© 2025 Spacebar Speed Test. All rights reserved.</p>
             </div>
         </div>
-    </footer>
-
-    <script>
-    // Check if user is authenticated
-    const isUserAuthenticated = true; // Placeholder for your authentication logic
-    </script>
-</body>
-</html>
+    </div>
 {% endblock %}

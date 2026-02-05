@@ -1,58 +1,110 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const leaderboardContent = document.getElementById("leaderboard-content");
-
-    fetch("/get-1-second-spacebar-leaderboard/")
-        .then(res => res.json())
-        .then(data => {
-            leaderboardContent.innerHTML = "";
-
-            if (data.status === "success" && data.leaderboard.length > 0) {
-                data.leaderboard.forEach((item, index) => {
-                    const date = new Date(item.created_at);
-                    const formattedDate = date.toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric"
-                    });
-
-                    const rankClass = index === 0 ? "rank-1" : 
-                                     index === 1 ? "rank-2" : 
-                                     index === 2 ? "rank-3" : "other";
-
-                    leaderboardContent.innerHTML += `
-                        <tr class="leaderboard-item ${rankClass}">
-                            <td class="leaderboard-rank">#${index + 1}</td>
-                            <td class="leaderboard-player">${item.username}</td>
-                            <td class="leaderboard-score">${item.score} presses</td>
-                            <td class="leaderboard-date">${formattedDate}</td>
-                        </tr>
-                    `;
-                });
-                
-                // Update top player stats from API response
-                if (data.top_player_stats) {
-                    updateTopPlayerStats(data.top_player_stats);
-                }
-            } else {
-                leaderboardContent.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="no-records">No records yet. Be the first!</td>
-                    </tr>
-                `;
-            }
-        })
-        .catch(() => {
-            leaderboardContent.innerHTML = `
-                <tr>
-                    <td colspan="4" class="no-records" style="color: var(--danger);">
-                        Failed to load leaderboard
-                    </td>
-                </tr>
-            `;
-        });
-});
-
 document.addEventListener('DOMContentLoaded', function() {
+    // =============== LOGIN MODAL CODE ===============
+    // DOM elements for login modal
+    const loginModalOverlay = document.getElementById('loginModalOverlay');
+    const loginModal = document.getElementById('loginModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalSkipBtn = document.getElementById('modalSkipBtn');
+    
+    // Session storage keys
+    const SESSION_SHOWN_KEY = 'loginPromptShownThisSession_1s_spacebar';
+    const LAST_TEST_SCORE_KEY = 'last1sSpacebarTestScore';
+    const LAST_TEST_PRESSES_KEY = 'last1sSpacebarTestPresses';
+    
+    // Check if popup was already shown in this session
+    function hasPopupBeenShownThisSession() {
+        return sessionStorage.getItem(SESSION_SHOWN_KEY) === 'true';
+    }
+    
+    // Mark popup as shown for this session
+    function markPopupAsShown() {
+        sessionStorage.setItem(SESSION_SHOWN_KEY, 'true');
+    }
+    
+    // Store test results for potential saving after login
+    function storeTestResults(score, presses) {
+        sessionStorage.setItem(LAST_TEST_SCORE_KEY, score);
+        sessionStorage.setItem(LAST_TEST_PRESSES_KEY, presses);
+    }
+    
+    // Clear stored test results
+    function clearStoredTestResults() {
+        sessionStorage.removeItem(LAST_TEST_SCORE_KEY);
+        sessionStorage.removeItem(LAST_TEST_PRESSES_KEY);
+    }
+    
+    // Show the modal with test results
+    function showLoginModalWithResults(score, presses) {
+        // Don't show if already shown in this session
+        if (hasPopupBeenShownThisSession()) {
+            return;
+        }
+        
+        // Store the test results
+        storeTestResults(score, presses);
+        
+        // Remove hidden class and add active class with a small delay
+        if (loginModalOverlay) {
+            loginModalOverlay.classList.remove('hidden');
+            
+            // Trigger reflow to ensure CSS transition works
+            void loginModalOverlay.offsetWidth;
+            
+            // Add active class to trigger animations
+            setTimeout(() => {
+                loginModalOverlay.classList.add('active');
+                if (loginModal) loginModal.classList.add('active');
+            }, 10);
+            
+            // Mark as shown
+            markPopupAsShown();
+            
+            // Add event listener to close when clicking outside the modal
+            loginModalOverlay.addEventListener('click', closeOnOverlayClick);
+        }
+    }
+    
+    // Hide the modal
+    function hideLoginModal() {
+        if (!loginModalOverlay) return;
+        
+        // Remove active classes to trigger fade-out animation
+        loginModalOverlay.classList.remove('active');
+        if (loginModal) loginModal.classList.remove('active');
+        
+        // After animation completes, add hidden class
+        setTimeout(() => {
+            loginModalOverlay.classList.add('hidden');
+        }, 400);
+        
+        // Remove the overlay click listener
+        loginModalOverlay.removeEventListener('click', closeOnOverlayClick);
+    }
+    
+    // Close modal when clicking outside the modal content
+    function closeOnOverlayClick(e) {
+        if (e.target === loginModalOverlay) {
+            hideLoginModal();
+        }
+    }
+    
+    // Event listeners for login modal
+    if (modalClose) {
+        modalClose.addEventListener('click', hideLoginModal);
+    }
+    
+    if (modalSkipBtn) {
+        modalSkipBtn.addEventListener('click', hideLoginModal);
+    }
+    
+    // Optional: Add keyboard support (ESC key to close)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && loginModalOverlay && !loginModalOverlay.classList.contains('hidden')) {
+            hideLoginModal();
+        }
+    });
+    
+    // =============== 1-SECOND SPACEBAR TEST CODE ===============
     // Elements
     const testArea = document.getElementById('spacebar-test-area');
     const statusDisplay = document.getElementById('spacebar-status');
@@ -68,35 +120,130 @@ document.addEventListener('DOMContentLoaded', function() {
     const improvementTip = document.getElementById('improvement-tip');
     const leaderboardContent = document.getElementById('leaderboard-content');
     const cleanDivider = document.querySelector('.clean-divider');
+    const loginPrompt = document.getElementById('loginPrompt');
 
-    // Test variables - 1 second test
-    let testDuration = 1;
+    // Global state
+    let testDuration = 1; // 1 second test
     let timeRemaining = testDuration;
     let pressCount = 0;
     let testState = 'idle'; // 'idle', 'countdown', 'active', 'ended', 'cooldown'
-    let testInterval;
-    let cooldownInterval;
+    let testInterval = null;
+    let cooldownInterval = null;
+    let countdownInterval = null;
     let startTime;
     let pressTimes = [];
     let testHistory = [];
-    
-    // Track if the spacebar is currently held down to prevent continuous scoring
     let isSpacebarHeld = false;
-
-    // Reset test button
-    resetBtn.addEventListener('click', resetTest);
     
-    // Test area click handler
-    testArea.addEventListener('click', function(e) {
-        if (testState === 'idle' || testState === 'ended') {
-            startTest();
-            return;
+    // User authentication status
+    let isUserAuthenticated = false;
+    
+    // Check authentication status via API
+    function checkAuthentication() {
+        return fetch('/check-authentication/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                isUserAuthenticated = data.authenticated;
+                return isUserAuthenticated;
+            })
+            .catch(error => {
+                console.error('Error checking authentication:', error);
+                return false; // Default to false on error
+            });
+    }
+    
+    // Initialize - check authentication on load
+    checkAuthentication().then(isAuth => {
+        isUserAuthenticated = isAuth;
+        // Only auto-load leaderboard if user is authenticated
+        if (isAuth && leaderboardContent) {
+            loadLeaderboard();
         }
     });
+    
+    // Load leaderboard
+    function loadLeaderboard() {
+        fetch("/get-1-second-spacebar-leaderboard/")
+            .then(res => res.json())
+            .then(data => {
+                if (leaderboardContent) {
+                    leaderboardContent.innerHTML = "";
+
+                    if (data.status === "success" && data.leaderboard.length > 0) {
+                        data.leaderboard.forEach((item, index) => {
+                            const date = new Date(item.created_at);
+                            const formattedDate = date.toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            });
+
+                            const rankClass = index === 0 ? "rank-1" : 
+                                             index === 1 ? "rank-2" : 
+                                             index === 2 ? "rank-3" : "other";
+
+                            leaderboardContent.innerHTML += `
+                                <tr class="leaderboard-item ${rankClass}">
+                                    <td class="leaderboard-rank">#${index + 1}</td>
+                                    <td class="leaderboard-player">${item.username}</td>
+                                    <td class="leaderboard-score">${item.score} presses</td>
+                                    <td class="leaderboard-date">${formattedDate}</td>
+                                </tr>
+                            `;
+                        });
+                        
+                        if (data.top_player_stats) {
+                            updateTopPlayerStats(data.top_player_stats);
+                        }
+                    } else {
+                        leaderboardContent.innerHTML = `
+                            <tr>
+                                <td colspan="4" class="no-records">No records yet. Be the first!</td>
+                            </tr>
+                        `;
+                    }
+                }
+            })
+            .catch(() => {
+                if (leaderboardContent) {
+                    leaderboardContent.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="no-records" style="color: var(--danger);">
+                                Failed to load leaderboard
+                            </td>
+                        </tr>
+                    `;
+                }
+            });
+    }
+    
+    // Reset test button
+    if (resetBtn) {
+        resetBtn.addEventListener('click', resetTest);
+    }
+    
+    // Test area click handler
+    if (testArea) {
+        testArea.addEventListener('click', function(e) {
+            if (testState === 'idle' || testState === 'ended') {
+                // Don't show login prompt on click - allow test to start
+                if (loginPrompt && !isUserAuthenticated) {
+                    loginPrompt.classList.add("hidden");
+                }
+                startTest();
+                return;
+            }
+        });
+    }
 
     // Spacebar key handler
     document.addEventListener('keydown', function(e) {
-        if (e.code === 'Space') {
+        if (e.code === 'Space' && !e.repeat) {
             e.preventDefault(); // Prevent scrolling
             
             // Do not register a press if the key is already being held down
@@ -105,14 +252,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (testState === 'idle' || testState === 'ended') {
+                // Don't show login prompt on key press - allow test to start
+                if (loginPrompt && !isUserAuthenticated) {
+                    loginPrompt.classList.add("hidden");
+                }
                 startTest();
-                isSpacebarHeld = true; // Set flag to prevent immediate repeat
+                isSpacebarHeld = true;
                 return;
             }
             
             if (testState === 'active') {
                 registerPress();
-                isSpacebarHeld = true; // Set flag to prevent immediate repeat
+                isSpacebarHeld = true;
             }
         }
     });
@@ -124,6 +275,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Hide save button completely since we're auto-saving
+    if (saveBtn) {
+        saveBtn.style.display = 'none';
+    }
+    
     // Start the test
     function startTest() {
         if (testState !== 'idle' && testState !== 'ended') return;
@@ -132,21 +288,37 @@ document.addEventListener('DOMContentLoaded', function() {
         pressCount = 0;
         pressTimes = [];
         timeRemaining = testDuration;
+        isSpacebarHeld = false;
 
-        testArea.classList.remove('idle', 'ended');
-        testArea.classList.add('countdown');
+        if (testArea) {
+            testArea.classList.remove('idle', 'ended');
+            testArea.classList.add('countdown');
+        }
 
         // 3-second countdown before test starts
         let countdown = 3;
-        statusDisplay.innerHTML = `
-            <div class="spacebar-timer">${countdown}</div>
-            <div>Get ready to tap spacebar!</div>
-            <div class="spacebar-key">SPACEBAR</div>
-        `;
+        if (statusDisplay) {
+            statusDisplay.innerHTML = `
+                <div class="spacebar-timer">${countdown}</div>
+                <div>Get ready to tap spacebar!</div>
+                <div class="spacebar-key">SPACEBAR</div>
+            `;
+        }
 
-        const countdownInterval = setInterval(() => {
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+        
+        countdownInterval = setInterval(() => {
+            if (testState !== 'countdown') {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+                return;
+            }
+            
             countdown--;
-            if (countdown > 0) {
+            if (countdown > 0 && statusDisplay) {
                 statusDisplay.innerHTML = `
                     <div class="spacebar-timer">${countdown}</div>
                     <div>Get ready to tap spacebar!</div>
@@ -154,27 +326,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             } else {
                 clearInterval(countdownInterval);
-                testState = 'active';
-                testArea.classList.remove('countdown');
-                testArea.classList.add('active');
+                countdownInterval = null;
                 
-                statusDisplay.innerHTML = `
-                    <div class="spacebar-timer">${timeRemaining.toFixed(1)}</div>
-                    <div class="spacebar-press-counter">Presses: ${pressCount}</div>
-                    <div>Press spacebar as fast as you can!</div>
-                    <div class="spacebar-key">SPACEBAR</div>
-                `;
-                
-                startTime = Date.now();
-                
-                // Start the test timer to update every 10 milliseconds
-                testInterval = setInterval(updateTimer, 10);
+                if (testState === 'countdown') {
+                    testState = 'active';
+                    if (testArea) {
+                        testArea.classList.remove('countdown');
+                        testArea.classList.add('active');
+                    }
+                    
+                    if (statusDisplay) {
+                        statusDisplay.innerHTML = `
+                            <div class="spacebar-timer">${timeRemaining.toFixed(1)}</div>
+                            <div class="spacebar-press-counter">Presses: ${pressCount}</div>
+                            <div>Press spacebar as fast as you can!</div>
+                            <div class="spacebar-key">SPACEBAR</div>
+                        `;
+                    }
+                    
+                    startTime = Date.now();
+                    testInterval = setInterval(updateTimer, 10);
+                }
             }
         }, 1000);
     }
 
     // Update the timer and status display
     function updateTimer() {
+        if (testState !== 'active') {
+            clearInterval(testInterval);
+            testInterval = null;
+            return;
+        }
+        
         const elapsed = (Date.now() - startTime) / 1000;
         timeRemaining = testDuration - elapsed;
 
@@ -183,16 +367,17 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Format time like 1.0, 0.9 ... 0.1, 0.0
         const formattedTime = Math.max(0, timeRemaining).toFixed(1);
 
-        // Update the global timer display
-        timerDisplay.textContent = formattedTime;
+        if (timerDisplay) {
+            timerDisplay.textContent = formattedTime;
+        }
 
-        // Also update the timer shown inside the statusDisplay
-        const statusTimer = statusDisplay.querySelector('.spacebar-timer');
-        if (statusTimer) {
-            statusTimer.textContent = formattedTime;
+        if (statusDisplay) {
+            const statusTimer = statusDisplay.querySelector('.spacebar-timer');
+            if (statusTimer) {
+                statusTimer.textContent = formattedTime;
+            }
         }
     }
         
@@ -204,124 +389,183 @@ document.addEventListener('DOMContentLoaded', function() {
         const pressTime = Date.now();
         pressTimes.push(pressTime);
         
-        // Update presses display
-        document.querySelector('.spacebar-press-counter').textContent = `Presses: ${pressCount}`;
+        const pressCounter = document.querySelector('.spacebar-press-counter');
+        if (pressCounter) {
+            pressCounter.textContent = `Presses: ${pressCount}`;
+        }
         
-        // Create visual feedback
-        const feedback = document.createElement('div');
-        feedback.className = 'press-feedback';
-        feedback.textContent = '+1';
-        feedback.style.left = '50%';
-        feedback.style.top = '50%';
-        testArea.appendChild(feedback);
-        
-        // Remove feedback after animation
-        setTimeout(() => {
-            feedback.remove();
-        }, 1000);
+        if (testArea) {
+            const feedback = document.createElement('div');
+            feedback.className = 'press-feedback';
+            feedback.textContent = '+1';
+            feedback.style.left = '50%';
+            feedback.style.top = '50%';
+            testArea.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.remove();
+                }
+            }, 1000);
+        }
     }
     
     // End the test
-    function endTest() {
+    async function endTest() {
         clearInterval(testInterval);
+        testInterval = null;
+        
+        if (testState !== 'active') {
+            return;
+        }
+        
         testState = 'ended';
-        testArea.classList.remove('active');
-        testArea.classList.add('ended');
+        if (testArea) {
+            testArea.classList.remove('active');
+            testArea.classList.add('ended');
+        }
         
         const totalTime = testDuration;
-        const pressesPerSecond = pressCount / totalTime;
+        
+        // 🔧 STEP 1: FREEZE VARIABLES BEFORE ANY ASYNC WORK
+        const frozenPresses = pressCount;
+        const pressesPerSecond = frozenPresses / totalTime;
         
         // Calculate percentile (simplified estimation)
         let percentile = 50;
-        if (pressCount >= 20) percentile = 95;
-        else if (pressCount >= 18) percentile = 90;
-        else if (pressCount >= 16) percentile = 80;
-        else if (pressCount >= 14) percentile = 70;
-        else if (pressCount >= 12) percentile = 60;
-        else if (pressCount >= 10) percentile = 50;
-        else if (pressCount >= 8) percentile = 40;
-        else if (pressCount >= 6) percentile = 30;
-        else if (pressCount >= 4) percentile = 20;
+        if (frozenPresses >= 20) percentile = 95;
+        else if (frozenPresses >= 18) percentile = 90;
+        else if (frozenPresses >= 16) percentile = 80;
+        else if (frozenPresses >= 14) percentile = 70;
+        else if (frozenPresses >= 12) percentile = 60;
+        else if (frozenPresses >= 10) percentile = 50;
+        else if (frozenPresses >= 8) percentile = 40;
+        else if (frozenPresses >= 6) percentile = 30;
+        else if (frozenPresses >= 4) percentile = 20;
         else percentile = 10;
         
         // Generate improvement tip
         let tip = "";
-        if (pressCount < 10) {
+        if (frozenPresses < 10) {
             tip = "Focus on using just one finger and minimizing the distance it travels between presses.";
-        } else if (pressCount < 15) {
+        } else if (frozenPresses < 15) {
             tip = "Try to maintain a consistent rhythm rather than pressing as fast as possible in bursts.";
-        } else if (pressCount < 18) {
+        } else if (frozenPresses < 18) {
             tip = "You're above average! Work on building finger stamina to maintain this speed.";
-        } else if (pressCount < 20) {
+        } else if (frozenPresses < 20) {
             tip = "Excellent speed! Consider experimenting with different finger positions to find what's most comfortable.";
         } else {
             tip = "Elite level! You're among the fastest spacebar tappers. Share your technique with others!";
         }
         
-        // Update user test results
-        userPosition.textContent = '--';
-        userScore.textContent = pressCount;
-        userPercentile.textContent = `Top ${100 - percentile}%`;
+        // 🔧 STEP 2: Update user test results with FROZEN values
+        if (userPosition) userPosition.textContent = '--';
+        if (userScore) userScore.textContent = frozenPresses;
+        if (userPercentile) userPercentile.textContent = `Top ${100 - percentile}%`;
         
-        // Show user test results
-        userTestResults.style.display = 'grid';
+        if (userTestResults) {
+            userTestResults.style.display = 'grid';
+        }
         
         // Show improvement tip
-        improvementTip.textContent = tip;
-        techniqueRecommendation.style.display = 'block';
+        if (improvementTip) improvementTip.textContent = tip;
+        if (techniqueRecommendation) techniqueRecommendation.style.display = 'block';
         
-        // Update status
-        statusDisplay.innerHTML = `
-            <div class="spacebar-timer">${pressCount}</div>
-            <div>Final Score</div>
-            <div class="spacebar-key">SPACEBAR</div>
-            <div>Test area will be available in 3 seconds</div>
-        `;
-        cleanDivider.style.display = 'block';
+        // Check authentication status after test completion
+        const authenticated = await checkAuthentication();
+        
+        // AUTO-SAVE if user is authenticated
+        if (authenticated) {
+            // 🔧 STEP 3: AUTO-SAVE with FROZEN values (THIS IS THE MOST IMPORTANT FIX)
+            saveScoreToDatabase(frozenPresses, pressesPerSecond);
+            
+            if (statusDisplay) {
+                statusDisplay.innerHTML = `
+                    <div class="spacebar-timer">${frozenPresses}</div>
+                    <div>Final Score</div>
+                    <div class="spacebar-key">SPACEBAR</div>
+                    <div style="margin-top: 10px; color: #4CAF50;">
+                        <i class="fas fa-spinner fa-spin"></i> Saving to leaderboard...
+                    </div>
+                `;
+            }
+        } else {
+            // User is not authenticated - show login popup after delay
+            if (statusDisplay) {
+                statusDisplay.innerHTML = `
+                    <div class="spacebar-timer">${frozenPresses}</div>
+                    <div>Final Score</div>
+                    <div class="spacebar-key">SPACEBAR</div>
+                    <div style="margin-top: 10px; color: #FFD700;">
+                        <i class="fas fa-info-circle"></i> Login to save your score to the global leaderboard!
+                    </div>
+                `;
+            }
+            
+            // 🔧 STEP 4: Login modal with FROZEN values
+            setTimeout(() => {
+                showLoginModalWithResults(frozenPresses, frozenPresses);
+            }, 1500);
+        }
+        
+        if (cleanDivider) {
+            cleanDivider.style.display = 'block';
+        }
 
         // Add to history
         const testResult = {
             date: new Date(),
             duration: testDuration,
-            presses: pressCount,
+            presses: frozenPresses,
             pressesPerSecond: pressesPerSecond
         };
         
         testHistory.unshift(testResult);
         
-        // Keep only last 10 tests
         if (testHistory.length > 10) {
             testHistory.pop();
-        }
-        
-        // Save the score to the database if user is authenticated
-        const isUserAuthenticated = true; // Placeholder for your authentication logic
-        if (isUserAuthenticated) {
-            saveScoreToDatabase(pressCount);
-        } else {
-            // Show login prompt for unauthenticated users
-            statusDisplay.innerHTML += `<div style="margin-top: 10px; color: #FFD700;"><i class="fas fa-info-circle"></i> <a href="/login/" style="color: #FFD700;">Login</a> to save your score and see your global rank</div>`;
         }
         
         // Set 3-second cooldown before allowing another test
         testState = 'cooldown';
         let cooldownTime = 3;
         
+        if (cooldownInterval) {
+            clearInterval(cooldownInterval);
+            cooldownInterval = null;
+        }
+        
         cooldownInterval = setInterval(() => {
+            if (testState !== 'cooldown') {
+                clearInterval(cooldownInterval);
+                cooldownInterval = null;
+                return;
+            }
+            
             cooldownTime--;
             
             if (cooldownTime <= 0) {
                 clearInterval(cooldownInterval);
+                cooldownInterval = null;
                 testState = 'ended';
+                if (statusDisplay && authenticated) {
+                    statusDisplay.innerHTML = `
+                        <div class="spacebar-timer">${frozenPresses}</div>
+                        <div>Final Score</div>
+                        <div class="spacebar-key">SPACEBAR</div>
+                        <div>Click to test again</div>
+                    `;
+                } else if (statusDisplay) {
+                    statusDisplay.innerHTML = `
+                        <div class="spacebar-timer">${frozenPresses}</div>
+                        <div>Final Score</div>
+                        <div class="spacebar-key">SPACEBAR</div>
+                        <div>Click to test again | <span style="color: #FFD700;">Login to save score & compete globally</span></div>
+                    `;
+                }
+            } else if (statusDisplay) {
                 statusDisplay.innerHTML = `
-                    <div class="spacebar-timer">${pressCount}</div>
-                    <div>Final Score</div>
-                    <div class="spacebar-key">SPACEBAR</div>
-                    <div>Click or press spacebar to test again</div>
-                `;
-            } else {
-                statusDisplay.innerHTML = `
-                    <div class="spacebar-timer">${pressCount}</div>
+                    <div class="spacebar-timer">${frozenPresses}</div>
                     <div>Final Score</div>
                     <div class="spacebar-key">SPACEBAR</div>
                     <div>Test area will be available in ${cooldownTime}s</div>
@@ -332,28 +576,81 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Reset the test
     function resetTest() {
-        clearInterval(testInterval);
-        clearInterval(cooldownInterval);
         testState = 'idle';
+        
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+        
+        if (testInterval) {
+            clearInterval(testInterval);
+            testInterval = null;
+        }
+        
+        if (cooldownInterval) {
+            clearInterval(cooldownInterval);
+            cooldownInterval = null;
+        }
+        
         timeRemaining = testDuration;
         pressCount = 0;
         pressTimes = [];
+        isSpacebarHeld = false;
         
-        testArea.className = 'spacebar-test-area idle';
-        statusDisplay.innerHTML = `
-            <div class="spacebar-timer">${testDuration.toFixed(1)}</div>
-            <div class="spacebar-press-counter">Presses: 0</div>
-            <div class="spacebar-key">SPACEBAR</div>
-            <div>Click or press spacebar to start test</div>
-        `;
+        if (testArea) {
+            testArea.className = 'spacebar-test-area idle';
+        }
         
-        userTestResults.style.display = 'none';
-        techniqueRecommendation.style.display = 'none';
-        saveBtn.style.display = 'none';
+        if (statusDisplay) {
+            statusDisplay.innerHTML = `
+                <div class="spacebar-timer">${testDuration.toFixed(1)}</div>
+                <div class="spacebar-press-counter">Presses: 0</div>
+                <div class="spacebar-key">SPACEBAR</div>
+                <div>Click or press spacebar to start test</div>
+            `;
+        }
+        
+        if (timerDisplay) {
+            timerDisplay.textContent = testDuration.toFixed(1);
+        }
+        
+        if (pressesDisplay) {
+            pressesDisplay.textContent = '0';
+        }
+        
+        if (userTestResults) {
+            userTestResults.style.display = 'none';
+        }
+        if (techniqueRecommendation) {
+            techniqueRecommendation.style.display = 'none';
+        }
+        if (cleanDivider) {
+            cleanDivider.style.display = 'none';
+        }
+        
+        if (testArea) {
+            const feedbackElements = testArea.querySelectorAll('.press-feedback');
+            feedbackElements.forEach(el => {
+                if (el.parentNode) {
+                    el.remove();
+                }
+            });
+        }
+        
+        const overlays = document.querySelectorAll('.achievement-overlay');
+        overlays.forEach(el => {
+            el.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => {
+                if (el.parentNode) {
+                    el.remove();
+                }
+            }, 300);
+        });
     }
     
-    // Save score to database
-    function saveScoreToDatabase(score) {
+    // Save score to database for 1-second spacebar test
+    function saveScoreToDatabase(score, pressesPerSecond) {
         fetch('/save-1-second-spacebar-score/', {
             method: 'POST',
             headers: {
@@ -361,43 +658,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify({
-                score: score
+                score: score,
+                presses_per_second: pressesPerSecond
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log('Score saved successfully');
-                // Update user position display
-                userPosition.textContent = '#' + data.user_rank;
+                console.log('1-second spacebar score saved successfully');
+                if (userPosition) {
+                    userPosition.textContent = '#' + data.user_rank;
+                }
                 
-                // Check if user achieved a special rank and show appropriate animation
+                if (statusDisplay) {
+                    statusDisplay.innerHTML = `
+                        <div class="spacebar-timer">${score}</div>
+                        <div>Final Score</div>
+                        <div class="spacebar-key">SPACEBAR</div>
+                        <div style="margin-top: 10px; color: #4CAF50;">
+                            <i class="fas fa-check-circle"></i> Score saved to leaderboard! Rank: #${data.user_rank}
+                        </div>
+                    `;
+                }
+                
                 if (data.user_rank <= 10) {
                     showAchievementAnimation(data.user_rank, score);
                 }
                 
-                // Update leaderboard with new data
                 updateLeaderboard();
                 
-                // Update top player stats if they changed
                 if (data.top_player_stats) {
                     updateTopPlayerStats(data.top_player_stats);
                 }
                 
-                // Check if this is a new world record
                 if (data.is_new_record) {
                     showNotification('🎉 New World Record! 🎉', 'success');
                 }
+            } else {
+                showNotification('Failed to save score: ' + (data.message || 'Unknown error'), 'error');
             }
         })
         .catch(error => {
-            console.error('Error saving score:', error);
+            console.error('Error saving 1-second spacebar score:', error);
+            showNotification('Failed to save score. Please try again.', 'error');
         });
     }
     
-    // Show achievement animation based on rank
+    // Show achievement animation for 1-second spacebar test
     function showAchievementAnimation(rank, score) {
-        // Create overlay
+        if (testState !== 'ended' && testState !== 'cooldown') {
+            return;
+        }
+        
         const overlay = document.createElement('div');
         overlay.className = 'achievement-overlay';
         
@@ -405,24 +717,24 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (rank === 1) {
             icon = '👑';
-            title = 'WORLD CHAMPION!';
-            message = `You've achieved the #1 spot globally with ${score} spacebar presses! Your tapping skills are unmatched.`;
+            title = '1-SECOND SPACEBAR CHAMPION!';
+            message = `You've achieved the #1 spot globally with ${score} spacebar presses in 1 second! Your tapping skills are unmatched.`;
         } else if (rank === 2) {
             icon = '🥈';
             title = 'SILVER MEDALIST!';
-            message = `Amazing performance! You're the 2nd best spacebar tapper worldwide with ${score} presses.`;
+            message = `Amazing 1-second performance! You're the 2nd best worldwide with ${score} presses.`;
         } else if (rank === 3) {
             icon = '🥉';
             title = 'BRONZE MEDALIST!';
-            message = `Outstanding! You've secured the 3rd position globally with ${score} presses.`;
+            message = `Outstanding speed! You've secured the 3rd position globally with ${score} presses in 1 second.`;
         } else if (rank <= 4) {
             icon = '⭐';
             title = 'TOP 4 ELITE!';
-            message = `Incredible! You're among the top 4 spacebar tappers worldwide with ${score} presses.`;
+            message = `Incredible 1-second burst! You're among the top 4 spacebar tappers worldwide with ${score} presses.`;
         } else if (rank <= 10) {
             icon = '🏆';
             title = 'TOP 10 MASTER!';
-            message = `Excellent! You've made it to the top 10 with ${score} presses. Keep pushing for the top!`;
+            message = `Excellent 1-second speed! You've made it to the top 10 with ${score} presses. Keep pushing for the top!`;
         }
         
         overlay.innerHTML = `
@@ -430,18 +742,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="achievement-icon">${icon}</div>
                 <h2 class="achievement-title">${title}</h2>
                 <p class="achievement-message">${message}</p>
-                <div class="achievement-rank">Rank: #${rank} | Score: ${score} presses</div>
+                <div class="achievement-rank">Rank: #${rank} | Score: ${score} presses | Duration: 1s</div>
                 <button class="achievement-close">Continue</button>
             </div>
         `;
         
         document.body.appendChild(overlay);
         
-        // Close button functionality
         overlay.querySelector('.achievement-close').addEventListener('click', () => {
             overlay.style.animation = 'fadeOut 0.5s ease forwards';
             setTimeout(() => {
-                overlay.remove();
+                if (overlay.parentNode) {
+                    overlay.remove();
+                }
             }, 500);
         });
     }
@@ -449,13 +762,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update top player stats
     function updateTopPlayerStats(stats) {
         if (stats) {
-            document.getElementById('top-player-name').textContent = stats.name || '--';
-            document.getElementById('top-player-score').textContent = (stats.score ? stats.score : '--') + ' presses';
+            const topPlayerName = document.getElementById('top-player-name');
+            const topPlayerScore = document.getElementById('top-player-score');
+            
+            if (topPlayerName) topPlayerName.textContent = stats.name || '--';
+            if (topPlayerScore) topPlayerScore.textContent = (stats.score ? stats.score : '--') + ' presses';
         }
     }
     
     // Update leaderboard with latest data
     function updateLeaderboard() {
+        if (!leaderboardContent) return;
+        
         fetch('/get-1-second-spacebar-leaderboard/')
         .then(response => response.json())
         .then(data => {
@@ -473,6 +791,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Render leaderboard data
     function renderLeaderboard(leaderboardData) {
+        if (!leaderboardContent) return;
+        
         let leaderboardHTML = '';
         
         if (leaderboardData.length === 0) {
@@ -521,19 +841,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(notification);
         
-        // Auto-remove after 5 seconds
         setTimeout(() => {
             notification.classList.add('fade-out');
             setTimeout(() => {
-                notification.remove();
+                if (notification.parentNode) {
+                    notification.remove();
+                }
             }, 300);
         }, 5000);
         
-        // Close button functionality
         notification.querySelector('.notification-close').addEventListener('click', () => {
             notification.classList.add('fade-out');
             setTimeout(() => {
-                notification.remove();
+                if (notification.parentNode) {
+                    notification.remove();
+                }
             }, 300);
         });
     }
@@ -557,5 +879,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     resetTest();
     // Load leaderboard on page load
-    updateLeaderboard();
+    if (leaderboardContent) {
+        loadLeaderboard();
+    }
 });
