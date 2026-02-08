@@ -26,6 +26,7 @@ class StaticViewSitemap(Sitemap):
             'cps_test',
             'spacebar_counter',
             '1_second_spacebar_counter',
+            '2_seconds_spacebar_counter',
         ]
 
     def location(self, item):
