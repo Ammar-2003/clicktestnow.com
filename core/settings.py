@@ -29,7 +29,7 @@ load_dotenv()  # loads .env into os.environ as strings
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'clicktestnow.com', 'ilovemouse-com.onrender.com', 'untranscribable-bernita-friendless.ngrok-free.dev']
 # (development only!)
@@ -42,6 +42,8 @@ PRE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.redirects',
+
 ]
 
 PROJECT_APPS = [
@@ -74,6 +76,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'app.accounts.middleware.UsernameRequiredMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+
 ]
 
 AUTHENTICATION_BACKENDS = [
