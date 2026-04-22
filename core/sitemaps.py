@@ -8,7 +8,6 @@ class StaticViewSitemap(Sitemap):
     def items(self):
         return [
             'home',
-            'mouse_dpi_analyzer',
             'mouse_test',
             'sensitivity_converter',
             'polling_rate_tester',

@@ -1,8 +1,13 @@
 from django.urls import path
 from . import views
+from django.views.generic.base import RedirectView
 urlpatterns = [
-    path('', views.home, name='home' ),
-    path('mouse-dpi-analyzer/', views.mouse_dpi_analyzer, name='mouse_dpi_analyzer' ),
+    path(
+        'mouse-dpi-analyzer/',
+        RedirectView.as_view(url='', permanent=True),
+        name='mouse_dpi_analyzer_redirect'
+    ),
+    path('', views.home, name='home'),
     path('online-mouse-tester/', views.mouse_test , name='mouse_test' ),
     path('keyboard-test/', views.keyboard_test , name='keyboard_test' ),
     path('dinosaur-game/', views.game , name='dinosaur_game' ),
