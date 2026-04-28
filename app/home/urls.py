@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 
 urlpatterns = [
-    path('mouse-dpi-analyzer/', RedirectView.as_view(url=reverse_lazy('home'), permanent=True)),    
+    path('mouse-dpi-analyzer/', views.mouse_dpi_analyzer, name='mouse_dpi_analyzer'),
     path('', views.home, name='home'),
     path('online-mouse-tester/', views.mouse_test , name='mouse_test' ),
     path('keyboard-test/', views.keyboard_test , name='keyboard_test' ),
